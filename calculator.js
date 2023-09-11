@@ -25,10 +25,7 @@ function updateDisplay() {
 }
 
 function numberClick(number) {
-  if (number === '.' && previousInput.includes('.')) {
-    return;
-  }
-  if (previousInput.includes('=')) {
+  if (number === '.' && currentInput.includes('.')) {
     return;
   }
   currentInput = number;
@@ -39,9 +36,6 @@ function numberClick(number) {
 }
 
 function operatorClick(op) {
-  if (previousInput.includes('=')) {
-    return;
-  }
   if (currentInput === 'operator') {
     return;
   }
@@ -63,9 +57,12 @@ function clearCalculator(clr) {
 
 function equalClick() {
   answer = math.evaluate(previousInput);
-  previousInput += '=' + answer;
+  previousInput = ' ';
+  previousInput = answer;
   updateDisplay();
+  currentInput = previousInput;
 }
+
 sevenButton.addEventListener('click', () => numberClick('7'));
 eightButton.addEventListener('click', () => numberClick('8'));
 nineButton.addEventListener('click', () => numberClick('9'));
