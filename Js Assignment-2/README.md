@@ -2,7 +2,6 @@
 Create a responsive web form using Bootstrap 4 and validate the fields using JavaScript.
 Validation of the form is using javascript
 This form should contain the following fields with following requirements.
-
 1. Full Name :
     Text Field, Mandatory
     Maximum Length - 20
