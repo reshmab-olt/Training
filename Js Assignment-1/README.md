@@ -3,7 +3,7 @@ Simple Calculator
 Create a basic calculator to perform basic arithmetic operations.
 
 The calculator should have the following buttons
-1,2,3,4,5,6,7,8,9,0,Clear,=
+1,2,3,4,5,6,7,8,9,0,Clear and =
 
 Should operate on decimal values also.
 When clicking on the numbers it should display in the input field.
