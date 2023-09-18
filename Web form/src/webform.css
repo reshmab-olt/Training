@@ -1,0 +1,128 @@
+body {
+    font-family: 'Josefin Sans', sans-serif;
+    background-color: #f2f2f2;
+}
+
+label {
+    font-weight: bold;
+    width: 40%;
+    margin-left: 40px;
+}
+
+input {
+    width: 50%;
+    padding: 5px;
+    margin-top: 5px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #ffffff
+}
+
+textarea {
+
+    width: 50%;
+    padding: 5px;
+    margin-top: 5px;
+    margin-right: 5px;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    background-color: #ffffff;
+}
+
+input[type="checkbox"] {
+    margin-top: 5px;
+    width: fit-content;
+}
+
+input[type="radio"] {
+    padding: 5px;
+    margin-top: 5px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: fit-content;
+}
+
+#department {
+    width: 50%;
+    padding: 5px;
+    margin-top: 5px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+#address{ width: 50%;
+    padding: 5px;
+    margin-top: 5px;
+    margin-right: 5px;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    background-color: #ffffff;}
+
+#maleLabel {
+    width: fit-content;
+    margin-left: 0;
+    margin-right: 50px;
+}
+
+#femaleLabel {
+    width: fit-content;
+    margin-left: 0;
+}
+
+#emailLabel {
+    width: fit-content;
+    margin-left: 0;
+    margin-right: 40px;
+}
+
+#postLabel {
+    width: fit-content;
+    margin-left: 0;
+    margin-right: 40px;
+}
+
+#phoneLabel {
+    width: fit-content;
+    margin-left: 0;
+    margin-right: 40px;
+}
+
+#faxLabel {
+    width: fit-content;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#submit {
+    margin-right: 75px;
+    margin-right: 15px;
+}
+
+.btn {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #d4f1f8;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #00000033;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
