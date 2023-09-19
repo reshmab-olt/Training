@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
       notesError.textContent = 'The letters should accept alphanumeric characters with spaces, commas, and dots only';
       event.preventDefault();
     } else {
-      window.location.href = 'successful.html';
+      window.location.href = 'main.html';
     }
   });
 
