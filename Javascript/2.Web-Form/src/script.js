@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (name.length < 3 || name.length > 10) {
       nameError.textContent = 'Name must be between 3 and 10 characters.';
       event.preventDefault();
-    } else if (birthdate.length < 6 || birthdate.length > 8) {
+    } else if (birthdate.length < 8 || birthdate.length > 10) {
       birthdateError.textContent = 'Invalid date';
       event.preventDefault();
     } else if (!/^[a-zA-Z\s]+$/.test(name)) {
