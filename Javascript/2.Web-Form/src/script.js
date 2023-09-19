@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
   ssnInput.addEventListener('blur', () => {
     if (ssnInput.value.trim() !== '') {
       ssnError.textContent = '';
-      ssnInput.style.backgroundColor = '#ffffff';
     }
   });
   addressInput.addEventListener('blur', () => {
@@ -86,13 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
   jobInput.addEventListener('blur', () => {
     if (jobInput.value.trim() !== '') {
       titleError.textContent = '';
-      jobInput.style.backgroundColor = '#ffffff';
     }
   });
   hobbiesInput.addEventListener('blur', () => {
     if (hobbiesInput.value.trim() !== '') {
       hobbiesError.textContent = '';
-      hobbiesInput.style.backgroundColor = '#ffffff';
     }
   });
   notesInput.addEventListener('blur', () => {
@@ -140,7 +137,13 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
 
     // eslint-disable-next-line max-len
-    
+    if (age < 18 || age > 100) {
+      birthdateError.textContent = 'Age must be between 18 and 100 years.';
+      // event.preventDefault();
+      return false;
+    } else {
+      birthdateError.textContent = '';
+    }
     // eslint-disable-next-line max-len
     if (name === '' || address === '' || ssn === '' || number === '' || email === '' || emp === '' || job === '' || salary === '' || hobbies === '' || !gender || communication.length === 0 || department === '' || birthdate === '') {
       alert('Fill out the required fields');
@@ -154,174 +157,79 @@ document.addEventListener('DOMContentLoaded', () => {
       if (salary === '') salaryInput.style.backgroundColor = '#efd9d9';
       if (hobbies === '') hobbiesInput.style.backgroundColor = '#efd9d9';
       if (birthdate === '') birthdateInput.style.backgroundColor = '#efd9d9';
+      if (!gender) {
+        // Handle gender radio buttons
+        const genderRadioButtons = document.querySelectorAll('input[name="gender"]');
+
+        genderRadioButtons.forEach((radio) => {
+          radio.style.backgroundColor = '#efd9d9';
+        });
+      }
+      if (communication.length === 0) {
+        // Handle communication checkboxes
+        const communicationCheckboxes = document.querySelectorAll('input[name="communication[]"]');
+
+        communicationCheckboxes.forEach((checkbox) => {
+          checkbox.style.backgroundColor = '#efd9d9';
+        });
+      }
+      if (department === '') departmentInput.style.backgroundColor = '#efd9d9';
+
       event.preventDefault();
-    } else {
-      // Check if all validations pass
-      const validationErrors = [
-        nameError.textContent,
-        birthdateError.textContent,
-        addressError.textContent,
-        ssnError.textContent,
-        phoneError.textContent,
-        emailError.textContent,
-        idError.textContent,
-        titleError.textContent,
-        salaryError.textContent,
-        hobbiesError.textContent,
-        notesError.textContent,
-      ];
-  
-      if (validationErrors.every(error => error === '')) {
-        // All validations passed, redirect to successful.html
-        window.location.href = 'successful.html';
-      }
-    }
-    
-    if (name === '') {
-      nameError.textContent = '';
-    } else {
-      if (name.length < 3 || name.length > 10) {
-        nameError.textContent = 'Name must be between 3 and 10 characters.';
-        event.preventDefault();
-      } else if (!/^[a-zA-Z\s]+$/.test(name)) {
-        nameError.textContent = 'The letters should accept alphabets and spaces only';
-        event.preventDefault();
-      } else {
-        nameError.textContent = '';
-      }
-    }
-    
-    if (birthdate === '') {
-      birthdateError.textContent = '';
-    } else {
-      if (birthdate.length < 8 || birthdate.length > 10) {
-        birthdateError.textContent = 'Invalid date';
-        event.preventDefault();
-      } else if (age < 18 || age > 100) {
-        birthdateError.textContent = 'Age must be between 18 and 100 years.';
-        return false;
-      } else {
-        birthdateError.textContent = '';
-      }
-    }
-
-
-    if (address === '') {
-      addressError.textContent = '';
-    } else {
-    if (!/^[a-zA-Z0-9,-]+$/.test(address)) {
+    } else if (name.length < 3 || name.length > 10) {
+      nameError.textContent = 'Name must be between 3 and 10 characters.';
+      event.preventDefault();
+    } else if (birthdate.length < 6 || name.length > 8) {
+      birthdateError.textContent = 'Invalid date';
+      event.preventDefault();
+    } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+      nameError.textContent = 'The letters should accept alphabets and spaces only';
+      event.preventDefault();
+    } else if (!/^[a-zA-Z0-9,-]+$/.test(address)) {
       addressError.textContent = 'The letters should accept alphanumeric , spaces, commas, and hyphens only';
       event.preventDefault();
-    } else{
-      addressError.textContent = '';
-    }
-  }
-    
-    if (ssn === '') {
-      birthdateError.textContent = '';
-    } else {
-      if (ssn.length < 7 || ssn.length > 9) {
+    } else if (ssn.length < 7 || ssn.length > 9) {
       ssnError.textContent = 'Social Security Number must be between 7 and 9 characters.';
       event.preventDefault();
-      } else if (!/^[0-9-]+$/.test(ssn)) {
-        ssnError.textContent = 'The letters should accept numbers and hyphens only';
-        event.preventDefault();
-        return false;
-      } else {
-        birthdateError.textContent = '';
-      }
-    }
-    
-    if (number === '') {
-      phoneError.textContent = '';
-    } else {
-    if (number.length < 7 || number.length > 10) {
+    } else if (!/^[0-9-]+$/.test(ssn)) {
+      ssnError.textContent = 'The letters should accept numbers and hyphens only';
+      event.preventDefault();
+    } else if (number.length < 7 || number.length > 10) {
       phoneError.textContent = 'Phone number must be between 7 and 10 characters.';
       event.preventDefault();
     } else if (!/^\d+$/.test(number)) {
       phoneError.textContent = 'The letters should accept numbers only';
       event.preventDefault();
-    } else {
-      phoneError.textContent = '';
-    }
-  }
-    
-  if (email === '') {
-    emailError.textContent = '';
-  } else {
-    if (email.length > 50) {
+    } else if (email.length > 50) {
       emailError.textContent = 'The maximum length of email is 50 characters';
       event.preventDefault();
     } else if (!email.endsWith('@gmail.com') && !email.endsWith('@yahoo.com')) {
       emailError.textContent = 'Invalid email format';
       event.preventDefault();
-    } else {
-      emailError.textContent = '';
-    }
-  }
-    
-   if (emp === '') {
-    idError.textContent = '';
-  } else{
-    if (emp.length > 2) {
+    } else if (emp.length > 2) {
       idError.textContent = 'The maximum length of employee Id is 2 characters';
       event.preventDefault();
-    } else {
-      idError.textContent = '';
-    }
-  }
-    
-  if (job === '') {
-    titleError.textContent = '';
-  } else{
-    if (job.length < 3 || job.length > 50) {
+    } else if (job.length < 3 || job.length > 50) {
       titleError.textContent = 'Job title must be between 3 and 50 characters.';
       event.preventDefault();
     } else if (!/^[a-zA-Z\s]+$/.test(job)) {
       titleError.textContent = 'The letters should accept alphabets and spaces only';
       event.preventDefault();
-    }  else {
-      titleError.textContent = '';
-    }
-  }
-    
-  if (salary === '') {
-    salaryError.textContent = '';
-  } else{
-    if (salary.length < 3 || salary.length > 10) {
+    } else if (salary.length < 3 || salary.length > 10) {
       salaryError.textContent = 'Salary must be 3 to 10 digits';
       event.preventDefault();
-    }  else {
-      salaryError.textContent = '';
-    }
-  }
-    
-  if (hobbies === '') {
-    hobbiesError.textContent = '';
-  } else{
-    if (hobbies.length < 3 || hobbies.length > 25) {
+    } else if (hobbies.length < 3 || hobbies.length > 25) {
       hobbiesError.textContent = 'Name must be between 3 and 25 characters.';
       event.preventDefault();
     } else if (!/^[a-zA-Z,-]+$/.test(hobbies)) {
       hobbiesError.textContent = 'The letters should accept alphabets with commas and hyphens only';
       event.preventDefault();
-    }  else {
-      hobbiesError.textContent = '';
-    }
-  }
-
-
-  if (hobbies === '') {
-    notesError.textContent = '';
-  } else{
-    if (!/^[a-zA-Z0-9 ,.]+$/.test(notes)) {
+    } else if (!/^[a-zA-Z0-9 ,.]+$/.test(notes)) {
       notesError.textContent = 'The letters should accept alphanumeric characters with spaces, commas, and dots only';
       event.preventDefault();
-    }else {
-      notesError.textContent = '';
+    } else {
+      window.location.href = 'successful.html';
     }
-  }
-
   });
 
   // eslint-disable-next-line func-style
@@ -354,4 +262,3 @@ document.addEventListener('DOMContentLoaded', () => {
     birthdateInput.style.backgroundColor = '#fff';
   });
 });
-everything ok dob
