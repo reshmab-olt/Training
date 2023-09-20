@@ -1,5 +1,4 @@
 
-
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('webForm');
   const submitButton = document.getElementById('submit');
@@ -28,20 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const birthdateError = document.getElementById('birthdateError');
   const birthdateInput = document.getElementById('birthdate');
   const name = nameInput.value.trim();
-  const ssn = ssnInput.value.trim();
-  const number = numberInput.value.trim();
-  const email = emailInput.value.trim();
-  const emp = empInput.value.trim();
-  const job = jobInput.value.trim();
-  const salary = salaryInput.value.trim();
-  const hobbies = hobbiesInput.value.trim();
-  const gender = document.querySelector('input[name="gender"]:checked');
-  const communication = document.querySelectorAll('input[name="communication[]"]:checked');
-  const department = departmentInput.value.trim();
-  const address = addressInput.value.trim();
-  const notes = notesInput.value.trim();
-  const birthdate = birthdateInput.value.trim();
-
   const formDataArray = [];
 
   birthdateInput.addEventListener('blur', () => {
@@ -81,11 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
   nameInput.addEventListener('blur', () => {
     if (nameInput.value.trim() !== '') {
       nameError.textContent = '';
+      nameInput.style.backgroundColor = '#ffffff';
     }
   });
   ssnInput.addEventListener('blur', () => {
     if (ssnInput.value.trim() !== '') {
       ssnError.textContent = '';
+      ssnInput.style.backgroundColor = '#ffffff';
     }
   });
   addressInput.addEventListener('blur', () => {
@@ -97,16 +84,19 @@ document.addEventListener('DOMContentLoaded', () => {
   numberInput.addEventListener('blur', () => {
     if (numberInput.value.trim() !== '') {
       phoneError.textContent = '';
+      numberInput.style.backgroundColor = '#ffffff';
     }
   });
   jobInput.addEventListener('blur', () => {
     if (jobInput.value.trim() !== '') {
       titleError.textContent = '';
+      jobInput.style.backgroundColor = '#ffffff';
     }
   });
   hobbiesInput.addEventListener('blur', () => {
     if (hobbiesInput.value.trim() !== '') {
       hobbiesError.textContent = '';
+      hobbiesInput.style.backgroundColor = '#ffffff';
     }
   });
   notesInput.addEventListener('blur', () => {
@@ -117,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
   emailInput.addEventListener('blur', () => {
     if (emailInput.value.trim() !== '') {
       emailError.textContent = '';
+      emailInput.style.backgroundColor = '#ffffff';
     }
   });
   // eslint-disable-next-line func-style
@@ -142,21 +133,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Iterate through the formDataArray and display data
     formDataArray.forEach((formData, index) => {
+      const communicationValues = Array.from(
+        document.querySelectorAll('input[name="communication[]"]:checked')
+      ).map(checkbox => checkbox.value).join(', ');
       const dataHtml = `
-          <h4>Data ${index + 1}</h4>
+          <h5>Data ${index + 1}</h5>
           <p>Name         : ${formData.name}</p>
+          <p>Gender       : ${formData.gender}</p>
           <p>Birthdate    : ${formData.birthdate}</p>
           <p>SSN          : ${formData.ssn}</p>
           <p>Address      : ${formData.address}</p>
           <p>Phone Number : ${formData.number}</p>
           <p>Email        : ${formData.email}</p>
+          <p>Communication: ${communicationValues}</p>
           <p>Employee ID  : ${formData.emp}</p>
           <p>Job Title    : ${formData.job}</p>
           <p>Department   : ${formData.department}</p>
           <p>Salary       : ${formData.salary}</p>
           <p>Hobbies      : ${formData.hobbies}</p>
           <p>Notes        : ${formData.notes}</p>
-          
           <hr>
         `;
 
@@ -289,7 +284,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // eslint-disable-next-line func-style
   function saveData(name, ssn, number, email, emp, job, salary, hobbies,
-    department, address, notes, birthdate) {
+    department, address, notes, birthdate, communicationValues) {
+    const gender = document.querySelector('input[name="gender"]:checked').value; // Get selected gender
+
     console.log(name);
     const formData = {
       name,
@@ -303,7 +300,9 @@ document.addEventListener('DOMContentLoaded', () => {
       department,
       address,
       notes,
-      birthdate
+      birthdate,
+      gender,
+      communication: communicationValues
     };
 
     formDataArray.push(formData);
