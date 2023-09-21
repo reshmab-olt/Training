@@ -1,23 +1,21 @@
-
-/* eslint-disable func-style */
-const displayInput = document.getElementById('display');
-const oneButton = document.getElementById('one');
-const twoButton = document.getElementById('two');
-const threeButton = document.getElementById('three');
-const fourButton = document.getElementById('four');
-const fiveButton = document.getElementById('five');
-const sixButton = document.getElementById('six');
-const sevenButton = document.getElementById('seven');
-const eightButton = document.getElementById('eight');
-const nineButton = document.getElementById('nine');
-const zeroButton = document.getElementById('zero');
-const addButton = document.getElementById('add');
-const subButton = document.getElementById('sub');
-const mulButton = document.getElementById('mul');
-const divButton = document.getElementById('division');
-const clearButton = document.getElementById('clear');
-const equalButton = document.getElementById('equal');
-const dotButton = document.getElementById('dot');
+const displayInput = document.querySelector('#display');
+const oneButton = document.querySelector('#one');
+const twoButton = document.querySelector('#two');
+const threeButton = document.querySelector('#three');
+const fourButton = document.querySelector('#four');
+const fiveButton = document.querySelector('#five');
+const sixButton = document.querySelector('#six');
+const sevenButton = document.querySelector('#seven');
+const eightButton = document.querySelector('#eight');
+const nineButton = document.querySelector('#nine');
+const zeroButton = document.querySelector('#zero');
+const addButton = document.querySelector('#add');
+const subButton = document.querySelector('#sub');
+const mulButton = document.querySelector('#mul');
+const divButton = document.querySelector('#division');
+const clearButton = document.querySelector('#clear');
+const equalButton = document.querySelector('#equal');
+const dotButton = document.querySelector('#dot');
 
 let currentInput = '';
 
@@ -58,10 +56,6 @@ function operatorClick(op) {
     updateDisplay();
   }
 }
-
-// function isOperator(input) {
-//   return ['+', '-', '*', '/'].includes(input);
-// }
 
 function clearCalculator(clr) {
   previousInput = clr;
