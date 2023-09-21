@@ -64,7 +64,7 @@
 
       function equalClick() {
         if (previousInput === '') {
-          previousInput = 'bla';
+          previousInput = '';
           updateDisplay();
           return;
         }
