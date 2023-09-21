@@ -20,11 +20,11 @@
 <body>
     <div class="container mt-5 mb-5">
         <h1 class="text-center mb-5 text-danger">Registration Form</h1>
-        <form id="webForm" action="successful.html">
+        <form class="form" id="webForm">
             <div class="form-group">
                 <label for="name">Name<span class="text-danger">*</span></label>
                 <input type="text" id="name" name="name">
-                <span id="nameError" class="text-danger text-right"></span>
+                <span class="error" id="nameError"></span>
             </div>
             <div class="form-group">
                 <label>Gender<span class="text-danger">*</span></label>
@@ -32,31 +32,32 @@
                 <label id="maleLabel" for="male">Male</label>
                 <input type="radio" id="female" name="gender" value="Female">
                 <label id="femaleLabel" for="female">Female</label>
+                <span id="genderError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="birthdate">Date of Birth<span class="text-danger">*</span></label>
-                <input type="text" id="birthdate" name="date">
-                <span id="birthdateError" class="text-danger error"></span>
+                <input type="text" id="birthdate" name="date" placeholder="YYYY-MM-DD">
+                <span id="birthdateError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="ssn">Social Security Number<span class="text-danger">*</span></label>
                 <input type="text" id="ssn" name="securitynumber">
-                <span id="ssnError" class="text-danger"></span>
+                <span id="ssnError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="address">Address<span class="text-danger">*</span></label>
                 <textarea id="address" name="address"></textarea>
-                <span id="addressError" class="text-danger"></span>
+                <span id="addressError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="number">Phone number<span class="text-danger">*</span></label>
                 <input type="text" id="number" name="number">
-                <span id="phoneError" class="text-danger"></span>
+                <span id="phoneError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="email">Email<span class="text-danger">*</span></label>
                 <input type="text" id="email" name="email">
-                <span id="emailError" class="text-danger"></span>
+                <span id="emailError" class="error"></span>
             </div>
             <div class="form-group">
                 <label>Preferred Method of Communication<span class="text-danger">*</span></label>
@@ -68,20 +69,22 @@
                 <label id="phoneLabel" for="phone">Phone</label>
                 <input type="checkbox" id="fax" name="communication[]" value="Fax">
                 <label id="faxLabel" for="fax">Fax</label>
+                <span id="communicationError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="emp">Employee ID<span class="text-danger">*</span></label>
-                <input type="text" id="emp" name="empid">
-                <span id="idError" class="text-danger"></span>
+                <input type="text" id="emp" name="empid" disabled>
+                <span id="idError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="job">Job Title<span class="text-danger">*</span></label>
                 <input type="text" id="job" name="job">
-                <span id="titleError" class="text-danger"></span>
+                <span id="titleError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="department">Department<span class="text-danger">*</span></label>
                 <select id="department" name="department">
+                    <option value=" "> </option>
                     <option value="HR">Sales</option>
                     <option value="Marketing">Marketing</option>
                     <option value="Marketing">Human Resources</option>
@@ -91,21 +94,22 @@
                     <option value="Operations">Customer Support</option>
                     <option value="Marketing">Design</option>
                 </select>
+                <span id="departmentError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="salary">Salary<span class="text-danger">*</span></label>
                 <input type="text" id="salary" name="salary">
-                <span id="salaryError" class="text-danger"></span>
+                <span id="salaryError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="hobbies">Hobbies<span class="text-danger">*</span></label>
                 <input type="text" id="hobbies" name="hobbies">
-                <span id="hobbiesError" class="text-danger"></span>
+                <span id="hobbiesError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="notes">Additional notes</label>
                 <textarea id="notes" name="notes"></textarea>
-                <span id="notesError" class="text-danger"></span>
+                <span id="notesError" class="error"></span>
             </div>
             <div class="form-group text-right">
                 <button id="clear" type="button" class="btn btn-danger mr-3 p-2 px-3">Clear</button>
@@ -114,7 +118,6 @@
         </form>
     </div>
     <script src="script.js"></script>
-    <!-- <script src="bla.js"></script> -->
 </body>
 
 </html>

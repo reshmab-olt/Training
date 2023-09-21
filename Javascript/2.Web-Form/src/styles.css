@@ -127,3 +127,8 @@ input[type="radio"] {
 .form-group {
     margin-bottom: 20px;
 }
+
+.error{
+    margin-left: 350px;
+    color: red;
+}
