@@ -291,9 +291,9 @@ function validateCommunication() {
 }
 
 function validateDepartment() {
-  const departmentSelect = document.getElementById("department");
-  const selectedValue = departmentSelect.value;
+  const selectedValue = departmentInput.value;
 
+  console.log(selectedValue);
   if (selectedValue === "") {
       document.getElementById("departmentError").textContent = 'Please select a department.';
   } else {

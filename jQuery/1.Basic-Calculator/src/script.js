@@ -1,5 +1,4 @@
 
-
     $(document).ready(function () {
       const displayInput = $('#display');
       const oneButton = $('#one');

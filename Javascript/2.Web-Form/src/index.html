@@ -32,12 +32,11 @@
                 <label id="maleLabel" for="male">Male</label>
                 <input type="radio" id="female" name="gender" value="Female">
                 <label id="femaleLabel" for="female">Female</label>
-                <span id="genderError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="birthdate">Date of Birth<span class="text-danger">*</span></label>
                 <input type="text" id="birthdate" name="date" placeholder="YYYY-MM-DD">
-                <span id="birthdateError" class="error"></span>
+                <span id="birthDateError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="ssn">Social Security Number<span class="text-danger">*</span></label>
@@ -69,12 +68,10 @@
                 <label id="phoneLabel" for="phone">Phone</label>
                 <input type="checkbox" id="fax" name="communication[]" value="Fax">
                 <label id="faxLabel" for="fax">Fax</label>
-                <span id="communicationError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="emp">Employee ID<span class="text-danger">*</span></label>
                 <input type="text" id="emp" name="empid" disabled>
-                <span id="idError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="job">Job Title<span class="text-danger">*</span></label>
@@ -84,7 +81,7 @@
             <div class="form-group">
                 <label for="department">Department<span class="text-danger">*</span></label>
                 <select id="department" name="department">
-                    <option value=" "> </option>
+                    <option value=" ">Choose an option</option>
                     <option value="HR">Sales</option>
                     <option value="Marketing">Marketing</option>
                     <option value="Marketing">Human Resources</option>
@@ -94,7 +91,6 @@
                     <option value="Operations">Customer Support</option>
                     <option value="Marketing">Design</option>
                 </select>
-                <span id="departmentError" class="error"></span>
             </div>
             <div class="form-group">
                 <label for="salary">Salary<span class="text-danger">*</span></label>
