@@ -179,7 +179,7 @@ function checkAllowedInputs() {
   const ssnError = 'Numbers and hyphens only';
   const numberError = 'Numbers only';
   const noteserror = 'Alphanumeric characters with spaces, commas, and dots only';
-  const hobbiesError = 'Alphabets, commas, and hyphens only';
+  const hobbiesError = 'Alphabets, commas and hyphens only';
   const addressError = 'Alphabets, spaces, commas, and hyphens only';
 
   allowedInputs(nameInput, nameRegex, 0, nameError);
