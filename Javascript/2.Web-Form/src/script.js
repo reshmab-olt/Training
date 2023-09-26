@@ -36,7 +36,7 @@ function salaryToDecimal() {
 
 function birthdateValidation() {
   const originalDate = birthdateInput.value.trim();
-  const dateParts = originalDate.split('/[-/]/');
+  const dateParts = originalDate.split(/[-/]/);
 
   if (dateParts.length === 3) {
     const [day, month, year] = dateParts;
@@ -47,6 +47,29 @@ function birthdateValidation() {
       birthdateInput.value = parsedDate.toISOString().split('T')[0];
     }
   }
+}
+
+function isValidDate(dateString) {
+  const dateParts = dateString.split(/[-/]/);
+
+  if (dateParts.length !== 3) {
+    return false;
+  }
+
+  const [year, month, day] = dateParts;
+
+  if (
+    isNaN(year) ||
+    isNaN(month) ||
+    isNaN(day) ||
+    year.length !== 4 ||
+    month < 1 || month > 12 ||
+    day < 1 || day > 31
+  ) {
+    return false;
+  }
+
+  return true;
 }
 
 function calculateAge(birthdate) {
@@ -73,26 +96,6 @@ function validateAge() {
   }
 }
 
-function isValidDate(dateString) {
-  const dateParts = dateString.split('/[-/]/');
-
-  if (dateParts.length !== 3) {
-    return false;
-  }
-  const [year, month, day] = dateParts;
-
-  if (
-    isNaN(year) ||
-    isNaN(month) ||
-    isNaN(day) ||
-    year.length !== 4 ||
-    month < 1 || month > 12 ||
-    day < 1 || day > 31
-  ) {
-    return false;
-  }
-  return true;
-}
 
 function checkField(field) {
   const value = field.value.trim();
