@@ -60,7 +60,9 @@ input[type="radio"] {
     margin-right: 5px;
     border: 1px solid #cccccc;
     border-radius: 3px;
-    background-color: #ffffff;}
+    background-color: #ffffff;
+}
+
 
 #maleLabel {
     width: fit-content;
@@ -103,7 +105,6 @@ input[type="radio"] {
 }
 
 .btn {
-    background-color: #007BFF;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -122,6 +123,10 @@ input[type="radio"] {
     background-color: #d4f1f8;
     border-radius: 5px;
     box-shadow: 0 0 10px #00000033;
+}
+
+.textarea-label{
+    vertical-align: text-bottom;
 }
 
 .form-group {
