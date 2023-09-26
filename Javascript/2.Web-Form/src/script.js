@@ -43,7 +43,6 @@ function birthdateValidation() {
     const parsedDate = new Date(`${year}-${month}-${day}`);
 
     if (!isNaN(parsedDate.getTime())) {
-      // eslint-disable-next-line prefer-destructuring
       birthdateInput.value = parsedDate.toISOString().split('T')[0];
     }
   }
