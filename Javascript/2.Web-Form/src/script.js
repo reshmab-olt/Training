@@ -214,7 +214,7 @@ function inputLength(element, minLength, maxLength, index, minLengthError, maxLe
 
 function checkInputLength() {
   inputLength(nameInput, 3, 20, 0, 'Name must be at least 3 characters long', 'Name cannot exceed 20 characters');
-  inputLength(ssnInput, 7, 9, 2, 'This field must be 7 characters long', 'This field cannot exceed 9 characters');
+  inputLength(ssnInput, 7, 9, 2, 'This field must be at least 7 characters long', 'This field cannot exceed 9 characters');
   inputLength(numberInput, 7, 10, 4, 'number must be at least 7 characters long', 'number cannot exceed 10 characters');
   inputLength(emailInput, 10, 50, 5, 'Ivalid email', 'Name cannot exceed 50 characters');
   inputLength(jobInput, 3, 50, 6, 'job title must be 3 characters long', 'job title cannot exceed 50 characters');
