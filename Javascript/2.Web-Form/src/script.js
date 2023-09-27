@@ -1,4 +1,3 @@
-/ eslint-disable func-style /
 
 const submitButton = document.querySelector('#submit');
 const nameInput = document.querySelector('#name');
@@ -33,22 +32,33 @@ function salaryToDecimal() {
     }
   }
 }
-
 function birthdateValidation() {
-  const originalDate = birthdateInput.value.trim();
+  let originalDate = birthdateInput.value.trim();
+  const dateParts = originalDate.split(/[-/]/);
+
+  if (dateParts.length === 3) {
+    let [day, month, year] = dateParts;
+
+    if (day.length === 1) {
+      day = `0${day}`;
+    }
+
+    if (month.length === 1) {
+      month = `0${month}`;
+    }
+
+    originalDate = `${year}-${month}-${day}`;
+    birthdateInput.value = originalDate;
+  }
 
   if (/^\d{4}-\d{2}-\d{2}$/.test(originalDate)) {
     return;
   }
-  const dateParts = originalDate.split(/[-/]/);
 
-  if (dateParts.length === 3) {
-    const [day, month, year] = dateParts;
-    const parsedDate = new Date(`${year}-${month}-${day}`);
+  const parsedDate = new Date(originalDate);
 
-    if (!isNaN(parsedDate.getTime())) {
-      birthdateInput.value = parsedDate.toISOString().split('T')[0];
-    }
+  if (!isNaN(parsedDate.getTime())) {
+    birthdateInput.value = parsedDate.toISOString().split('T')[0];
   }
 }
 
