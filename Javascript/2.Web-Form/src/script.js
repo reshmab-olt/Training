@@ -40,10 +40,6 @@ function birthdateValidation() {
   if (/^\d{4}-\d{2}-\d{2}$/.test(originalDate)) {
     return;
   }
-  if (
-    year.length !== 4 ) {
-    return false;
-  }
   const dateParts = originalDate.split(/[-/]/);
 
   if (dateParts.length === 3) {
@@ -145,7 +141,7 @@ function validateGender() {
   if (!checked) {
     document.querySelector('.required-gender').textContent = 'Required';
   } else {
-    document.querySelector('.required-gender').textContent = ''; // Clear the error message if checked
+    document.querySelector('.required-gender').textContent = ''; 
   }
 
   return checked;
@@ -164,7 +160,7 @@ function validateCommunication() {
   if (!checked) {
     document.querySelector('.required-communication').textContent = 'Required';
   } else {
-    document.querySelector('.required-communication').textContent = ''; // Clear the error message if checked
+    document.querySelector('.required-communication').textContent = ''; 
   }
 
   return checked;
