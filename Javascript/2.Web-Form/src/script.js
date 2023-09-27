@@ -1,4 +1,4 @@
-
+/ eslint-disable func-style /
 
 const submitButton = document.querySelector('#submit');
 const nameInput = document.querySelector('#name');
@@ -40,7 +40,12 @@ function birthdateValidation() {
   if (/^\d{4}-\d{2}-\d{2}$/.test(originalDate)) {
     return;
   }
+  if (
+    year.length !== 4 ) {
+    return false;
+  }
   const dateParts = originalDate.split(/[-/]/);
+
   if (dateParts.length === 3) {
     const [day, month, year] = dateParts;
     const parsedDate = new Date(`${year}-${month}-${day}`);
@@ -98,45 +103,37 @@ function validateAge() {
   }
 }
 
-
-function checkField(field) {
-  const value = field.value.trim();
-
-  if (value === '') {
-    field.style.backgroundColor = '#ffcccc';
-    return false;
-  } else {
-    field.style.backgroundColor = '#ffffff';
+function checkField(fields,index,error) {
+  if (fields.value.trim() === '') {
+    document.querySelectorAll('.required')[index].textContent = error;
+    fields.style.backgroundColor = '#ffcccc';
+    isValid = false;
+  }
+  else {
+    document.querySelectorAll('.required')[index].textContent = '';
+    fields.style.backgroundColor = '#ffffff';
     return true;
   }
 }
-
 function isRequired() {
-  const validationResults = [
-    checkField(nameInput),
-    checkField(ssnInput),
-    checkField(numberInput),
-    checkField(emailInput),
-    checkField(empInput),
-    checkField(jobInput),
-    checkField(salaryInput),
-    checkField(hobbiesInput),
-    checkField(departmentInput),
-    checkField(addressInput),
-    checkField(birthdateInput),
-    validateGender(),
-    validateCommunication()
-  ];
+  const errorMessage = 'Required';
+    checkField(nameInput,0,errorMessage);
+    checkField(ssnInput,2,errorMessage);
+    checkField(numberInput,4,errorMessage);
+    checkField(emailInput,5,errorMessage);
+    checkField(jobInput,6,errorMessage);
+    checkField(salaryInput,8,errorMessage);
+    checkField(hobbiesInput,9,errorMessage);
+    checkField(departmentInput,7,errorMessage);
+    checkField(addressInput,3,errorMessage);
+    checkField(birthdateInput,1,errorMessage);
+    validateGender();
+    validateCommunication();
 
-  if (validationResults.includes(false)) {
-    alert('Fill out the required fields');
-  }
-  return validationResults;
 }
 
 function validateGender() {
   const genderOptions = document.querySelectorAll('input[name="gender"]');
-
   let checked = false;
 
   genderOptions.forEach((option) => {
@@ -144,12 +141,18 @@ function validateGender() {
       checked = true;
     }
   });
+
+  if (!checked) {
+    document.querySelector('.required-gender').textContent = 'Required';
+  } else {
+    document.querySelector('.required-gender').textContent = ''; // Clear the error message if checked
+  }
+
   return checked;
 }
 
 function validateCommunication() {
   const communicationOptions = document.querySelectorAll('input[name="communication[]"]');
-
   let checked = false;
 
   communicationOptions.forEach((option) => {
@@ -157,8 +160,16 @@ function validateCommunication() {
       checked = true;
     }
   });
+
+  if (!checked) {
+    document.querySelector('.required-communication').textContent = 'Required';
+  } else {
+    document.querySelector('.required-communication').textContent = ''; // Clear the error message if checked
+  }
+
   return checked;
 }
+
 
 function allowedInputs(element, expression, index, message) {
   if (element.value.trim() === '') {
@@ -248,8 +259,10 @@ function clearForm() {
     input.value = '';
     input.style.backgroundColor = '#ffffff';
   });
-  // eslint-disable-next-line no-return-assign
   document.querySelectorAll('.error').forEach(error => error.textContent = '');
+  document.querySelectorAll('.required').forEach(error => error.textContent = '');
+  document.querySelector('.required-gender').textContent = '';
+  document.querySelector('.required-communication').textContent = '';
 }
 
 function validation() {
@@ -262,6 +275,7 @@ function validation() {
 
   return !hasErrors && isRequiredResult.every(result => result === true);
 }
+
 birthdateInput.addEventListener('blur', birthdateValidation);
 salaryInput.addEventListener('blur', salaryToDecimal);
 submitButton.addEventListener('click', (event) => {

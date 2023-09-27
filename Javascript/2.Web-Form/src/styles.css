@@ -83,7 +83,15 @@ input[type="radio"] {
 .error{
     color: red;
 }
-
+.required{
+    color: red;
+}
+.required-communication{
+    color: red;
+}
+.required-gender{
+    color: red;
+}
 .textarea-label{
     vertical-align: text-bottom;
 }
