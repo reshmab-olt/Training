@@ -36,6 +36,14 @@ function salaryToDecimal() {
 
 function birthdateValidation() {
   const originalDate = birthdateInput.value.trim();
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(originalDate)) {
+    return;
+  }
+  if (
+    year.length !== 4 ) {
+    return false;
+  }
   const dateParts = originalDate.split(/[-/]/);
 
   if (dateParts.length === 3) {
@@ -173,16 +181,16 @@ function checkAllowedInputs() {
   const ssnRegex = /^[0-9-]*$/;
   const numberRegex = /^[0-9]*$/;
   const notexRegex = /^[a-zA-Z,.\s]*$/;
-  const hobbiesRegex = /^[a-zA-Z,-]*$/;
-  const addressRegex = /^[a-zA-Z\s,-]*$/;
+  const hobbiesRegex = /^[a-zA-Z\s,-]*$/;
+  const addressRegex = /^[a-zA-Z0-9\s,-]*$/;
   const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/i;
   const emailError = 'Accept gmail.com and yahoo.com only';
   const nameError = 'Alphabets and spaces only';
   const ssnError = 'Numbers and hyphens only';
   const numberError = 'Numbers only';
   const noteserror = 'Alphanumeric characters with spaces, commas, and dots only';
-  const hobbiesError = 'Alphabets, commas and hyphens only';
-  const addressError = 'Alphabets, spaces, commas, and hyphens only';
+  const hobbiesError = 'Alphabets, spaces, commas and hyphens only';
+  const addressError = 'Alphanumeric characters with spaces, commas and hyphens only';
 
   allowedInputs(nameInput, nameRegex, 0, nameError);
   allowedInputs(ssnInput, ssnRegex, 2, ssnError);
