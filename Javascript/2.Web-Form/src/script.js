@@ -1,4 +1,4 @@
-/* eslint-disable func-style */
+
 
 const submitButton = document.querySelector('#submit');
 const nameInput = document.querySelector('#name');
@@ -40,12 +40,7 @@ function birthdateValidation() {
   if (/^\d{4}-\d{2}-\d{2}$/.test(originalDate)) {
     return;
   }
-  if (
-    year.length !== 4 ) {
-    return false;
-  }
   const dateParts = originalDate.split(/[-/]/);
-
   if (dateParts.length === 3) {
     const [day, month, year] = dateParts;
     const parsedDate = new Date(`${year}-${month}-${day}`);
