@@ -11,11 +11,38 @@ const addressInput = document.querySelector('#address');
 const notesInput = document.querySelector('#notes');
 const birthdateInput = document.querySelector('#birthdate');
 const clearButton = document.querySelector('#clear');
+const maxSalaryLength = 10;
+const maxssnLength = 9;
+const maxNumberLength = 10;
 
 document.querySelector('#emp').value = generateRandomNumber();
 
 function generateRandomNumber() {
   return Math.floor(Math.random() * 10) + 1;
+}
+
+function handleSalaryInput() {
+  const salaryValue = salaryInput.value;
+
+  if (salaryValue.length > maxSalaryLength) {
+    salaryInput.value = salaryValue.substring(0, maxSalaryLength);
+  }
+}
+
+function handlessnInput() {
+  const ssnValue = ssnInput.value;
+
+  if (ssnValue.length > maxssnLength) {
+    ssnInput.value = ssnValue.substring(0, maxssnLength);
+  }
+}
+
+function handleNumberInput() {
+  const numberValue = numberInput.value;
+
+  if (numberValue.length > maxNumberLength) {
+    numberInput.value = numberValue.substring(0, maxNumberLength);
+  }
 }
 
 function salaryToDecimal() {
@@ -41,15 +68,14 @@ function birthdateValidation() {
   if (/^\d{4}-\d{2}-\d{2}$/.test(originalDate)) {
     return;
   }
+  
   const dateParts = originalDate.split(/[-/]/);
 
   if (dateParts.length === 3) {
     const [day, month, year] = dateParts;
+
     if (year.length < 4) {
-      birthdateError.textContent = 'Please enter a valid date';
       return;
-    } else {
-      birthdateError.textContent = ' ';
     }
     const parsedDate = new Date(`${year}-${month}-${day}`);
 
@@ -62,6 +88,7 @@ function birthdateValidation() {
     }
   }
 }
+
 
 function isValidDate(dateString) {
   const dateParts = dateString.split(/[-/]/);
@@ -253,12 +280,20 @@ function clearForm() {
     notesInput, birthdateInput
   ];
 
+  const radioCheckboxes = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+
   departmentInput.selectedIndex = 0;
   departmentInput.style.backgroundColor = '#ffffff';
+
   inputs.forEach((input) => {
     input.value = '';
     input.style.backgroundColor = '#ffffff';
   });
+
+  radioCheckboxes.forEach((input) => {
+    input.checked = false;
+  });
+
   document.querySelectorAll('.error').forEach(error => error.textContent = '');
   document.querySelectorAll('.required').forEach(error => error.textContent = '');
   document.querySelector('.required-gender').textContent = '';
@@ -275,7 +310,9 @@ function validation() {
 
   return !hasErrors && isRequiredResult.every(result => result === true);
 }
-
+salaryInput.addEventListener('input', handleSalaryInput);
+ssnInput.addEventListener('input', handlessnInput);
+numberInput.addEventListener('input', handleNumberInput);
 birthdateInput.addEventListener('blur', birthdateValidation);
 salaryInput.addEventListener('blur', salaryToDecimal);
 submitButton.addEventListener('click', (event) => {
