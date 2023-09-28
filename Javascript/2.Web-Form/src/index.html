@@ -22,25 +22,19 @@
         <h1 class="text-center mb-5 text-danger">Registration Form</h1>
         <form class="form" id="webForm">
             <div class="form-group">
-                <div class="row">
-                    <div class="col-md-11">
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
+            
                 <div class="row">
                     <div class="col-md-5">
                         <label for="name">Name<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="name" name="name">
                     </div>
                 </div>
                 <div class="row">
                     <div class=" col-md-5">
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <span class="error" id="nameError"></span>
                     </div>
                 </div>
@@ -50,32 +44,23 @@
                     <div class="col-md-5">
                         <label>Gender<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 px-0 red">
                         <input type="radio" id="male" name="gender" value="Male">
                         <label id="maleLabel" for="male">Male</label>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 red">
                         <input type="radio" id="female" name="gender" value="Female">
                         <label id="femaleLabel" for="female">Female</label>
                     </div>
-                    <div class="col-md-3">
-                        <span class="required-gender"></span>
-                    </div>
+                    <div class="col-md-3 red"></div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-11">
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-md-5">
                         <label for="birthdate">Date of Birth<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="birthdate" name="date" placeholder="YYYY-MM-DD">
                     </div>
                 </div>
@@ -88,93 +73,69 @@
             </div>
             <div class="form-group">
 
-                <div class="row">
-                    <div class="col-md-11">
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
+               
                 <div class="row">
                     <div class="col-md-5">
                         <label for="ssn">Social Security Number<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="ssn" name="securitynumber">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <span id="ssnError" class="error"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <div class="row">
-                    <div class="col-md-11">
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
+                
                 <div class="row">
                     <div class="col-md-5">
                         <label class="textarea-label" for="address">Address<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <textarea id="address" name="address" spellcheck="false"></textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <span id="addressError" class="error"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <div class="row">
-                    <div class="col-md-11">
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
+                
                 <div class="row">
                     <div class="col-md-5">
                         <label for="number">Phone number<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="number" name="number">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <span id="phoneError" class="error"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <div class="row">
-                    <div class="col-md-11">
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
+               
                 <div class="row">
                     <div class="col-md-5">
                         <label for="email">Email<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="email" name="email">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <span id="emailError" class="error"></span>
                     </div>
                 </div>
@@ -184,25 +145,24 @@
                     <div class="col-md-5">
                         <label>Preferred Method of Communication<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-1 pr-0">
+                    <div class="col-md-1 px-0 danger">
                         <input class="text-right" type="checkbox" id="emailmethod" name="communication[]" value="Email">
                         <label id="emailLabel" for="emailmethod">Email</label>
                     </div>
-                    <div class="col-md-1 pr-0">
+                    <div class="col-md-1 pr-0 danger">
                         <input type="checkbox" id="post" name="communication[]" value="Post">
                         <label id="postLabel" for="post">Post</label>
                     </div>
-                    <div class="col-md-1 pr-0">
+                    <div class="col-md-1 pr-0 danger">
                         <input type="checkbox" id="phone" name="communication[]" value="Phone">
                         <label id="phoneLabel" for="phone">Phone</label>
                     </div>
-                    <div class="col-md-1 pr-0">
+                    <div class="col-md-1 pr-0 danger">
                         <input type="checkbox" id="fax" name="communication[]" value="Fax">
                         <label id="faxLabel" for="fax">Fax</label>
                     </div>
-                    <div class="col-md-3 pr-0">
-                        <span class="required-communication"></span>
-                    </div>
+                    <div class="col-md-3 danger"></div>
+                    
                 </div>
             </div>
             <div class="form-group">
@@ -210,48 +170,36 @@
                     <div class="col-md-5">
                         <label for="emp">Employee ID<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="emp" name="empid" disabled>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
-                <div class="row">
-                    <div class="col-md-11">
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
+                
                 <div class="row">
                     <div class="col-md-5">
                         <label for="job">Job Title<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="job" name="job">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <span id="titleError" class="error"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <div class="row">
-                    <div class="col-md-11">
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
+               
                 <div class="row">
                     <div class="col-md-5">
                         <label for="department">Department<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <select id="department" name="department">
                             <option value=" ">Choose an option</option>
                             <option value="HR">Sales</option>
@@ -267,47 +215,35 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="row">
-                    <div class="col-md-11">
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
+                
                 <div class="row">
                     <div class="col-md-5">
                         <label for="salary">Salary<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="salary" name="salary">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <span id="salaryError" class="error"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <div class="row">
-                    <div class="col-md-11">
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
+                
                 <div class="row">
                     <div class="col-md-5">
                         <label for="hobbies">Hobbies<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="hobbies" name="hobbies">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <span id="hobbiesError" class="error"></span>
                     </div>
                 </div>
@@ -317,13 +253,13 @@
                     <div class="col-md-5">
                         <label class="textarea-label" for="notes">Additional notes</label>
                     </div>
-                    <div class="col-md-7">
-                        <textarea id="notes" name="notes"></textarea>
+                    <div class="col-md-7 px-0">
+                        <textarea id="notes" name="notes" spellcheck="false"></textarea>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <span id="notesError" class="error"></span>
                     </div>
                 </div>

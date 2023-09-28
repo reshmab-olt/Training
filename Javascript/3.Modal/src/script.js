@@ -14,6 +14,7 @@ const clearButton = document.querySelector('#clear');
 const maxSalaryLength = 10;
 const maxssnLength = 9;
 const maxNumberLength = 10;
+let formDataArray = [];
 
 document.querySelector('#emp').value = generateRandomNumber();
 

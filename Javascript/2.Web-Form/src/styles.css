@@ -98,3 +98,11 @@ input[type="radio"] {
 .textarea-label {
     vertical-align: text-bottom;
 }
+
+.gender-error {
+    background-color: #ecf5f7;
+}
+
+.communication-error {
+    background-color: #ecf5f7;
+}
