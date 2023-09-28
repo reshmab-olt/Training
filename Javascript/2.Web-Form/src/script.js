@@ -308,6 +308,7 @@ function validation() {
 
   return !hasErrors && isRequiredResult.every(result => result === true);
 }
+
 salaryInput.addEventListener('input', handleSalaryInput);
 ssnInput.addEventListener('input', handlessnInput);
 numberInput.addEventListener('input', handleNumberInput);
