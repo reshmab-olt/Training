@@ -107,7 +107,6 @@ input[type="radio"] {
     margin-bottom: 8px; 
   }
   
-  
   .modal-content .modal-title {
     font-weight: bold; 
   }
@@ -117,21 +116,22 @@ input[type="radio"] {
     color: #007bff; 
   }
   
-  
   .close {
     color: #000; 
     font-size: 30px; 
     font-weight: bold;
   }
   
-  .width-60 {
+  .label-width {
     display: inline-block;
     width: 50%;
   }
+
   .colon{
     display: inline-block;
     width: 5%;
   }
+
   .modal-backdrop {
     background-color: rgba(0, 0, 0, 0.5); 
   }

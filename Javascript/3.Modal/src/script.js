@@ -311,20 +311,20 @@ function displayData() {
       <div class="data-entry">
         <h3>Data</h3>
         <div class="data-details">
-          <p><span class="width-60">Name</span> <span class="colon">:</span>${formData.name}</p>
-          <p><span class="width-60">Gender</span> <span class="colon">:</span>${formData.gender}</p>
-          <p><span class="width-60">Date of Birth</span> <span class="colon">:</span>${formData.birthdate}</p>
-          <p><span class="width-60">Social Security Number</span> <span class="colon">:</span>${formData.ssn}</p>
-          <p><span class="width-60">Address</span> <span class="colon">:</span>${formData.address}</p>
-          <p><span class="width-60">Phone Number</span> <span class="colon">:</span>${formData.number}</p>
-          <p><span class="width-60">Email</span> <span class="colon">:</span>${formData.email}</p>
-          <p><span class="width-60">Preffered method of communication</span> <span class="colon">:</span>${communicationValues}</p>
-          <p><span class="width-60">Employee ID</span> <span class="colon">:</span>${formData.emp}</p>
-          <p><span class="width-60">Job Title</span> <span class="colon">:</span>${formData.job}</p>
-          <p><span class="width-60">Department</span> <span class="colon">:</span>${formData.department}</p>
-          <p><span class="width-60">Salary</span> <span class="colon">:</span>${formData.salary}</p>
-          <p><span class="width-60">Hobbies</span> <span class="colon">:</span>${formData.hobbies}</p>
-          <p><span class="width-60">Adsditional Notes</span> <span class="colon">:</span>${formData.notes}</p>
+          <p><span class="label-width">Name</span> <span class="colon">:</span>${formData.name}</p>
+          <p><span class="label-width">Gender</span> <span class="colon">:</span>${formData.gender}</p>
+          <p><span class="label-width">Date of Birth</span> <span class="colon">:</span>${formData.birthdate}</p>
+          <p><span class="label-width">Social Security Number</span> <span class="colon">:</span>${formData.ssn}</p>
+          <p><span class="label-width">Address</span> <span class="colon">:</span>${formData.address}</p>
+          <p><span class="label-width">Phone Number</span> <span class="colon">:</span>${formData.number}</p>
+          <p><span class="label-width">Email</span> <span class="colon">:</span>${formData.email}</p>
+          <p><span class="label-width">Preferred method of communication</span> <span class="colon">:</span>${communicationValues}</p>
+          <p><span class="label-width">Employee ID</span> <span class="colon">:</span>${formData.emp}</p>
+          <p><span class="label-width">Job Title</span> <span class="colon">:</span>${formData.job}</p>
+          <p><span class="label-width">Department</span> <span class="colon">:</span>${formData.department}</p>
+          <p><span class="label-width">Salary</span> <span class="colon">:</span>${formData.salary}</p>
+          <p><span class="label-width">Hobbies</span> <span class="colon">:</span>${formData.hobbies}</p>
+          <p><span class="label-width">Additional Notes</span> <span class="colon">:</span>${formData.notes}</p>
         </div>
       </div>
     `;
