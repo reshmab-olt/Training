@@ -1,10 +1,8 @@
-
 const submitButton = document.querySelector('#submit');
 const nameInput = document.querySelector('#name');
 const ssnInput = document.querySelector('#ssn');
 const numberInput = document.querySelector('#number');
 const emailInput = document.querySelector('#email');
-const empInput = document.querySelector('#emp');
 const jobInput = document.querySelector('#job');
 const salaryInput = document.querySelector('#salary');
 const hobbiesInput = document.querySelector('#hobbies');
@@ -12,10 +10,9 @@ const departmentInput = document.querySelector('#department');
 const addressInput = document.querySelector('#address');
 const notesInput = document.querySelector('#notes');
 const birthdateInput = document.querySelector('#birthdate');
-const birthdateError = document.querySelector('#birthDateError');
 const clearButton = document.querySelector('#clear');
 
-empInput.value = generateRandomNumber();
+document.querySelector('#emp').value = generateRandomNumber();
 
 function generateRandomNumber() {
   return Math.floor(Math.random() * 10) + 1;
@@ -23,12 +20,17 @@ function generateRandomNumber() {
 
 function salaryToDecimal() {
   const salaryValue = salaryInput.value.trim();
+  const dotCount = (salaryValue.match(/\./g) || []).length;
 
   if (salaryValue !== '') {
-    const decimalSalary = parseFloat(salaryValue);
-
-    if (!isNaN(decimalSalary)) {
-      salaryInput.value = decimalSalary.toFixed(2);
+    if (dotCount > 1) {
+      document.querySelector('#salaryError').textContent = 'Invalid';
+    } else {
+      document.querySelector('#salaryError').textContent = '';
+      const decimalSalary = parseFloat(salaryValue);
+      if (!isNaN(decimalSalary)) {
+        salaryInput.value = decimalSalary.toFixed(2);
+      }
     }
   }
 }
@@ -39,27 +41,23 @@ function birthdateValidation() {
   if (/^\d{4}-\d{2}-\d{2}$/.test(originalDate)) {
     return;
   }
-  
   const dateParts = originalDate.split(/[-/]/);
 
   if (dateParts.length === 3) {
     const [day, month, year] = dateParts;
-    
     if (year.length < 4) {
-      birthdateError.textContent='Please enter a valid date';
+      birthdateError.textContent = 'Please enter a valid date';
       return;
-    }
-    else
-    {
-      birthdateError.textContent=' ';
+    } else {
+      birthdateError.textContent = ' ';
     }
     const parsedDate = new Date(`${year}-${month}-${day}`);
-  
+
     if (!isNaN(parsedDate.getTime())) {
       const adjustedMonth = parsedDate.getMonth() + 1;
       const adjustedDay = parsedDate.getDate();
       const formattedDate = `${parsedDate.getFullYear()}-${String(adjustedMonth).padStart(2, '0')}-${String(adjustedDay).padStart(2, '0')}`;
-      
+
       birthdateInput.value = formattedDate;
     }
   }
@@ -71,7 +69,6 @@ function isValidDate(dateString) {
   if (dateParts.length !== 3) {
     return false;
   }
-
   const [year, month, day] = dateParts;
 
   if (
@@ -84,7 +81,6 @@ function isValidDate(dateString) {
   ) {
     return false;
   }
-
   return true;
 }
 
@@ -112,33 +108,32 @@ function validateAge() {
   }
 }
 
-function checkField(fields,index,error) {
+function checkField(fields, index, error) {
   if (fields.value.trim() === '') {
     document.querySelectorAll('.required')[index].textContent = error;
     fields.style.backgroundColor = '#ffcccc';
     isValid = false;
-  }
-  else {
+  } else {
     document.querySelectorAll('.required')[index].textContent = '';
     fields.style.backgroundColor = '#ffffff';
     return true;
   }
 }
+
 function isRequired() {
   const errorMessage = 'Required';
-    checkField(nameInput,0,errorMessage);
-    checkField(ssnInput,2,errorMessage);
-    checkField(numberInput,4,errorMessage);
-    checkField(emailInput,5,errorMessage);
-    checkField(jobInput,6,errorMessage);
-    checkField(salaryInput,8,errorMessage);
-    checkField(hobbiesInput,9,errorMessage);
-    checkField(departmentInput,7,errorMessage);
-    checkField(addressInput,3,errorMessage);
-    checkField(birthdateInput,1,errorMessage);
-    validateGender();
-    validateCommunication();
-
+  checkField(nameInput, 0, errorMessage);
+  checkField(birthdateInput, 1, errorMessage);
+  checkField(ssnInput, 2, errorMessage);
+  checkField(addressInput, 3, errorMessage);
+  checkField(numberInput, 4, errorMessage);
+  checkField(emailInput, 5, errorMessage);
+  checkField(jobInput, 6, errorMessage);
+  checkField(departmentInput, 7, errorMessage);
+  checkField(salaryInput, 8, errorMessage);
+  checkField(hobbiesInput, 9, errorMessage);
+  validateGender();
+  validateCommunication();
 }
 
 function validateGender() {
@@ -154,9 +149,8 @@ function validateGender() {
   if (!checked) {
     document.querySelector('.required-gender').textContent = 'Required';
   } else {
-    document.querySelector('.required-gender').textContent = ''; 
+    document.querySelector('.required-gender').textContent = '';
   }
-
   return checked;
 }
 
@@ -173,12 +167,10 @@ function validateCommunication() {
   if (!checked) {
     document.querySelector('.required-communication').textContent = 'Required';
   } else {
-    document.querySelector('.required-communication').textContent = ''; 
+    document.querySelector('.required-communication').textContent = '';
   }
-
   return checked;
 }
-
 
 function allowedInputs(element, expression, index, message) {
   if (element.value.trim() === '') {
@@ -217,9 +209,8 @@ function checkAllowedInputs() {
   allowedInputs(notesInput, notexRegex, 9, noteserror);
   validateAge();
   if (birthdateInput.value.trim() !== '' && !isValidDate(birthdateInput.value)) {
-    birthdateError.textContent = 'Please enter a valid date.';
+    document.querySelector('#birthDateError').textContent = 'Please enter a valid date';
   }
-
 }
 
 function inputLength(element, minLength, maxLength, index, minLengthError, maxLengthError) {
