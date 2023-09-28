@@ -71,7 +71,7 @@ input[type="radio"] {
 .container {
     margin: 0 auto;
     padding: 20px;
-    background-color: #d4f1f8;
+    background-color: #ecf5f7;
     border-radius: 5px;
     box-shadow: 0 0 10px #00000033;
 }
@@ -83,7 +83,15 @@ input[type="radio"] {
 .error{
     color: red;
 }
-
+.required{
+    color: red;
+}
+.required-communication{
+    color: red;
+}
+.required-gender{
+    color: red;
+}
 .textarea-label{
     vertical-align: text-bottom;
 }
