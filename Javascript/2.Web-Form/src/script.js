@@ -68,7 +68,6 @@ function birthdateValidation() {
   if (/^\d{4}-\d{2}-\d{2}$/.test(originalDate)) {
     return;
   }
-  
   const dateParts = originalDate.split(/[-/]/);
 
   if (dateParts.length === 3) {
@@ -88,7 +87,6 @@ function birthdateValidation() {
     }
   }
 }
-
 
 function isValidDate(dateString) {
   const dateParts = dateString.split(/[-/]/);
