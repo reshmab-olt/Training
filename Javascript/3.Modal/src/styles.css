@@ -1,4 +1,3 @@
-
 body {
     font-family: 'Josefin Sans', sans-serif;
     background-color: #f2f2f2;
@@ -80,18 +79,60 @@ input[type="radio"] {
     margin-bottom: 20px;
 }
 
-.error{
+.error {
     color: red;
 }
-.required{
-    color: red;
-}
-.required-communication{
-    color: red;
-}
-.required-gender{
-    color: red;
-}
-.textarea-label{
+
+.textarea-label {
     vertical-align: text-bottom;
 }
+
+.gender-error {
+    background-color: #ecf5f7;
+}
+
+.communication-error {
+    background-color: #ecf5f7;
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    padding: 20px; 
+  }
+  
+  .modal-content p {
+    font-size: 16px; 
+    margin-bottom: 8px; 
+  }
+  
+  
+  .modal-content .modal-title {
+    font-weight: bold; 
+  }
+  
+  .modal-content .modal-data-point {
+    font-weight: bold; 
+    color: #007bff; 
+  }
+  
+  
+  .close {
+    color: #000; 
+    font-size: 30px; 
+    font-weight: bold;
+  }
+  
+  .width-60 {
+    display: inline-block;
+    width: 50%;
+  }
+  .colon{
+    display: inline-block;
+    width: 5%;
+  }
+  .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5); 
+  }
+  
