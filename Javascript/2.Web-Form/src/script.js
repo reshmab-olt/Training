@@ -57,9 +57,7 @@ function calculateAge(birthdate) {
 }
 
 function validateAge() {
-  const birthdateInput = document.querySelector('#birthdate');
   const age = calculateAge(birthdateInput.value);
-  const birthdateError = document.querySelector('#birthDateError');
 
   if (age < 18 || age > 100) {
     birthdateError.textContent = 'Age must be between 18 and 100 years.';
@@ -206,7 +204,7 @@ function checkAllowedInputs() {
   const nameRegex = /^[a-zA-Z\s]*$/;
   const ssnRegex = /^[0-9-]*$/;
   const numberRegex = /^[0-9]*$/;
-  const notexRegex = /^[a-zA-Z,.\s]*$/;
+  const notesRegex = /^[a-zA-Z,.\s]*$/;
   const hobbiesRegex = /^[a-zA-Z\s,-]*$/;
   const addressRegex = /^[a-zA-Z0-9\s,-]*$/;
   const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/i;
@@ -225,7 +223,7 @@ function checkAllowedInputs() {
   isAllowed(emailInput, emailRegex, 5, emailError);
   isAllowed(jobInput, nameRegex, 6, nameError);
   isAllowed(hobbiesInput, hobbiesRegex, 8, hobbiesError);
-  isAllowed(notesInput, notexRegex, 9, noteserror);
+  isAllowed(notesInput, notesRegex, 9, noteserror);
   validateAge();
   if (birthdateInput.value.trim() !== '' && !isValidDate(birthdateInput.value)) {
     birthdateError.textContent = 'Please enter a valid date.';
