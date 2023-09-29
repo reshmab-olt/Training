@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Form</title>
+    <title>Web Form Modal</title>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
@@ -22,236 +22,174 @@
         <h1 class="text-center mb-5 text-danger">Registration Form</h1>
         <form class="form" id="webForm">
             <div class="form-group">
+
                 <div class="row">
-                    <div class="col-md-11">  
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5 px-0">
                         <label for="name">Name<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="name" name="name">
                     </div>
                 </div>
                 <div class="row">
-                    <div class=" col-md-5">
+                    <div class=" col-md-5 px-0">
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <span class="error" id="nameError"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5 px-0">
                         <label>Gender<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3 pr-0 red pt-2 pl-2">
                         <input type="radio" id="male" name="gender" value="Male">
                         <label id="maleLabel" for="male">Male</label>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 red pt-2 pl-2">
                         <input type="radio" id="female" name="gender" value="Female">
                         <label id="femaleLabel" for="female">Female</label>
                     </div>
-                    <div class="col-md-3">
-                        <span class="required-gender"></span>
-                    </div>
+                    <div class="col-md-2 red"></div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-11">  
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5 px-0">
                         <label for="birthdate">Date of Birth<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="birthdate" name="date" placeholder="YYYY-MM-DD">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <span id="birthDateError" class="error"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                
-                    <div class="row">
-                        <div class="col-md-11">  
-                        </div>
-                        <div class="col-md-1 pl-0 pr-1">
-                            <span class="required"></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                    <div class="col-md-5">
+                <div class="row">
+                    <div class="col-md-5 px-0">
                         <label for="ssn">Social Security Number<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="ssn" name="securitynumber">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-5 px-0"></div>
+                    <div class="col-md-7 px-0">
                         <span id="ssnError" class="error"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-11">  
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5 px-0">
                         <label class="textarea-label" for="address">Address<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <textarea id="address" name="address" spellcheck="false"></textarea>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-5 px-0"></div>
+                    <div class="col-md-7 px-0">
                         <span id="addressError" class="error"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-11">  
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5 px-0">
                         <label for="number">Phone number<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="number" name="number">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-5 px-0"></div>
+                    <div class="col-md-7 px-0">
                         <span id="phoneError" class="error"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-11">  
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5 px-0">
                         <label for="email">Email<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="email" name="email">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-5 px-0"></div>
+                    <div class="col-md-7 px-0">
                         <span id="emailError" class="error"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5 px-0">
                         <label>Preferred Method of Communication<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-1 pr-0">
+                    <div class="col-md-2 pr-0 danger pt-2 pl-2">
                         <input class="text-right" type="checkbox" id="emailmethod" name="communication[]" value="Email">
                         <label id="emailLabel" for="emailmethod">Email</label>
                     </div>
-                    <div class="col-md-1 pr-0">
+                    <div class="col-md-2 pr-0 danger pt-2 pl-2">
                         <input type="checkbox" id="post" name="communication[]" value="Post">
                         <label id="postLabel" for="post">Post</label>
                     </div>
-                    <div class="col-md-1 pr-0">
+                    <div class="col-md-2 pr-0 danger pt-2 pl-2">
                         <input type="checkbox" id="phone" name="communication[]" value="Phone">
                         <label id="phoneLabel" for="phone">Phone</label>
                     </div>
-                    <div class="col-md-1 pr-0">
+                    <div class="col-md-1 pr-0 danger pt-2 pl-2">
                         <input type="checkbox" id="fax" name="communication[]" value="Fax">
                         <label id="faxLabel" for="fax">Fax</label>
-                    </div>
-                    <div class="col-md-3 pr-0">
-                        <span class="required-communication"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5 px-0">
                         <label for="emp">Employee ID<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="emp" name="empid" disabled>
                     </div>
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-11">  
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5 px-0">
                         <label for="job">Job Title<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="job" name="job">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-5 px-0"></div>
+                    <div class="col-md-7 px-0">
                         <span id="titleError" class="error"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-11">  
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5 px-0">
                         <label for="department">Department<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <select id="department" name="department">
                             <option value=" ">Choose an option</option>
                             <option value="HR">Sales</option>
@@ -268,92 +206,74 @@
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-11">  
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5 px-0">
                         <label for="salary">Salary<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="salary" name="salary">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-5 px-0"></div>
+                    <div class="col-md-7 px-0">
                         <span id="salaryError" class="error"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-11">  
-                    </div>
-                    <div class="col-md-1 pl-0 pr-1">
-                        <span class="required"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5 px-0">
                         <label for="hobbies">Hobbies<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7 px-0">
                         <input type="text" id="hobbies" name="hobbies">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-5 px-0"></div>
+                    <div class="col-md-7 px-0">
                         <span id="hobbiesError" class="error"></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-md-5 px-0">
                         <label class="textarea-label" for="notes">Additional notes</label>
                     </div>
-                    <div class="col-md-7">
-                        <textarea id="notes" name="notes"></textarea>
+                    <div class="col-md-7 px-0">
+                        <textarea id="notes" name="notes" spellcheck="false"></textarea>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5"></div>
-                    <div class="col-md-7">
+                    <div class="col-md-5 px-0"></div>
+                    <div class="col-md-7 px-0">
                         <span id="notesError" class="error"></span>
                     </div>
                 </div>
-                <div class="form-group text-right">
-                    <button id="clear" type="button" class="btn btn-danger mr-3 p-2 px-3">Clear</button>
-                    <button id="submit" type="submit" class="btn btn-primary p-2 px-3">Submit</button>
+                <div class="form-group text-right mr-0 pr-0">
+                    <button id="clear" type="button" class="btn btn-danger mr-3 p-2 px-3 mt-3">Clear</button>
+                    <button id="submit" type="submit" class="btn btn-primary p-2 px-3 mt-3">Submit</button>
                 </div>
         </form>
-        <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Modal Title</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header bg-primary">
+                  <h3 class="modal-title" id="exampleModalLabel">WEB FORM DATA</h3>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>modal content</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+              </div>
             </div>
-            <div class="modal-body">
-                <!-- Modal content goes here -->
-                <p>This is the modal content. You can add your content here.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
+          </div>
     </div>
     <script src="script.js"></script>
 </body>
