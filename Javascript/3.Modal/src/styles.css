@@ -103,8 +103,11 @@ input[type="radio"] {
   }
   
   .modal-content p {
+    display: flex;
     font-size: 16px; 
     margin-bottom: 8px; 
+    word-wrap: break-word;
+    align-items: flex-start;
   }
   
   .modal-content .modal-title {
@@ -125,6 +128,7 @@ input[type="radio"] {
   .label-width {
     display: inline-block;
     width: 50%;
+   
   }
 
   .colon{
@@ -136,6 +140,8 @@ input[type="radio"] {
     background-color: rgba(0, 0, 0, 0.5); 
   }
   
-  /* .modal-dialog{
-    margin-left: 375px;
-  } */
+  .data-width{
+    display: inline-block;
+    width: 45%;
+  }
+  

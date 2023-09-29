@@ -263,10 +263,10 @@ function checkLength(element, minLength, maxLength, index, minLengthMessage, max
 function checkAllowedLength() {
   checkLength(nameInput, 3, 20, 0, 'Name must be at least 3 characters long', 'Name cannot exceed 20 characters');
   checkLength(ssnInput, 7, 9, 2, 'Social security number must be at least 7 characters long', 'Social security number cannot exceed 9 characters');
-  checkLength(numberInput, 7, 10, 4, 'number must be at least 7 characters long', 'number cannot exceed 10 characters');
+  checkLength(numberInput, 7, 10, 4, 'Phone number must be at least 7 characters long', 'Phone number cannot exceed 10 characters');
   checkLength(emailInput, 10, 50, 5, 'Invalid email', 'Name cannot exceed 50 characters');
-  checkLength(jobInput, 3, 50, 6, 'job title must be at least 3 characters long', 'job title cannot exceed 50 characters');
-  checkLength(salaryInput, 3, 10, 7, 'Notes must be at least 3 characters long', 'Notes cannot exceed 10 characters');
+  checkLength(jobInput, 3, 50, 6, 'Job title must be at least 3 characters long', 'Job title cannot exceed 50 characters');
+  checkLength(salaryInput, 3, 10, 7, 'Salary must be at least 3 characters long', 'Salary cannot exceed 10 characters');
   checkLength(hobbiesInput, 3, 25, 8, 'Hobbies must be at least 10 characters long', 'Hobbies cannot exceed 25 characters');
 }
 
@@ -339,20 +339,20 @@ function displayData() {
     <div class="data-entry">
       <h3>Data ${index + 1}</h3>
       <div class="data-details">
-        <p><span class="label-width">Name</span> <span class="colon">:</span>${formData.name}</p>
-        <p><span class="label-width">Gender</span> <span class="colon">:</span>${formData.gender}</p>
-        <p><span class="label-width">Date of Birth</span> <span class="colon">:</span>${formData.birthdate}</p>
-        <p><span class="label-width">Social Security Number</span> <span class="colon">:</span>${formData.ssn}</p>
-        <p><span class="label-width">Address</span> <span class="colon">:</span>${formData.address}</p>
-        <p><span class="label-width">Phone Number</span> <span class="colon">:</span>${formData.number}</p>
-        <p><span class="label-width">Email</span> <span class="colon">:</span>${formData.email}</p>
-        <p><span class="label-width">Preferred method of communication</span> <span class="colon">:</span>${communicationValues}</p>
-        <p><span class="label-width">Employee ID</span> <span class="colon">:</span>${formData.emp}</p>
-        <p><span class="label-width">Job Title</span> <span class="colon">:</span>${formData.job}</p>
-        <p><span class="label-width">Department</span> <span class="colon">:</span>${formData.department}</p>
-        <p><span class="label-width">Salary</span> <span class="colon">:</span>${formData.salary}</p>
-        <p><span class="label-width">Hobbies</span> <span class="colon">:</span>${formData.hobbies}</p>
-        <p><span class="label-width">Additional Notes</span> <span class="colon">:</span>${formData.notes}</p>
+        <p><span class="label-width">Name</span> <span class="colon">:</span><span class="data-width">${formData.name}<span></p>
+        <p><span class="label-width">Gender</span> <span class="colon">:</span><span class="data-width">${formData.gender}</span></p>
+        <p><span class="label-width">Date of Birth</span> <span class="colon">:</span><span class="data-width">${formData.birthdate}</span></p>
+        <p><span class="label-width">Social Security Number</span> <span class="colon">:</span><span class="data-width">${formData.ssn}</span></p>
+        <p><span class="label-width">Address</span> <span class="colon">:</span><span class="data-width">${formData.address}</span></p>
+        <p><span class="label-width">Phone Number</span> <span class="colon">:</span><span class="data-width">${formData.number}</span></p>
+        <p><span class="label-width">Email</span> <span class="colon">:</span><span class="data-width">${formData.email}</span></p>
+        <p><span class="label-width">Preferred method of communication</span> <span class="colon">:</span><span class="data-width">${communicationValues}</span></p>
+        <p><span class="label-width">Employee ID</span> <span class="colon">:</span><span class="data-width">${formData.emp}</span></p>
+        <p><span class="label-width">Job Title</span> <span class="colon">:</span><span class="data-width">${formData.job}</span></p>
+        <p><span class="label-width">Department</span> <span class="colon">:</span><span class="data-width">${formData.department}</span></p>
+        <p><span class="label-width">Salary</span> <span class="colon">:</span><span class="data-width">${formData.salary}</span></p>
+        <p><span class="label-width">Hobbies</span> <span class="colon">:</span><span class="data-width">${formData.hobbies}</span></p>
+        <p><span class="label-width">Additional Notes</span> <span class="colon">:</span><span class="data-width">${formData.notes}</span></p>
       </div>
     </div>
     <hr>
