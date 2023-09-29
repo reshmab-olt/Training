@@ -297,33 +297,16 @@ function clearForm() {
   document.querySelectorAll('.error').forEach(error => error.textContent = '');
 }
 
-function saveData(name, ssn, number, email, emp, job, salary, hobbies,
-  department, address, notes, birthdate) {
+function saveData(formData) {
   const gender = document.querySelector('input[name="gender"]:checked').value;
- 
+
   const communicationValues = Array.from(communicationOptions)
     .filter(checkbox => checkbox.checked)
     .map(checkbox => checkbox.value);
 
- communicationValuesArray.push(communicationValues);
+  communicationValuesArray.push(communicationValues);
 
-  const formData = {
-    name,
-    ssn,
-    number,
-    email,
-    emp,
-    job,
-    salary,
-    hobbies,
-    department,
-    address,
-    notes,
-    birthdate,
-    gender
-  };
-
-  formDataArray.push(formData);
+  formDataArray.push({ ...formData, gender });
 }
 
 function displayData() {
@@ -375,22 +358,23 @@ clearButton.addEventListener('click', clearForm);
 submitButton.addEventListener('click', (event) => {
   event.preventDefault();
   clearError();
-  const name = nameInput.value.trim();
-  const ssn = ssnInput.value.trim();
-  const number = numberInput.value.trim();
-  const email = emailInput.value.trim();
-  const emp = empInput.value.trim();
-  const job = jobInput.value.trim();
-  const salary = salaryInput.value.trim();
-  const hobbies = hobbiesInput.value.trim();
-  const department = departmentInput.value.trim();
-  const address = addressInput.value.trim();
-  const notes = notesInput.value.trim();
-  const birthdate = birthdateInput.value.trim();
+  const formData = {
+    name: nameInput.value.trim(),
+    ssn: ssnInput.value.trim(),
+    number: numberInput.value.trim(),
+    email: emailInput.value.trim(),
+    emp: empInput.value.trim(),
+    job: jobInput.value.trim(),
+    salary: salaryInput.value.trim(),
+    hobbies: hobbiesInput.value.trim(),
+    department: departmentInput.value.trim(),
+    address: addressInput.value.trim(),
+    notes: notesInput.value.trim(),
+    birthdate: birthdateInput.value.trim(),
+  };
 
   if (validation()) {
-    saveData(name, ssn, number, email, emp, job, salary, hobbies,
-      department, address, notes, birthdate);
+    saveData(formData);
     displayData();
     $('#myModal').modal('show');
   }
