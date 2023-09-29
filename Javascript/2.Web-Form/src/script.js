@@ -82,7 +82,8 @@ function isValidDate(dateString) {
     isNaN(day) ||
     year.length !== 4 ||
     month < 1 || month > 12 ||
-    day < 1 || day > 31
+    day < 1 || day > 31 ||
+    (month === '02' && day > 27)
   ) {
     return false;
   }
