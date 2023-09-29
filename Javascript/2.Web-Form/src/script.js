@@ -196,7 +196,6 @@ function isAllowed(element, expression, index, message) {
 
   if (!element.value.match(expression)) {
     document.querySelectorAll('.error')[index].textContent = message;
-    isValid = false;
   }
 }
 
