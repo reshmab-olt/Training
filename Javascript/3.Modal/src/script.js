@@ -308,7 +308,7 @@ function displayData() {
 
     const dataHtml = `
       <div class="data-entry">
-        <h3>Data ${index + 1}</h3>
+        <h3>Data </h3>
         <div class="data-details">
           <p><span class="label-width">Name</span> <span class="colon">:</span>${formData.name}</p>
           <p><span class="label-width">Gender</span> <span class="colon">:</span>${formData.gender}</p>
