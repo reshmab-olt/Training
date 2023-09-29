@@ -100,6 +100,7 @@ input[type="radio"] {
     border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     padding: 20px; 
+    width: 600px;
   }
   
   .modal-content p {
@@ -136,3 +137,6 @@ input[type="radio"] {
     background-color: rgba(0, 0, 0, 0.5); 
   }
   
+  .modal-dialog{
+    margin-left: 375px;
+  }

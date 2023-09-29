@@ -13,8 +13,13 @@ const notesInput = document.querySelector('#notes');
 const birthdateInput = document.querySelector('#birthdate');
 const birthdateError = document.querySelector('#birthDateError');
 const clearButton = document.querySelector('#clear');
+const radioCheckboxes = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+const genderOptions = document.querySelectorAll('input[name="gender"]');
+const communicationOptions = document.querySelectorAll('input[name="communication[]"]');
+const elementsWithBgDangerClass = document.querySelectorAll('.red');
+const elementsWithDangerClass = document.querySelectorAll('.danger');
 const formDataArray = [];
-
+const communicationValuesArray = [];
 
 empInput.value = generateRandomNumber();
 
@@ -144,13 +149,12 @@ function isRequired() {
 }
 
 function validateGender() {
-  const genderOptions = document.querySelectorAll('input[name="gender"]');
+ 
   let checked = false;
 
   genderOptions.forEach(option => {
     if (option.checked) {
       checked = true;
-      const elementsWithBgDangerClass = document.querySelectorAll('.red');
       elementsWithBgDangerClass.forEach(element => {
         element.style.backgroundColor = '#ecf5f7';
       });
@@ -158,7 +162,6 @@ function validateGender() {
   });
 
   if (!checked) {
-    const elementsWithBgDangerClass = document.querySelectorAll('.red');
     elementsWithBgDangerClass.forEach(element => {
       element.style.backgroundColor = '#ffcccc';
     });
@@ -167,13 +170,12 @@ function validateGender() {
 }
 
 function validateCommunication() {
-  const communicationOptions = document.querySelectorAll('input[name="communication[]"]');
+  
   let checked = false;
-
   communicationOptions.forEach(option => {
     if (option.checked) {
       checked = true;
-      const elementsWithDangerClass = document.querySelectorAll('.danger');
+     
       elementsWithDangerClass.forEach(element => {
         element.style.backgroundColor = '#ecf5f7';
       });
@@ -181,7 +183,6 @@ function validateCommunication() {
   });
 
   if (!checked) {
-    const elementsWithDangerClass = document.querySelectorAll('.danger');
     elementsWithDangerClass.forEach(element => {
       element.style.backgroundColor = '#ffcccc';
     });
@@ -205,7 +206,7 @@ function checkAllowedInputs() {
   const nameRegex = /^[a-zA-Z\s]*$/;
   const ssnRegex = /^[0-9-]*$/;
   const numberRegex = /^[0-9]*$/;
-  const notesRegex = /^[a-zA-Z,.\s]*$/;
+  const notesRegex = /^[a-zA-Z0-9,.\s]*$/;
   const hobbiesRegex = /^[a-zA-Z\s,-]*$/;
   const addressRegex = /^[a-zA-Z0-9\s,-]*$/;
   const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/i;
@@ -213,7 +214,7 @@ function checkAllowedInputs() {
   const nameError = 'Alphabets and spaces only';
   const ssnError = 'Numbers and hyphens only';
   const numberError = 'Numbers only';
-  const noteserror = 'Alphanumeric characters with spaces, commas, and dots only';
+  const notesError = 'Alphanumeric characters with spaces, commas, and dots only';
   const hobbiesError = 'Alphabets, commas, and hyphens only';
   const addressError = 'Alphanumeric characters with spaces, commas, and hyphens only';
 
@@ -224,7 +225,7 @@ function checkAllowedInputs() {
   isAllowed(emailInput, emailRegex, 5, emailError);
   isAllowed(jobInput, nameRegex, 6, nameError);
   isAllowed(hobbiesInput, hobbiesRegex, 8, hobbiesError);
-  isAllowed(notesInput, notesRegex, 9, noteserror);
+  isAllowed(notesInput, notesRegex, 9, notesError);
   validateAge();
   if (birthdateInput.value.trim() !== '' && !isValidDate(birthdateInput.value)) {
     birthdateError.textContent = 'Please enter a valid date.';
@@ -250,18 +251,16 @@ function checkAllowedLength() {
   checkLength(nameInput, 3, 20, 0, 'Name must be at least 3 characters long', 'Name cannot exceed 20 characters');
   checkLength(ssnInput, 7, 9, 2, 'Social security number must be at least 7 characters long', 'Social security number cannot exceed 9 characters');
   checkLength(numberInput, 7, 10, 4, 'number must be at least 7 characters long', 'number cannot exceed 10 characters');
-  checkLength(emailInput, 10, 50, 5, 'Ivalid email', 'Name cannot exceed 50 characters');
+  checkLength(emailInput, 10, 50, 5, 'Invalid email', 'Name cannot exceed 50 characters');
   checkLength(jobInput, 3, 50, 6, 'job title must be at least 3 characters long', 'job title cannot exceed 50 characters');
   checkLength(salaryInput, 3, 10, 7, 'Notes must be at least 3 characters long', 'Notes cannot exceed 10 characters');
   checkLength(hobbiesInput, 3, 25, 8, 'Hobbies must be at least 10 characters long', 'Hobbies cannot exceed 25 characters');
 }
 
 function clearRadioCheckboxBg() {
-  const elementsWithDangerClass = document.querySelectorAll('.danger');
   elementsWithDangerClass.forEach(element => {
     element.style.backgroundColor = '#ecf5f7';
   });
-  const elementsWithBgDangerClass = document.querySelectorAll('.red');
   elementsWithBgDangerClass.forEach(element => {
     element.style.backgroundColor = '#ecf5f7';
   });
@@ -281,8 +280,8 @@ function clearForm() {
     notesInput, birthdateInput
   ];
   clearRadioCheckboxBg();
-  const radioCheckboxes = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
-
+  empInput.value = generateRandomNumber();
+  
   departmentInput.selectedIndex = 0;
   departmentInput.style.backgroundColor = '#ffffff';
 
@@ -297,50 +296,22 @@ function clearForm() {
 
   document.querySelectorAll('.error').forEach(error => error.textContent = '');
 }
-function displayData() {
-  const modalBody = document.querySelector('.modal-body');
-
-  modalBody.innerHTML = '';
-  formDataArray.forEach((formData, index) => {
-    const communicationValues = Array.from(
-      document.querySelectorAll('input[name="communication[]"]:checked')
-    ).map(checkbox => checkbox.value).join(', ');
-
-    const dataHtml = `
-      <div class="data-entry">
-        <h3>Data </h3>
-        <div class="data-details">
-          <p><span class="label-width">Name</span> <span class="colon">:</span>${formData.name}</p>
-          <p><span class="label-width">Gender</span> <span class="colon">:</span>${formData.gender}</p>
-          <p><span class="label-width">Date of Birth</span> <span class="colon">:</span>${formData.birthdate}</p>
-          <p><span class="label-width">Social Security Number</span> <span class="colon">:</span>${formData.ssn}</p>
-          <p><span class="label-width">Address</span> <span class="colon">:</span>${formData.address}</p>
-          <p><span class="label-width">Phone Number</span> <span class="colon">:</span>${formData.number}</p>
-          <p><span class="label-width">Email</span> <span class="colon">:</span>${formData.email}</p>
-          <p><span class="label-width">Preferred method of communication</span> <span class="colon">:</span>${communicationValues}</p>
-          <p><span class="label-width">Employee ID</span> <span class="colon">:</span>${formData.emp}</p>
-          <p><span class="label-width">Job Title</span> <span class="colon">:</span>${formData.job}</p>
-          <p><span class="label-width">Department</span> <span class="colon">:</span>${formData.department}</p>
-          <p><span class="label-width">Salary</span> <span class="colon">:</span>${formData.salary}</p>
-          <p><span class="label-width">Hobbies</span> <span class="colon">:</span>${formData.hobbies}</p>
-          <p><span class="label-width">Additional Notes</span> <span class="colon">:</span>${formData.notes}</p>
-        </div>
-      </div>
-    `;
-    modalBody.innerHTML = '';
-    modalBody.innerHTML += dataHtml;
-  });
-}
 
 function saveData(name, ssn, number, email, emp, job, salary, hobbies,
-  department, address, notes, birthdate, communicationValues) {
+  department, address, notes, birthdate) {
   const gender = document.querySelector('input[name="gender"]:checked').value;
+ 
+  const communicationValues = Array.from(communicationOptions)
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.value);
+
+ communicationValuesArray.push(communicationValues);
+
   const formData = {
     name,
     ssn,
     number,
     email,
-    communication: communicationValues,
     emp,
     job,
     salary,
@@ -353,6 +324,39 @@ function saveData(name, ssn, number, email, emp, job, salary, hobbies,
   };
 
   formDataArray.push(formData);
+}
+
+function displayData() {
+  const modalBody = document.querySelector('.modal-body');
+
+  modalBody.innerHTML = '';
+  formDataArray.forEach((formData, index) => {
+    const communicationValues = communicationValuesArray[index].join(', ');
+
+    const dataHtml = `
+    <div class="data-entry">
+      <h3>Data ${index + 1}</h3>
+      <div class="data-details">
+        <p><span class="label-width">Name</span> <span class="colon">:</span>${formData.name}</p>
+        <p><span class="label-width">Gender</span> <span class="colon">:</span>${formData.gender}</p>
+        <p><span class="label-width">Date of Birth</span> <span class="colon">:</span>${formData.birthdate}</p>
+        <p><span class="label-width">Social Security Number</span> <span class="colon">:</span>${formData.ssn}</p>
+        <p><span class="label-width">Address</span> <span class="colon">:</span>${formData.address}</p>
+        <p><span class="label-width">Phone Number</span> <span class="colon">:</span>${formData.number}</p>
+        <p><span class="label-width">Email</span> <span class="colon">:</span>${formData.email}</p>
+        <p><span class="label-width">Preferred method of communication</span> <span class="colon">:</span>${communicationValues}</p>
+        <p><span class="label-width">Employee ID</span> <span class="colon">:</span>${formData.emp}</p>
+        <p><span class="label-width">Job Title</span> <span class="colon">:</span>${formData.job}</p>
+        <p><span class="label-width">Department</span> <span class="colon">:</span>${formData.department}</p>
+        <p><span class="label-width">Salary</span> <span class="colon">:</span>${formData.salary}</p>
+        <p><span class="label-width">Hobbies</span> <span class="colon">:</span>${formData.hobbies}</p>
+        <p><span class="label-width">Additional Notes</span> <span class="colon">:</span>${formData.notes}</p>
+      </div>
+    </div>
+    <hr>
+  `;modalBody.innerHTML += dataHtml;
+  clearForm();
+  });
 }
 
 function validation() {
