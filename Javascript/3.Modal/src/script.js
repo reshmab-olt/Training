@@ -23,10 +23,12 @@ const communicationValuesArray = [];
 
 empInput.value = generateRandomNumber();
 
+//Generate a radom number between 1-10 on employee id field
 function generateRandomNumber() {
   return Math.floor(Math.random() * 10) + 1;
 }
 
+//Change the format of date as yyyy-mm-dd if it is not.
 function birthdateValidation() {
   const originalDate = birthdateInput.value.trim();
 
@@ -53,6 +55,7 @@ function birthdateValidation() {
   }
 }
 
+//Calculate age based on the date of birth
 function calculateAge(birthdate) {
   const today = new Date();
   const birthDate = new Date(birthdate);
@@ -63,6 +66,7 @@ function calculateAge(birthdate) {
   return age;
 }
 
+// Check the age is between 18-100 or not.
 function validateAge() {
   const age = calculateAge(birthdateInput.value);
 
@@ -74,6 +78,7 @@ function validateAge() {
   }
 }
 
+//Check the date of birth is a valid date or not.
 function isValidDate(dateString) {
   const dateParts = dateString.split('-');
 
@@ -97,6 +102,7 @@ function isValidDate(dateString) {
   return true;
 }
 
+//Convert the salary to decimal value.
 function salToDecimal() {
   const salaryValue = salaryInput.value.trim();
   const dotCount = (salaryValue.match(/\./g) || []).length;
@@ -114,8 +120,10 @@ function salToDecimal() {
   }
 }
 
+//Change the background color if a field is empty.
 function checkField(field) {
   const value = field.value.trim();
+
   if (value === '') {
     field.style.backgroundColor = '#ffcccc';
     return false;
@@ -125,6 +133,7 @@ function checkField(field) {
   }
 }
 
+//Display of an alert message if any of the field is empty.
 function isRequired() {
   const validationResults = [
     checkField(nameInput),
@@ -148,8 +157,8 @@ function isRequired() {
   return validationResults;
 }
 
+//Check the gender value selected or not.
 function validateGender() {
- 
   let checked = false;
 
   genderOptions.forEach(option => {
@@ -169,13 +178,13 @@ function validateGender() {
   return checked;
 }
 
+//Check at least one communication method selected or not.
 function validateCommunication() {
-  
   let checked = false;
   communicationOptions.forEach(option => {
     if (option.checked) {
       checked = true;
-     
+
       elementsWithDangerClass.forEach(element => {
         element.style.backgroundColor = '#ecf5f7';
       });
@@ -191,6 +200,7 @@ function validateCommunication() {
   return checked;
 }
 
+//If the fields contain non allowed inputs display an error message.
 function isAllowed(element, expression, index, message) {
   if (element.value.trim() === '') {
     document.querySelectorAll('.error')[index].textContent = '';
@@ -202,6 +212,7 @@ function isAllowed(element, expression, index, message) {
   }
 }
 
+//Check the fields contains allowed inputs or not.
 function checkAllowedInputs() {
   const nameRegex = /^[a-zA-Z\s]*$/;
   const ssnRegex = /^[0-9-]*$/;
@@ -233,6 +244,7 @@ function checkAllowedInputs() {
 
 }
 
+//If the field  input length not matching the required lengths display an error message.
 function checkLength(element, minLength, maxLength, index, minLengthMessage, maxLengthMessage) {
   const value = element.value.trim();
   if (value.length === 0) {
@@ -247,6 +259,7 @@ function checkLength(element, minLength, maxLength, index, minLengthMessage, max
   return true;
 }
 
+//Check the fields input matching the required lengths.
 function checkAllowedLength() {
   checkLength(nameInput, 3, 20, 0, 'Name must be at least 3 characters long', 'Name cannot exceed 20 characters');
   checkLength(ssnInput, 7, 9, 2, 'Social security number must be at least 7 characters long', 'Social security number cannot exceed 9 characters');
@@ -257,6 +270,7 @@ function checkAllowedLength() {
   checkLength(hobbiesInput, 3, 25, 8, 'Hobbies must be at least 10 characters long', 'Hobbies cannot exceed 25 characters');
 }
 
+//Clear the background color of input fields with input type as radio and checkbox.
 function clearRadioCheckboxBg() {
   elementsWithDangerClass.forEach(element => {
     element.style.backgroundColor = '#ecf5f7';
@@ -266,6 +280,7 @@ function clearRadioCheckboxBg() {
   });
 }
 
+//Clear the error messages.
 function clearError() {
   const errorMessages = document.querySelectorAll('.error');
   errorMessages.forEach((errorMessage) => {
@@ -273,6 +288,7 @@ function clearError() {
   });
 }
 
+//Clear form, error messages and background colors .
 function clearForm() {
   const inputs = [
     nameInput, ssnInput, numberInput, emailInput, jobInput,
@@ -281,7 +297,7 @@ function clearForm() {
   ];
   clearRadioCheckboxBg();
   empInput.value = generateRandomNumber();
-  
+
   departmentInput.selectedIndex = 0;
   departmentInput.style.backgroundColor = '#ffffff';
 
@@ -297,18 +313,21 @@ function clearForm() {
   document.querySelectorAll('.error').forEach(error => error.textContent = '');
 }
 
+//Save form data 
 function saveData(formData) {
-  const gender = document.querySelector('input[name="gender"]:checked').value;
-
   const communicationValues = Array.from(communicationOptions)
+
     .filter(checkbox => checkbox.checked)
     .map(checkbox => checkbox.value);
 
   communicationValuesArray.push(communicationValues);
 
-  formDataArray.push({ ...formData, gender });
+  formDataArray.push({
+    ...formData
+  });
 }
 
+//Display saved form data in a modal
 function displayData() {
   const modalBody = document.querySelector('.modal-body');
 
@@ -337,8 +356,9 @@ function displayData() {
       </div>
     </div>
     <hr>
-  `;modalBody.innerHTML += dataHtml;
-  clearForm();
+  `;
+    modalBody.innerHTML += dataHtml;
+    clearForm();
   });
 }
 
@@ -374,8 +394,12 @@ submitButton.addEventListener('click', (event) => {
   };
 
   if (validation()) {
+    const gender = document.querySelector('input[name="gender"]:checked').value;
+    formData.gender = gender;
     saveData(formData);
+    console.log('saving');
     displayData();
+    console.log('displaying');
     $('#myModal').modal('show');
   }
 });
