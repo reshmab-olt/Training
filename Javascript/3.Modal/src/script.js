@@ -267,7 +267,7 @@ function checkAllowedLength() {
   checkLength(numberInput, 7, 10, 4, 'Phone number must be at least 7 characters long', 'Phone number cannot exceed 10 characters');
   checkLength(emailInput, 10, 50, 5, 'Invalid email', 'Name cannot exceed 50 characters');
   checkLength(jobInput, 3, 50, 6, 'Job title must be at least 3 characters long', 'Job title cannot exceed 50 characters');
-  checkLength(salaryInput, 3, 10, 7, 'Salary must be at least 3 characters long', 'Salary cannot exceed 10 characters');
+  checkLength(salaryInput, 6, 13, 7, 'Salary must be at least 3 characters long', 'Salary cannot exceed 10 characters');
   checkLength(hobbiesInput, 3, 25, 8, 'Hobbies must be at least 10 characters long', 'Hobbies cannot exceed 25 characters');
 }
 
