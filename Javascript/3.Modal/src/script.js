@@ -94,7 +94,8 @@ function isValidDate(dateString) {
     isNaN(day) ||
     year.length !== 4 ||
     month < 1 || month > 12 ||
-    day < 1 || day > 31
+    day < 1 || day > 31 ||
+    (month === '02' && day > 27)
   ) {
     return false;
   }
@@ -313,15 +314,14 @@ function clearForm() {
   document.querySelectorAll('.error').forEach(error => error.textContent = '');
 }
 
-//Save form data 
+// Save form data
 function saveData(formData) {
   const communicationValues = Array.from(communicationOptions)
-
     .filter(checkbox => checkbox.checked)
     .map(checkbox => checkbox.value);
 
+  formData.communication = communicationValues;
   communicationValuesArray.push(communicationValues);
-
   formDataArray.push({
     ...formData
   });
@@ -333,8 +333,6 @@ function displayData() {
 
   modalBody.innerHTML = '';
   formDataArray.forEach((formData, index) => {
-    const communicationValues = communicationValuesArray[index].join(', ');
-
     const dataHtml = `
     <div class="data-entry">
       <h3>Data ${index + 1}</h3>
@@ -346,13 +344,13 @@ function displayData() {
         <p><span class="label-width">Address</span> <span class="colon">:</span><span class="data-width">${formData.address}</span></p>
         <p><span class="label-width">Phone Number</span> <span class="colon">:</span><span class="data-width">${formData.number}</span></p>
         <p><span class="label-width">Email</span> <span class="colon">:</span><span class="data-width">${formData.email}</span></p>
-        <p><span class="label-width">Preferred method of communication</span> <span class="colon">:</span><span class="data-width">${communicationValues}</span></p>
+        <p><span class="label-width">Preferred method of communication</span> <span class="colon">:</span><span class="data-width">${formData.communication}</span></p>
         <p><span class="label-width">Employee ID</span> <span class="colon">:</span><span class="data-width">${formData.emp}</span></p>
         <p><span class="label-width">Job Title</span> <span class="colon">:</span><span class="data-width">${formData.job}</span></p>
         <p><span class="label-width">Department</span> <span class="colon">:</span><span class="data-width">${formData.department}</span></p>
         <p><span class="label-width">Salary</span> <span class="colon">:</span><span class="data-width">${formData.salary}</span></p>
         <p><span class="label-width">Hobbies</span> <span class="colon">:</span><span class="data-width">${formData.hobbies}</span></p>
-        <p><span class="label-width">Additional Notes</span> <span class="colon">:</span><span class="data-width">${formData.notes}</span></p>
+        <p><span class="label-width">Additional Notes</span> <span class="colon">:</span><span class="data-width">${formData.notes}</span</p>
       </div>
     </div>
     <hr>
