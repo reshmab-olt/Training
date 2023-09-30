@@ -18,6 +18,7 @@ const genderOptions = document.querySelectorAll('input[name="gender"]');
 const communicationOptions = document.querySelectorAll('input[name="communication[]"]');
 const elementsWithBgDangerClass = document.querySelectorAll('.red');
 const elementsWithDangerClass = document.querySelectorAll('.danger');
+const formDataTable = document.querySelector('#formDataTable tbody');
 const formDataArray = [];
 const communicationValuesArray = [];
 let editingIndex = -1;
@@ -170,7 +171,6 @@ function isRequired() {
     checkField(hobbiesInput),
     checkField(departmentInput),
     checkField(addressInput),
-    checkField(notesInput),
     checkField(birthdateInput),
     validateGender(),
     validateCommunication()
@@ -350,9 +350,8 @@ function saveData(formData) {
   });
 }
 
-//Display saved form data in a modal
+//Display saved form data in a table.
 function displayData() {
-  const formDataTable = document.querySelector('#formDataTable tbody');
   formDataTable.innerHTML = '';
 
   formDataArray.forEach((formData, index) => {
@@ -372,30 +371,25 @@ function displayData() {
     const actionCell = row.insertCell();
     const editButton = document.createElement('button');
     editButton.textContent = 'Edit';
-    editButton.classList.add('edit-button'); 
-    editButton.addEventListener('click', () => editRow(index)); 
+    editButton.classList.add('edit-button');
+    editButton.addEventListener('click', () => editRow(index));
     actionCell.appendChild(editButton);
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
-    deleteButton.classList.add('delete-button'); 
-    deleteButton.addEventListener('click', () => deleteRow(index)); 
+    deleteButton.classList.add('delete-button');
+    deleteButton.addEventListener('click', () => deleteRow(index));
     actionCell.appendChild(deleteButton);
   });
 
   clearForm();
-  editingIndex = -1; 
-}
-function deleteRow(index) {
-  formDataArray.splice(index, 1);
-  displayData();
+  editingIndex = -1;
 }
 
-
+//Display the form with data when clicking the edit button.
 function editRow(index) {
   const formData = formDataArray[index];
 
-  // Populate the form fields with the data from the retrieved form data
   nameInput.value = formData.name;
   ssnInput.value = formData.ssn;
   numberInput.value = formData.number;
@@ -422,18 +416,25 @@ function editRow(index) {
   window.scrollTo(0, 0);
 }
 
-
+//Update the changes in the table after editing the form.
 function updateData(formData) {
   if (editingIndex !== -1) {
     const communicationValues = Array.from(communicationOptions)
-    .filter(checkbox => checkbox.checked)
-    .map(checkbox => checkbox.value);
+      .filter(checkbox => checkbox.checked)
+      .map(checkbox => checkbox.value);
 
-  formData.communication = communicationValues;
-  communicationValuesArray.push(communicationValues);
+    formData.communication = communicationValues;
+    communicationValuesArray.push(communicationValues);
     formDataArray[editingIndex] = formData;
   }
 }
+
+//Delete the row when click the delete button.
+function deleteRow(index) {
+  formDataArray.splice(index, 1);
+  displayData();
+}
+
 
 function validation() {
   const isRequiredResult = isRequired();
