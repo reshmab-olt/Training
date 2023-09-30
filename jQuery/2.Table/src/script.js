@@ -368,21 +368,24 @@ function displayData() {
       cell.textContent = formData[key];
     });
 
-    // Add "Edit" and "Delete" buttons to the row
     const actionCell = row.insertCell();
     const editButton = document.createElement('button');
     editButton.textContent = 'Edit';
-    editButton.addEventListener('click', () => editRow(index)); // Call a function to handle edit action
+    editButton.addEventListener('click', () => editRow(index)); 
     actionCell.appendChild(editButton);
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
-    deleteButton.addEventListener('click', () => deleteRow(index)); // Call a function to handle delete action
+    deleteButton.addEventListener('click', () => deleteRow(index)); 
     actionCell.appendChild(deleteButton);
   });
 
   clearForm();
-  editingIndex = -1; // Reset the editing index after displaying data
+  editingIndex = -1; 
+}
+function deleteRow(index) {
+  formDataArray.splice(index, 1);
+  displayData();
 }
 
 
@@ -403,20 +406,16 @@ function editRow(index) {
   notesInput.value = formData.notes;
   birthdateInput.value = formData.birthdate;
 
-  // Set the selected gender radio button
   genderOptions.forEach(option => {
     option.checked = option.value === formData.gender;
   });
 
-  // Set the communication checkboxes based on the data
   communicationOptions.forEach(option => {
     option.checked = formData.communication.includes(option.value);
   });
 
-  // Set the editingIndex to the current index
   editingIndex = index;
 
-  // Scroll to the top of the form for better visibility
   window.scrollTo(0, 0);
 }
 
