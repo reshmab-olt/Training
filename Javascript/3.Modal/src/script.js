@@ -13,15 +13,22 @@ const notesInput = document.querySelector('#notes');
 const birthdateInput = document.querySelector('#birthdate');
 const birthdateError = document.querySelector('#birthDateError');
 const clearButton = document.querySelector('#clear');
+const radioCheckboxes = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+const genderOptions = document.querySelectorAll('input[name="gender"]');
+const communicationOptions = document.querySelectorAll('input[name="communication[]"]');
+const elementsWithBgDangerClass = document.querySelectorAll('.red');
+const elementsWithDangerClass = document.querySelectorAll('.danger');
 const formDataArray = [];
-
+const communicationValuesArray = [];
 
 empInput.value = generateRandomNumber();
 
+//Generate a radom number between 1-10 on employee id field
 function generateRandomNumber() {
   return Math.floor(Math.random() * 10) + 1;
 }
 
+//Change the format of date as yyyy-mm-dd if it is not.
 function birthdateValidation() {
   const originalDate = birthdateInput.value.trim();
 
@@ -48,6 +55,7 @@ function birthdateValidation() {
   }
 }
 
+//Calculate age based on the date of birth
 function calculateAge(birthdate) {
   const today = new Date();
   const birthDate = new Date(birthdate);
@@ -58,6 +66,7 @@ function calculateAge(birthdate) {
   return age;
 }
 
+// Check the age is between 18-100 or not.
 function validateAge() {
   const age = calculateAge(birthdateInput.value);
 
@@ -69,6 +78,7 @@ function validateAge() {
   }
 }
 
+//Check the date of birth is a valid date or not.
 function isValidDate(dateString) {
   const dateParts = dateString.split('-');
 
@@ -77,11 +87,14 @@ function isValidDate(dateString) {
   }
 
   const [year, month, day] = dateParts;
+  const numericYear = parseInt(year, 10);
+  const numericMonth = parseInt(month, 10);
+  const numericDay = parseInt(day, 10);
 
   if (
-    isNaN(year) ||
-    isNaN(month) ||
-    isNaN(day) ||
+    isNaN(numericYear) ||
+    isNaN(numericMonth) ||
+    isNaN(numericDay) ||
     year.length !== 4 ||
     month < 1 || month > 12 ||
     day < 1 || day > 31
@@ -89,9 +102,30 @@ function isValidDate(dateString) {
     return false;
   }
 
+  if (
+    (numericMonth === 4 || numericMonth === 6 || numericMonth === 9 || numericMonth === 11) &&
+    numericDay > 30
+  ) {
+    return false;
+  }
+
+  if (numericMonth === 2) {
+    if (
+      (numericYear % 4 !== 0) ||
+      (numericYear % 100 === 0 && numericYear % 400 !== 0)
+    ) {
+      if (numericDay > 28) {
+        return false;
+      }
+    } else if (numericDay > 29) {
+      return false;
+    }
+  }
+
   return true;
 }
 
+//Convert the salary to decimal value.
 function salToDecimal() {
   const salaryValue = salaryInput.value.trim();
   const dotCount = (salaryValue.match(/\./g) || []).length;
@@ -109,8 +143,10 @@ function salToDecimal() {
   }
 }
 
+//Change the background color if a field is empty.
 function checkField(field) {
   const value = field.value.trim();
+
   if (value === '') {
     field.style.backgroundColor = '#ffcccc';
     return false;
@@ -120,6 +156,7 @@ function checkField(field) {
   }
 }
 
+//Display of an alert message if any of the field is empty.
 function isRequired() {
   const validationResults = [
     checkField(nameInput),
@@ -143,14 +180,13 @@ function isRequired() {
   return validationResults;
 }
 
+//Check the gender value selected or not.
 function validateGender() {
-  const genderOptions = document.querySelectorAll('input[name="gender"]');
   let checked = false;
 
   genderOptions.forEach(option => {
     if (option.checked) {
       checked = true;
-      const elementsWithBgDangerClass = document.querySelectorAll('.red');
       elementsWithBgDangerClass.forEach(element => {
         element.style.backgroundColor = '#ecf5f7';
       });
@@ -158,7 +194,6 @@ function validateGender() {
   });
 
   if (!checked) {
-    const elementsWithBgDangerClass = document.querySelectorAll('.red');
     elementsWithBgDangerClass.forEach(element => {
       element.style.backgroundColor = '#ffcccc';
     });
@@ -166,14 +201,13 @@ function validateGender() {
   return checked;
 }
 
+//Check at least one communication method selected or not.
 function validateCommunication() {
-  const communicationOptions = document.querySelectorAll('input[name="communication[]"]');
   let checked = false;
-
   communicationOptions.forEach(option => {
     if (option.checked) {
       checked = true;
-      const elementsWithDangerClass = document.querySelectorAll('.danger');
+
       elementsWithDangerClass.forEach(element => {
         element.style.backgroundColor = '#ecf5f7';
       });
@@ -181,7 +215,6 @@ function validateCommunication() {
   });
 
   if (!checked) {
-    const elementsWithDangerClass = document.querySelectorAll('.danger');
     elementsWithDangerClass.forEach(element => {
       element.style.backgroundColor = '#ffcccc';
     });
@@ -190,6 +223,7 @@ function validateCommunication() {
   return checked;
 }
 
+//If the fields contain non allowed inputs display an error message.
 function isAllowed(element, expression, index, message) {
   if (element.value.trim() === '') {
     document.querySelectorAll('.error')[index].textContent = '';
@@ -198,15 +232,15 @@ function isAllowed(element, expression, index, message) {
 
   if (!element.value.match(expression)) {
     document.querySelectorAll('.error')[index].textContent = message;
-    isValid = false;
   }
 }
 
+//Check the fields contains allowed inputs or not.
 function checkAllowedInputs() {
   const nameRegex = /^[a-zA-Z\s]*$/;
   const ssnRegex = /^[0-9-]*$/;
   const numberRegex = /^[0-9]*$/;
-  const notesRegex = /^[a-zA-Z,.\s]*$/;
+  const notesRegex = /^[a-zA-Z0-9,.\s]*$/;
   const hobbiesRegex = /^[a-zA-Z\s,-]*$/;
   const addressRegex = /^[a-zA-Z0-9\s,-]*$/;
   const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/i;
@@ -214,7 +248,7 @@ function checkAllowedInputs() {
   const nameError = 'Alphabets and spaces only';
   const ssnError = 'Numbers and hyphens only';
   const numberError = 'Numbers only';
-  const noteserror = 'Alphanumeric characters with spaces, commas, and dots only';
+  const notesError = 'Alphanumeric characters with spaces, commas, and dots only';
   const hobbiesError = 'Alphabets, commas, and hyphens only';
   const addressError = 'Alphanumeric characters with spaces, commas, and hyphens only';
 
@@ -225,7 +259,7 @@ function checkAllowedInputs() {
   isAllowed(emailInput, emailRegex, 5, emailError);
   isAllowed(jobInput, nameRegex, 6, nameError);
   isAllowed(hobbiesInput, hobbiesRegex, 8, hobbiesError);
-  isAllowed(notesInput, notesRegex, 9, noteserror);
+  isAllowed(notesInput, notesRegex, 9, notesError);
   validateAge();
   if (birthdateInput.value.trim() !== '' && !isValidDate(birthdateInput.value)) {
     birthdateError.textContent = 'Please enter a valid date.';
@@ -233,6 +267,7 @@ function checkAllowedInputs() {
 
 }
 
+//If the field  input length not matching the required lengths display an error message.
 function checkLength(element, minLength, maxLength, index, minLengthMessage, maxLengthMessage) {
   const value = element.value.trim();
   if (value.length === 0) {
@@ -247,27 +282,28 @@ function checkLength(element, minLength, maxLength, index, minLengthMessage, max
   return true;
 }
 
+//Check the fields input matching the required lengths.
 function checkAllowedLength() {
   checkLength(nameInput, 3, 20, 0, 'Name must be at least 3 characters long', 'Name cannot exceed 20 characters');
   checkLength(ssnInput, 7, 9, 2, 'Social security number must be at least 7 characters long', 'Social security number cannot exceed 9 characters');
-  checkLength(numberInput, 7, 10, 4, 'number must be at least 7 characters long', 'number cannot exceed 10 characters');
-  checkLength(emailInput, 10, 50, 5, 'Ivalid email', 'Name cannot exceed 50 characters');
-  checkLength(jobInput, 3, 50, 6, 'job title must be at least 3 characters long', 'job title cannot exceed 50 characters');
-  checkLength(salaryInput, 3, 10, 7, 'Notes must be at least 3 characters long', 'Notes cannot exceed 10 characters');
+  checkLength(numberInput, 7, 10, 4, 'Phone number must be at least 7 characters long', 'Phone number cannot exceed 10 characters');
+  checkLength(emailInput, 10, 50, 5, 'Invalid email', 'Name cannot exceed 50 characters');
+  checkLength(jobInput, 3, 50, 6, 'Job title must be at least 3 characters long', 'Job title cannot exceed 50 characters');
+  checkLength(salaryInput, 6, 13, 7, 'Salary must be at least 3 characters long', 'Salary cannot exceed 10 characters');
   checkLength(hobbiesInput, 3, 25, 8, 'Hobbies must be at least 10 characters long', 'Hobbies cannot exceed 25 characters');
 }
 
+//Clear the background color of input fields with input type as radio and checkbox.
 function clearRadioCheckboxBg() {
-  const elementsWithDangerClass = document.querySelectorAll('.danger');
   elementsWithDangerClass.forEach(element => {
     element.style.backgroundColor = '#ecf5f7';
   });
-  const elementsWithBgDangerClass = document.querySelectorAll('.red');
   elementsWithBgDangerClass.forEach(element => {
     element.style.backgroundColor = '#ecf5f7';
   });
 }
 
+//Clear the error messages.
 function clearError() {
   const errorMessages = document.querySelectorAll('.error');
   errorMessages.forEach((errorMessage) => {
@@ -275,6 +311,7 @@ function clearError() {
   });
 }
 
+//Clear form, error messages and background colors .
 function clearForm() {
   const inputs = [
     nameInput, ssnInput, numberInput, emailInput, jobInput,
@@ -282,7 +319,7 @@ function clearForm() {
     notesInput, birthdateInput
   ];
   clearRadioCheckboxBg();
-  const radioCheckboxes = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+  empInput.value = generateRandomNumber();
 
   departmentInput.selectedIndex = 0;
   departmentInput.style.backgroundColor = '#ffffff';
@@ -298,62 +335,51 @@ function clearForm() {
 
   document.querySelectorAll('.error').forEach(error => error.textContent = '');
 }
+
+// Save form data
+function saveData(formData) {
+  const communicationValues = Array.from(communicationOptions)
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.value);
+
+  formData.communication = communicationValues;
+  communicationValuesArray.push(communicationValues);
+  formDataArray.push({
+    ...formData
+  });
+}
+
+//Display saved form data in a modal
 function displayData() {
   const modalBody = document.querySelector('.modal-body');
 
   modalBody.innerHTML = '';
   formDataArray.forEach((formData, index) => {
-    const communicationValues = Array.from(
-      document.querySelectorAll('input[name="communication[]"]:checked')
-    ).map(checkbox => checkbox.value).join(', ');
-
     const dataHtml = `
-      <div class="data-entry">
-        <h3>Data</h3>
-        <div class="data-details">
-          <p><span class="label-width">Name</span> <span class="colon">:</span>${formData.name}</p>
-          <p><span class="label-width">Gender</span> <span class="colon">:</span>${formData.gender}</p>
-          <p><span class="label-width">Date of Birth</span> <span class="colon">:</span>${formData.birthdate}</p>
-          <p><span class="label-width">Social Security Number</span> <span class="colon">:</span>${formData.ssn}</p>
-          <p><span class="label-width">Address</span> <span class="colon">:</span>${formData.address}</p>
-          <p><span class="label-width">Phone Number</span> <span class="colon">:</span>${formData.number}</p>
-          <p><span class="label-width">Email</span> <span class="colon">:</span>${formData.email}</p>
-          <p><span class="label-width">Preferred method of communication</span> <span class="colon">:</span>${communicationValues}</p>
-          <p><span class="label-width">Employee ID</span> <span class="colon">:</span>${formData.emp}</p>
-          <p><span class="label-width">Job Title</span> <span class="colon">:</span>${formData.job}</p>
-          <p><span class="label-width">Department</span> <span class="colon">:</span>${formData.department}</p>
-          <p><span class="label-width">Salary</span> <span class="colon">:</span>${formData.salary}</p>
-          <p><span class="label-width">Hobbies</span> <span class="colon">:</span>${formData.hobbies}</p>
-          <p><span class="label-width">Additional Notes</span> <span class="colon">:</span>${formData.notes}</p>
-        </div>
+    <div class="data-entry">
+      <h3>Data ${index + 1}</h3>
+      <div class="data-details">
+        <p><span class="label-width">Name</span> <span class="colon">:</span><span class="data-width">${formData.name}<span></p>
+        <p><span class="label-width">Gender</span> <span class="colon">:</span><span class="data-width">${formData.gender}</span></p>
+        <p><span class="label-width">Date of Birth</span> <span class="colon">:</span><span class="data-width">${formData.birthdate}</span></p>
+        <p><span class="label-width">Social Security Number</span> <span class="colon">:</span><span class="data-width">${formData.ssn}</span></p>
+        <p><span class="label-width">Address</span> <span class="colon">:</span><span class="data-width">${formData.address}</span></p>
+        <p><span class="label-width">Phone Number</span> <span class="colon">:</span><span class="data-width">${formData.number}</span></p>
+        <p><span class="label-width">Email</span> <span class="colon">:</span><span class="data-width">${formData.email}</span></p>
+        <p><span class="label-width">Preferred method of communication</span> <span class="colon">:</span><span class="data-width">${formData.communication}</span></p>
+        <p><span class="label-width">Employee ID</span> <span class="colon">:</span><span class="data-width">${formData.emp}</span></p>
+        <p><span class="label-width">Job Title</span> <span class="colon">:</span><span class="data-width">${formData.job}</span></p>
+        <p><span class="label-width">Department</span> <span class="colon">:</span><span class="data-width">${formData.department}</span></p>
+        <p><span class="label-width">Salary</span> <span class="colon">:</span><span class="data-width">${formData.salary}</span></p>
+        <p><span class="label-width">Hobbies</span> <span class="colon">:</span><span class="data-width">${formData.hobbies}</span></p>
+        <p><span class="label-width">Additional Notes</span> <span class="colon">:</span><span class="data-width">${formData.notes}</span</p>
       </div>
-    `;
-
+    </div>
+    <hr>
+  `;
     modalBody.innerHTML += dataHtml;
+    clearForm();
   });
-}
-
-function saveData(name, ssn, number, email, emp, job, salary, hobbies,
-  department, address, notes, birthdate, communicationValues) {
-  const gender = document.querySelector('input[name="gender"]:checked').value;
-  const formData = {
-    name,
-    ssn,
-    number,
-    email,
-    communication: communicationValues,
-    emp,
-    job,
-    salary,
-    hobbies,
-    department,
-    address,
-    notes,
-    birthdate,
-    gender
-  };
-
-  formDataArray.push(formData);
 }
 
 function validation() {
@@ -372,23 +398,28 @@ clearButton.addEventListener('click', clearForm);
 submitButton.addEventListener('click', (event) => {
   event.preventDefault();
   clearError();
-  const name = nameInput.value.trim();
-  const ssn = ssnInput.value.trim();
-  const number = numberInput.value.trim();
-  const email = emailInput.value.trim();
-  const emp = empInput.value.trim();
-  const job = jobInput.value.trim();
-  const salary = salaryInput.value.trim();
-  const hobbies = hobbiesInput.value.trim();
-  const department = departmentInput.value.trim();
-  const address = addressInput.value.trim();
-  const notes = notesInput.value.trim();
-  const birthdate = birthdateInput.value.trim();
+  const formData = {
+    name: nameInput.value.trim(),
+    ssn: ssnInput.value.trim(),
+    number: numberInput.value.trim(),
+    email: emailInput.value.trim(),
+    emp: empInput.value.trim(),
+    job: jobInput.value.trim(),
+    salary: salaryInput.value.trim(),
+    hobbies: hobbiesInput.value.trim(),
+    department: departmentInput.value.trim(),
+    address: addressInput.value.trim(),
+    notes: notesInput.value.trim(),
+    birthdate: birthdateInput.value.trim(),
+  };
 
   if (validation()) {
-    saveData(name, ssn, number, email, emp, job, salary, hobbies,
-      department, address, notes, birthdate);
+    const gender = document.querySelector('input[name="gender"]:checked').value;
+    formData.gender = gender;
+    saveData(formData);
+    console.log('saving');
     displayData();
+    console.log('displaying');
     $('#myModal').modal('show');
   }
 });
