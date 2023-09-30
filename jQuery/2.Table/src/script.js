@@ -372,11 +372,13 @@ function displayData() {
     const actionCell = row.insertCell();
     const editButton = document.createElement('button');
     editButton.textContent = 'Edit';
+    editButton.classList.add('edit-button'); 
     editButton.addEventListener('click', () => editRow(index)); 
     actionCell.appendChild(editButton);
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
+    deleteButton.classList.add('delete-button'); 
     deleteButton.addEventListener('click', () => deleteRow(index)); 
     actionCell.appendChild(deleteButton);
   });
