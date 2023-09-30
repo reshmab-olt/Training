@@ -408,14 +408,14 @@ function editRow(index) {
     option.checked = option.value === formData.gender;
   });
 
-  // Set the selected communication checkboxes
+  // Set the communication checkboxes based on the data
   communicationOptions.forEach(option => {
     option.checked = formData.communication.includes(option.value);
   });
 
   // Set the editingIndex to the current index
   editingIndex = index;
-  
+
   // Scroll to the top of the form for better visibility
   window.scrollTo(0, 0);
 }
@@ -423,6 +423,12 @@ function editRow(index) {
 
 function updateData(formData) {
   if (editingIndex !== -1) {
+    const communicationValues = Array.from(communicationOptions)
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.value);
+
+  formData.communication = communicationValues;
+  communicationValuesArray.push(communicationValues);
     formDataArray[editingIndex] = formData;
   }
 }
