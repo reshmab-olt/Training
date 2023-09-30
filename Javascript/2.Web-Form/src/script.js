@@ -75,17 +75,39 @@ function isValidDate(dateString) {
   }
 
   const [year, month, day] = dateParts;
+  const numericYear = parseInt(year, 10);
+  const numericMonth = parseInt(month, 10);
+  const numericDay = parseInt(day, 10);
 
   if (
-    isNaN(year) ||
-    isNaN(month) ||
-    isNaN(day) ||
+    isNaN(numericYear) ||
+    isNaN(numericMonth) ||
+    isNaN(numericDay) ||
     year.length !== 4 ||
     month < 1 || month > 12 ||
-    day < 1 || day > 31 ||
-    (month === '02' && day > 27)
+    day < 1 || day > 31
   ) {
     return false;
+  }
+
+  if (
+    (numericMonth === 4 || numericMonth === 6 || numericMonth === 9 || numericMonth === 11) &&
+    numericDay > 30
+  ) {
+    return false;
+  }
+
+  if (numericMonth === 2) {
+    if (
+      (numericYear % 4 !== 0) ||
+      (numericYear % 100 === 0 && numericYear % 400 !== 0)
+    ) {
+      if (numericDay > 28) {
+        return false;
+      }
+    } else if (numericDay > 29) {
+      return false;
+    }
   }
 
   return true;
