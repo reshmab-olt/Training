@@ -366,6 +366,7 @@ function displayData() {
     keys.forEach((key) => {
       const cell = row.insertCell();
       cell.textContent = formData[key];
+      cell.classList.add('word-wrap');
     });
 
     const actionCell = row.insertCell();

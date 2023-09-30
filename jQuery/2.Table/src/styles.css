@@ -145,3 +145,12 @@ input[type="radio"] {
     width: 45%;
   }
   
+  /* Add this CSS to your stylesheet to enable word wrapping */
+  
+
+  /* Add this to your CSS file */
+#formDataTable td {
+    word-wrap: break-word;
+    max-width: 150px; /* Adjust as needed to limit cell width */
+  }
+  
