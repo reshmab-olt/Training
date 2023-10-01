@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +22,8 @@
 <body>
     <div class="container mt-5 mb-5 pl-5 pr-5">
         <h1 class="text-center mb-5 text-danger">Registration Form</h1>
-        <form class="form" id="webForm">
+        <form id="myForm" action="#" method="post">
+
             <div class="form-group">
 
                 <div class="row">
@@ -28,7 +31,7 @@
                         <label for="name">Name<span class="text-danger">*</span></label>
                     </div>
                     <div class="col-md-7 px-0">
-                        <input type="text" id="name" name="name">
+                        <input type="text" id="name" name="name" class="required">
                     </div>
                 </div>
                 <div class="row">
@@ -49,7 +52,7 @@
                         <label id="maleLabel" for="male">Male</label>
                     </div>
                     <div class="col-md-2 red pt-2 pl-2">
-                        <input type="radio" id="female" name="gender" value="Female">
+                        <input type="radio" id="female" name="gender" value="Female" class="required">
                         <label id="femaleLabel" for="female">Female</label>
                     </div>
                     <div class="col-md-2 red"></div>
@@ -61,7 +64,8 @@
                         <label for="birthdate">Date of Birth<span class="text-danger">*</span></label>
                     </div>
                     <div class="col-md-7 px-0">
-                        <input type="text" id="birthdate" name="date" placeholder="YYYY-MM-DD">
+                        <input type="text" id="dob" name="dob" placeholder="YYYY-MM-DD" class="required">
+
                     </div>
                 </div>
                 <div class="row">
@@ -77,7 +81,7 @@
                         <label for="ssn">Social Security Number<span class="text-danger">*</span></label>
                     </div>
                     <div class="col-md-7 px-0">
-                        <input type="text" id="ssn" name="securitynumber">
+                        <input type="text" id="ssn" name="securitynumber" class="required">
                     </div>
                 </div>
                 <div class="row">
@@ -93,7 +97,7 @@
                         <label class="textarea-label" for="address">Address<span class="text-danger">*</span></label>
                     </div>
                     <div class="col-md-7 px-0">
-                        <textarea id="address" name="address" spellcheck="false"></textarea>
+                        <textarea id="address" name="address" spellcheck="false" class="required"></textarea>
                     </div>
                 </div>
                 <div class="row">
@@ -109,7 +113,7 @@
                         <label for="number">Phone number<span class="text-danger">*</span></label>
                     </div>
                     <div class="col-md-7 px-0">
-                        <input type="text" id="number" name="number">
+                        <input type="text" id="number" name="number" class="required">
                     </div>
                 </div>
                 <div class="row">
@@ -125,7 +129,7 @@
                         <label for="email">Email<span class="text-danger">*</span></label>
                     </div>
                     <div class="col-md-7 px-0">
-                        <input type="text" id="email" name="email">
+                        <input type="text" id="email" name="email" class="required">
                     </div>
                 </div>
                 <div class="row">
@@ -164,7 +168,7 @@
                         <label for="emp">Employee ID<span class="text-danger">*</span></label>
                     </div>
                     <div class="col-md-7 px-0">
-                        <input type="text" id="emp" name="empid" disabled>
+                        <input type="text" id="emp" name="empid" class="rel" disabled>
                     </div>
                 </div>
             </div>
@@ -174,7 +178,7 @@
                         <label for="job">Job Title<span class="text-danger">*</span></label>
                     </div>
                     <div class="col-md-7 px-0">
-                        <input type="text" id="job" name="job">
+                        <input type="text" id="job" name="job" class="required">
                     </div>
                 </div>
                 <div class="row">
@@ -210,7 +214,7 @@
                         <label for="salary">Salary<span class="text-danger">*</span></label>
                     </div>
                     <div class="col-md-7 px-0">
-                        <input type="text" id="salary" name="salary">
+                        <input type="text" id="salary" name="salary" class="required">
                     </div>
                 </div>
                 <div class="row">
@@ -226,7 +230,7 @@
                         <label for="hobbies">Hobbies<span class="text-danger">*</span></label>
                     </div>
                     <div class="col-md-7 px-0">
-                        <input type="text" id="hobbies" name="hobbies">
+                        <input type="text" id="hobbies" name="hobbies" class="required">
                     </div>
                 </div>
                 <div class="row">
@@ -259,7 +263,7 @@
        
     </div>
     <div class="table-responsive" id="employeeTableContainer">
-        <table id="formDataTable" class="table table-bordered mt-5">
+        <table id="formDataBody" class="table table-bordered mt-5">
             <thead>
                 <tr class="bg-primary">
                     <th>Full Name</th>

@@ -1,482 +1,199 @@
-const submitButton = document.querySelector('#submit');
-const nameInput = document.querySelector('#name');
-const ssnInput = document.querySelector('#ssn');
-const numberInput = document.querySelector('#number');
-const emailInput = document.querySelector('#email');
-const empInput = document.querySelector('#emp');
-const jobInput = document.querySelector('#job');
-const salaryInput = document.querySelector('#salary');
-const hobbiesInput = document.querySelector('#hobbies');
-const departmentInput = document.querySelector('#department');
-const addressInput = document.querySelector('#address');
-const notesInput = document.querySelector('#notes');
-const birthdateInput = document.querySelector('#birthdate');
-const birthdateError = document.querySelector('#birthDateError');
-const clearButton = document.querySelector('#clear');
-const radioCheckboxes = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
-const genderOptions = document.querySelectorAll('input[name="gender"]');
-const communicationOptions = document.querySelectorAll('input[name="communication[]"]');
-const elementsWithBgDangerClass = document.querySelectorAll('.red');
-const elementsWithDangerClass = document.querySelectorAll('.danger');
-const formDataTable = document.querySelector('#formDataTable tbody');
-const formDataArray = [];
-const communicationValuesArray = [];
-let editingIndex = -1;
+$(document).ready(function () {
+  $.validator.addMethod("alphabetsAndSpaces", function(value, element) {
+      return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
+  }, "Alphabets and spaces only.");
 
-empInput.value = generateRandomNumber();
+  $.validator.addMethod("gmailAndYahoo", function(value, element) {
+      return this.optional(element) || /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/i.test(value);
+  }, "Should accept gamil.com and yahoo.com only");
 
-//Generate a radom number between 1-10 on employee id field
-function generateRandomNumber() {
-  return Math.floor(Math.random() * 10) + 1;
-}
+  $.validator.addMethod("numbersAndHyphens", function(value, element) {
+      return this.optional(element) || /^[0-9-]*$/.test(value);
+  }, "Numbers and hyphens only");
 
-//Change the format of date as yyyy-mm-dd if it is not.
-function birthdateValidation() {
-  const originalDate = birthdateInput.value.trim();
+  $.validator.addMethod("addressPattern", function(value, element) {
+      return this.optional(element) ||  /^[a-zA-Z0-9\s,-]*$/.test(value);
+  }, "Alphanumeric characters with spaces commas and hyphens only");
 
-  if (/^\d{4}-\d{2}-\d{2}$/.test(originalDate)) {
-    return;
-  }
-  const dateParts = originalDate.split(/[-/]/);
+  $.validator.addMethod("hobbiesPattern", function(value, element) {
+      return this.optional(element) ||  /^[a-zA-Z\s,-]*$/.test(value);
+  }, "Alphanumeric characters with spaces commas and hyphens only");
 
-  if (dateParts.length === 3) {
-    const [day, month, year] = dateParts;
+  $.validator.addMethod("notesPattern", function(value, element) {
+  return this.optional(element) ||   /^[a-zA-Z,.\s]*$/.test(value);
+  }, "Alphanumeric characters with spaces commas and dots only");
 
-    if (year.length < 4) {
-      return;
-    }
-    const parsedDate = new Date(`${year}-${month}-${day}`);
 
-    if (!isNaN(parsedDate.getTime())) {
-      const adjustedMonth = parsedDate.getMonth() + 1;
-      const adjustedDay = parsedDate.getDate();
-      const formattedDate = `${parsedDate.getFullYear()}-${String(adjustedMonth).padStart(2, '0')}-${String(adjustedDay).padStart(2, '0')}`;
+  $('#myForm').validate({
+      rules: {
+          name: {
+              required: true,
+              minlength: 3,
+              maxlength: 20,
+              alphabetsAndSpaces: true
+              
+          },
+          
+          email: {
+              required: true,
+              email: true,
+              maxlength:50,
+              gmailAndYahoo:true
+              
+          },
+          dob: {
+              required: true,
+              date: true
+          },
+          phone: {
+              required: true,
+              digits: true,
+              minlength: 7,
+              maxlength:10
+          },
+          gender: {
+              required: true
+          },
+          'communication[]': {
+              required: true
+          },
+          department: {
+              required: true
+          },
+          securitynumber: {
+              required: true,
+              minlength:7,
+              maxlength:9,
+              numbersAndHyphens:true
 
-      birthdateInput.value = formattedDate;
-    }
-  }
-}
-
-//Calculate age based on the date of birth
-function calculateAge(birthdate) {
-  const today = new Date();
-  const birthDate = new Date(birthdate);
-  const age = today.getFullYear() - birthDate.getFullYear();
-  if (today.getDate() < birthDate.getDate()) {
-    return age - 1;
-  }
-  return age;
-}
-
-// Check the age is between 18-100 or not.
-function validateAge() {
-  const age = calculateAge(birthdateInput.value);
-
-  if (age < 18 || age > 100) {
-    birthdateError.textContent = 'Age must be between 18 and 100 years.';
-    return false;
-  } else {
-    return true;
-  }
-}
-
-//Check the date of birth is a valid date or not.
-function isValidDate(dateString) {
-  const dateParts = dateString.split('-');
-
-  if (dateParts.length !== 3) {
-    return false;
-  }
-
-  const [year, month, day] = dateParts;
-  const numericYear = parseInt(year, 10);
-  const numericMonth = parseInt(month, 10);
-  const numericDay = parseInt(day, 10);
-
-  if (
-    isNaN(numericYear) ||
-    isNaN(numericMonth) ||
-    isNaN(numericDay) ||
-    year.length !== 4 ||
-    month < 1 || month > 12 ||
-    day < 1 || day > 31
-  ) {
-    return false;
-  }
-
-  if (
-    (numericMonth === 4 || numericMonth === 6 || numericMonth === 9 || numericMonth === 11) &&
-    numericDay > 30
-  ) {
-    return false;
-  }
-
-  if (numericMonth === 2) {
-    if (
-      (numericYear % 4 !== 0) ||
-      (numericYear % 100 === 0 && numericYear % 400 !== 0)
-    ) {
-      if (numericDay > 28) {
-        return false;
+          },
+          job: {
+              required: true,
+              minlength:3,
+              maxlength:50,
+              alphabetsAndSpaces:true
+              
+          },
+          address:{
+              required:true,
+              addressPattern:true
+          },
+          hobbies: {
+              required: true,
+              minlength:3,
+              maxlength:25,
+              hobbiesPattern:true
+              
+          }
+      },
+      
+      messages: {
+          name: {
+              required: "This field is required",
+              minlength: "Name should be at least 3 characters.",
+              maxlength: "This feld cannot exceed 20 characters",
+              alphabetsAndSpaces: "Alphabets and spaces only."  
+          },
+          email: {
+              required: "This field is required",
+              email: "Please enter a valid email address.",
+              pattern : "Should accept gmail.com and yahoo.com only",
+              
+          },
+          dob: {
+              required: "This field is required",
+              date: "Please enter a valid date of birth (YYYY-MM-DD format)."
+          },
+          phone: {
+              required: "This field is required",
+              digits: "Please enter only digits.",
+              minlength: "Phone number should be at least 10 digits."
+          },
+          gender: {
+              required: "Please select a gender."
+          },
+          'communication[]': {
+              required: "Please select at least one communication method."
+          },
+          department: {
+              required: "Please select a department."
+          },
+          securitynumber: {
+              required: "This field is required",
+          },
+          job: {
+              required: "This field is required",
+          },
+          hobbies: {
+              required: "This field is required",
+          }
+      },
+      errorElement: 'span',
+      errorPlacement: function (error, element) {
+          error.insertAfter(element);
       }
-    } else if (numericDay > 29) {
-      return false;
-    }
-  }
+  });
 
-  return true;
+  $('#myForm').submit(function (event) {
+      event.preventDefault(); // Prevent the default form submission behavior
+  
+      if ($('#myForm').valid()) {
+          saveFormData(); // Call saveFormData to store the form data
+          displayData();
+      }
+  });
+  
+  
+
+var formDataArray = [];
+
+function saveFormData() {
+var formData = {
+  name: $('#name').val(),
+  gender: $('input[name="gender"]:checked').val(),
+  dob: $('#dob').val(),
+  securitynumber: $('#ssn').val(),
+  address: $('#address').val(),
+  phone: $('#phone').val(),
+  email: $('#email').val(),
+  communication: $('input[name="communication[]"]:checked')
+    .map(function () {
+      return this.value;
+    })
+    .get(),
+    job: $('#job').val(),
+  department: $('#department').val(),
+  salary: $('#salary').val(),
+  hobbies: $('#hobbies').val(),
+  notes: $('#notes').val(),
+};
+
+formDataArray.push(formData);
+
+//   $('#myForm')[0].reset();
 }
 
-//Convert the salary to decimal value.
-function salToDecimal() {
-  const salaryValue = salaryInput.value.trim();
-  const dotCount = (salaryValue.match(/\./g) || []).length;
 
-  if (salaryValue !== '') {
-    if (dotCount > 1) {
-      document.querySelector('#salaryError').textContent = 'Invalid';
-    } else {
-      document.querySelector('#salaryError').textContent = '';
-      const decimalSalary = parseFloat(salaryValue);
-      if (!isNaN(decimalSalary)) {
-        salaryInput.value = decimalSalary.toFixed(2);
+  function displayData() {
+      $('#formDataBody tbody').empty();
+      for (var i = 0; i < formDataArray.length; i++) {
+        var formData = formDataArray[i];
+        var newRow = $('<tr>');
+        newRow.append($('<td>').text(formData.name));
+        newRow.append($('<td>').text(formData.gender));
+        newRow.append($('<td>').text(formData.dob));
+        newRow.append($('<td>').text(formData.securitynumber));
+        newRow.append($('<td>').text(formData.address));
+        newRow.append($('<td>').text(formData.phone));
+        newRow.append($('<td>').text(formData.email));
+        newRow.append($('<td>').text(formData.communication.join(', ')));
+        newRow.append($('<td>').text(formData.job));
+        newRow.append($('<td>').text(formData.department));
+        newRow.append($('<td>').text(formData.salary));
+        newRow.append($('<td>').text(formData.hobbies));
+        newRow.append($('<td>').text(formData.notes));
+        $('#formDataBody tbody').append(newRow);
       }
     }
-  }
-}
 
-//Change the background color if a field is empty.
-function checkField(field) {
-  const value = field.value.trim();
-
-  if (value === '') {
-    field.style.backgroundColor = '#ffcccc';
-    return false;
-  } else {
-    field.style.backgroundColor = '#ffffff';
-    return true;
-  }
-}
-
-//Display of an alert message if any of the field is empty.
-function isRequired() {
-  const validationResults = [
-    checkField(nameInput),
-    checkField(ssnInput),
-    checkField(numberInput),
-    checkField(emailInput),
-    checkField(empInput),
-    checkField(jobInput),
-    checkField(salaryInput),
-    checkField(hobbiesInput),
-    checkField(departmentInput),
-    checkField(addressInput),
-    checkField(birthdateInput),
-    validateGender(),
-    validateCommunication()
-  ];
-  if (validationResults.includes(false)) {
-    alert('Fill out the required fields');
-  }
-  return validationResults;
-}
-
-//Check the gender value selected or not.
-function validateGender() {
-  let checked = false;
-
-  genderOptions.forEach(option => {
-    if (option.checked) {
-      checked = true;
-      elementsWithBgDangerClass.forEach(element => {
-        element.style.backgroundColor = '#ecf5f7';
-      });
-    }
-  });
-
-  if (!checked) {
-    elementsWithBgDangerClass.forEach(element => {
-      element.style.backgroundColor = '#ffcccc';
-    });
-  }
-  return checked;
-}
-
-//Check at least one communication method selected or not.
-function validateCommunication() {
-  let checked = false;
-  communicationOptions.forEach(option => {
-    if (option.checked) {
-      checked = true;
-
-      elementsWithDangerClass.forEach(element => {
-        element.style.backgroundColor = '#ecf5f7';
-      });
-    }
-  });
-
-  if (!checked) {
-    elementsWithDangerClass.forEach(element => {
-      element.style.backgroundColor = '#ffcccc';
-    });
-  }
-
-  return checked;
-}
-
-//If the fields contain non allowed inputs display an error message.
-function isAllowed(element, expression, index, message) {
-  if (element.value.trim() === '') {
-    document.querySelectorAll('.error')[index].textContent = '';
-    return;
-  }
-
-  if (!element.value.match(expression)) {
-    document.querySelectorAll('.error')[index].textContent = message;
-  }
-}
-
-//Check the fields contains allowed inputs or not.
-function checkAllowedInputs() {
-  const nameRegex = /^[a-zA-Z\s]*$/;
-  const ssnRegex = /^[0-9-]*$/;
-  const numberRegex = /^[0-9]*$/;
-  const notesRegex = /^[a-zA-Z0-9,.\s]*$/;
-  const hobbiesRegex = /^[a-zA-Z\s,-]*$/;
-  const addressRegex = /^[a-zA-Z0-9\s,-]*$/;
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/i;
-  const emailError = 'Accept gmail.com and yahoo.com only';
-  const nameError = 'Alphabets and spaces only';
-  const ssnError = 'Numbers and hyphens only';
-  const numberError = 'Numbers only';
-  const notesError = 'Alphanumeric characters with spaces, commas, and dots only';
-  const hobbiesError = 'Alphabets, commas, and hyphens only';
-  const addressError = 'Alphanumeric characters with spaces, commas, and hyphens only';
-
-  isAllowed(nameInput, nameRegex, 0, nameError);
-  isAllowed(ssnInput, ssnRegex, 2, ssnError);
-  isAllowed(addressInput, addressRegex, 3, addressError);
-  isAllowed(numberInput, numberRegex, 4, numberError);
-  isAllowed(emailInput, emailRegex, 5, emailError);
-  isAllowed(jobInput, nameRegex, 6, nameError);
-  isAllowed(hobbiesInput, hobbiesRegex, 8, hobbiesError);
-  isAllowed(notesInput, notesRegex, 9, notesError);
-  validateAge();
-  if (birthdateInput.value.trim() !== '' && !isValidDate(birthdateInput.value)) {
-    birthdateError.textContent = 'Please enter a valid date.';
-  }
-
-}
-
-//If the field  input length not matching the required lengths display an error message.
-function checkLength(element, minLength, maxLength, index, minLengthMessage, maxLengthMessage) {
-  const value = element.value.trim();
-  if (value.length === 0) {
-    document.querySelectorAll('.error')[index].textContent = '';
-    return true;
-  }
-  if (value.length < minLength || value.length > maxLength) {
-    document.querySelectorAll('.error')[index].textContent = value.length < minLength ? minLengthMessage : maxLengthMessage;
-    return false;
-  }
-  document.querySelectorAll('.error')[index].textContent = '';
-  return true;
-}
-
-//Check the fields input matching the required lengths.
-function checkAllowedLength() {
-  checkLength(nameInput, 3, 20, 0, 'Name must be at least 3 characters long', 'Name cannot exceed 20 characters');
-  checkLength(ssnInput, 7, 9, 2, 'Social security number must be at least 7 characters long', 'Social security number cannot exceed 9 characters');
-  checkLength(numberInput, 7, 10, 4, 'Phone number must be at least 7 characters long', 'Phone number cannot exceed 10 characters');
-  checkLength(emailInput, 10, 50, 5, 'Invalid email', 'Name cannot exceed 50 characters');
-  checkLength(jobInput, 3, 50, 6, 'Job title must be at least 3 characters long', 'Job title cannot exceed 50 characters');
-  checkLength(salaryInput, 6, 13, 7, 'Salary must be at least 3 characters long', 'Salary cannot exceed 10 characters');
-  checkLength(hobbiesInput, 3, 25, 8, 'Hobbies must be at least 10 characters long', 'Hobbies cannot exceed 25 characters');
-}
-
-//Clear the background color of input fields with input type as radio and checkbox.
-function clearRadioCheckboxBg() {
-  elementsWithDangerClass.forEach(element => {
-    element.style.backgroundColor = '#ecf5f7';
-  });
-  elementsWithBgDangerClass.forEach(element => {
-    element.style.backgroundColor = '#ecf5f7';
-  });
-}
-
-//Clear the error messages.
-function clearError() {
-  const errorMessages = document.querySelectorAll('.error');
-  errorMessages.forEach((errorMessage) => {
-    errorMessage.textContent = '';
-  });
-}
-
-//Clear form, error messages and background colors .
-function clearForm() {
-  const inputs = [
-    nameInput, ssnInput, numberInput, emailInput, jobInput,
-    salaryInput, hobbiesInput, addressInput,
-    notesInput, birthdateInput
-  ];
-  clearRadioCheckboxBg();
-  empInput.value = generateRandomNumber();
-
-  departmentInput.selectedIndex = 0;
-  departmentInput.style.backgroundColor = '#ffffff';
-
-  inputs.forEach((input) => {
-    input.value = '';
-    input.style.backgroundColor = '#ffffff';
-  });
-
-  radioCheckboxes.forEach((input) => {
-    input.checked = false;
-  });
-
-  document.querySelectorAll('.error').forEach(error => error.textContent = '');
-}
-
-// Save form data
-function saveData(formData) {
-  const communicationValues = Array.from(communicationOptions)
-    .filter(checkbox => checkbox.checked)
-    .map(checkbox => checkbox.value);
-
-  formData.communication = communicationValues;
-  communicationValuesArray.push(communicationValues);
-  formDataArray.push({
-    ...formData
-  });
-}
-
-//Display saved form data in a table.
-function displayData() {
-  formDataTable.innerHTML = '';
-
-  formDataArray.forEach((formData, index) => {
-    const row = formDataTable.insertRow();
-
-    const keys = [
-      'name', 'gender', 'birthdate', 'ssn', 'address', 'number', 'email', 'communication',
-      'emp', 'job', 'department', 'salary', 'hobbies', 'notes'
-    ];
-
-    keys.forEach((key) => {
-      const cell = row.insertCell();
-      cell.textContent = formData[key];
-      cell.classList.add('word-wrap');
-    });
-
-    const actionCell = row.insertCell();
-    const editButton = document.createElement('button');
-    editButton.textContent = 'Edit';
-    editButton.classList.add('edit-button');
-    editButton.addEventListener('click', () => editRow(index));
-    actionCell.appendChild(editButton);
-
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Delete';
-    deleteButton.classList.add('delete-button');
-    deleteButton.addEventListener('click', () => deleteRow(index));
-    actionCell.appendChild(deleteButton);
-  });
-
-  clearForm();
-  editingIndex = -1;
-}
-
-//Display the form with data when clicking the edit button.
-function editRow(index) {
-  const formData = formDataArray[index];
-
-  nameInput.value = formData.name;
-  ssnInput.value = formData.ssn;
-  numberInput.value = formData.number;
-  emailInput.value = formData.email;
-  empInput.value = formData.emp;
-  jobInput.value = formData.job;
-  salaryInput.value = formData.salary;
-  hobbiesInput.value = formData.hobbies;
-  departmentInput.value = formData.department;
-  addressInput.value = formData.address;
-  notesInput.value = formData.notes;
-  birthdateInput.value = formData.birthdate;
-
-  genderOptions.forEach(option => {
-    option.checked = option.value === formData.gender;
-  });
-
-  communicationOptions.forEach(option => {
-    option.checked = formData.communication.includes(option.value);
-  });
-
-  editingIndex = index;
-
-  window.scrollTo(0, 0);
-}
-
-//Update the changes in the table after editing the form.
-function updateData(formData) {
-  if (editingIndex !== -1) {
-    const communicationValues = Array.from(communicationOptions)
-      .filter(checkbox => checkbox.checked)
-      .map(checkbox => checkbox.value);
-
-    formData.communication = communicationValues;
-    communicationValuesArray.push(communicationValues);
-    formDataArray[editingIndex] = formData;
-  }
-}
-
-//Delete the row when click the delete button.
-function deleteRow(index) {
-  formDataArray.splice(index, 1);
-  displayData();
-}
-
-
-function validation() {
-  const isRequiredResult = isRequired();
-  checkAllowedLength();
-  checkAllowedInputs();
-  const errorMessages = document.querySelectorAll('.error');
-  const hasErrors = Array.from(errorMessages).some((errorMessage) => errorMessage.textContent !== '');
-
-  return !hasErrors && isRequiredResult.every(result => result === true);
-}
-
-salaryInput.addEventListener('blur', salToDecimal);
-birthdateInput.addEventListener('blur', birthdateValidation);
-clearButton.addEventListener('click', clearForm);
-submitButton.addEventListener('click', (event) => {
-  event.preventDefault();
-  clearError();
-  const formData = {
-    name: nameInput.value.trim(),
-    ssn: ssnInput.value.trim(),
-    number: numberInput.value.trim(),
-    email: emailInput.value.trim(),
-    emp: empInput.value.trim(),
-    job: jobInput.value.trim(),
-    salary: salaryInput.value.trim(),
-    hobbies: hobbiesInput.value.trim(),
-    department: departmentInput.value.trim(),
-    address: addressInput.value.trim(),
-    notes: notesInput.value.trim(),
-    birthdate: birthdateInput.value.trim(),
-  };
-
-  if (validation()) {
-    const gender = document.querySelector('input[name="gender"]:checked').value;
-    formData.gender = gender;
-
-    if (editingIndex === -1) {
-      saveData(formData);
-    } else {
-      updateData(formData);
-    }
-
-    displayData();
-  }
 });
