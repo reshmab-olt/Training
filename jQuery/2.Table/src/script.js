@@ -1,34 +1,6 @@
 generateEmployeeID();
 
-//Regex functions
-$.validator.addMethod("alphabetsAndSpaces", function (value, element) {
-  return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
-}, "Alphabets and spaces only.");
-
-$.validator.addMethod("gmailAndYahoo", function (value, element) {
-  return this.optional(element) || /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/i.test(value);
-}, "Should accept gamil.com and yahoo.com only");
-
-$.validator.addMethod("numbersAndHyphens", function (value, element) {
-  return this.optional(element) || /^[0-9-]*$/.test(value);
-}, "Numbers and hyphens only");
-
-$.validator.addMethod("addressPattern", function (value, element) {
-  return this.optional(element) || /^[a-zA-Z0-9\s,-]*$/.test(value);
-}, "Alphanumeric characters with spaces commas and hyphens only");
-
-$.validator.addMethod("hobbiesPattern", function (value, element) {
-  return this.optional(element) || /^[a-zA-Z\s,-]*$/.test(value);
-}, "Alphanumeric characters with spaces commas and hyphens only");
-
-$.validator.addMethod("notesPattern", function (value, element) {
-  return this.optional(element) || /^[a-zA-Z,.\s]*$/.test(value);
-}, "Alphanumeric characters with spaces commas and dots only");
-
-$.validator.addMethod("birthdateValidation", function (value, element) {
-  return this.optional(element) || /^\d{4}-\d{2}-\d{2}$/.test(value);
-}, "Please enter a valid date in YYYY-MM-DD format.");
-
+//Department validation
 $.validator.addMethod("validateDepartment", function (value, element) {
   return value !== null && value.trim() !== "";
 }, "Please select a department.");
@@ -42,7 +14,7 @@ $.validator.addMethod("validateAge", function (value, element) {
 }, "Age must be between 18 and 100");
 
 //Validate salary length 
-$.validator.addMethod("validateSalary", function(value, element) {
+$.validator.addMethod("validateSalary", function (value, element) {
   var parts = value.split('.');
   if (parts.length >= 2) {
     return parts[0].length >= 3 && parts[0].length <= 10;
@@ -51,15 +23,14 @@ $.validator.addMethod("validateSalary", function(value, element) {
   }
 }, "Salary should be between 3 and 10 characters long");
 
-//To check the date is valid or not
+// To check the date is valid or not
 $.validator.addMethod("isValidDate", function (value, element) {
- 
+
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
     return false;
   }
-
   const [year, month, day] = value.split('-').map(Number);
-  const date = new Date(year, month - 1, day); 
+  const date = new Date(year, month - 1, day);
   return (
     date.getFullYear() === year &&
     date.getMonth() === month - 1 &&
@@ -97,7 +68,7 @@ function clearForm() {
   generateEmployeeID();
 }
 
- //Calculate age based on date of birth
+//Calculate age based on date of birth
 function calculateAge(birthdate) {
   const today = new Date();
   const birthDate = new Date(birthdate);
@@ -108,103 +79,104 @@ function calculateAge(birthdate) {
   return age;
 }
 
-$('#myForm').validate({
+$('#webForm').validate({
   rules: {
     name: {
       required: true,
       minlength: 3,
       maxlength: 20,
-      alphabetsAndSpaces: true
-    },
-
-    email: {
-      required: true,
-      email: true,
-      maxlength: 50,
-      gmailAndYahoo: true
-
-    },
-    dob: {
-      required: true,
-      date: true,
-      birthdateValidation: true,
-      isValidDate: true,
-      validateAge: true
-
-    },
-    phone: {
-      required: true,
-      digits: true,
-      minlength: 7,
-      maxlength: 10
-
+      pattern: /^[a-zA-Z\s]+$/
     },
     gender: {
       required: true
-
     },
-    'communication[]': {
-      required: true
-
-    },
-    department: {
-      validateDepartment: true
-
+    dob: {
+      required: true,
+      isValidDate: true,
+      validateAge: true
     },
     securitynumber: {
       required: true,
       minlength: 7,
       maxlength: 9,
-      numbersAndHyphens: true
-
+      pattern: /^[0-9-]*$/
+    },
+    address: {
+      required: true,
+      pattern: /^[a-zA-Z0-9\s,-]*$/
+    },
+    phone: {
+      required: true,
+      digits: true,
+      minlength: 7,
+      maxlength: 10,
+      pattern: /^[0-9-]*$/
+    },
+    email: {
+      required: true,
+      email: true,
+      maxlength: 50,
+      pattern: /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$/i
+    },
+    'communication[]': {
+      required: true
+    },
+    department: {
+      validateDepartment: true
     },
     job: {
       required: true,
       minlength: 3,
       maxlength: 50,
-      alphabetsAndSpaces: true
-
-    },
-    address: {
-      required: true,
-      addressPattern: true
-
+      pattern: /^[a-zA-Z\s,]*$/
     },
     salary: {
-      validateSalary: true,
       required: true,
       number: true,
-
+      pattern: /^[0-9.]*$/,
+      validateSalary: true
     },
     hobbies: {
       required: true,
       minlength: 3,
       maxlength: 25,
-      hobbiesPattern: true
-
+      pattern: /^[a-zA-Z\s,-]*$/
+    },
+    notes: {
+      pattern: /^[a-zA-Z0-9\s,.]*$/
     }
   },
 
   messages: {
     name: {
       minlength: "Name should be at least 3 characters.",
-      maxlength: "This feld cannot exceed 20 characters",
-      alphabetsAndSpaces: "Alphabets and spaces only."
+      maxlength: "This field cannot exceed 20 characters.",
+      pattern: "Alphabets and spaces only."
+    },
+    gender: {
+      required: "Please select a gender."
+    },
+    dob: {
+      date: "Please enter a valid date of birth (YYYY-MM-DD format).",
+    },
+    securitynumber: {
+      minlength: "This field should be atleast 7 characters long",
+      maxlength: "This field cannot exceed 9 characters",
+      pattern: "Numbers and hyphens only"
+    },
+    address: {
+      pattern: "Alphanumeric caharcters with spaces, commas and hyphens only."
+    },
+    phone: {
+      digits: "Numbers only",
+      minlength: "Phone number should be at least 7 digits.",
+      maxlength: "Phone number cannot exceed 10 characters",
+      pattern: "Numbers only"
     },
     email: {
       email: "Please enter a valid email address.",
       pattern: "Should accept gmail.com and yahoo.com only",
       maxlength: "Email cannot exceed 50 characters."
-    },
-    dob: {
-      date: "Please enter a valid date of birth (YYYY-MM-DD format)."
-    },
-    phone: {
-      digits: "Numbers only",
-      minlength: "Phone number should be at least 10 digits."
-    },
-    gender: {
-      required: "Please select a gender."
     },
     'communication[]': {
       required: "Select at least one method."
@@ -212,17 +184,18 @@ $('#myForm').validate({
     department: {
       required: "Please select a department."
     },
-    securitynumber: {
-      minlength: "This field should be atleast 7 characters long",
-      maxlength: "This field cannot exceed 9 characters"
-    },
     job: {
       minlength: "This field should be 3 characters long",
-      maxlength: "This field cannot exceed 50 characters."
+      maxlength: "This field cannot exceed 50 characters.",
+      pattern: "Alphabets,spaces and commas only "
     },
     hobbies: {
       minlength: "This field should be 3 characters long",
-      maxlength: "This field cannot exceed 25 characters."
+      maxlength: "This field cannot exceed 25 characters.",
+      pattern: "Alphabets with commas and hyphens only"
+    },
+    notes: {
+      pattern: "Alphanumeric characters with spaces, commas and dots only"
     },
     salary: {
       minlength: "Salary should be atleat 3 characters long",
@@ -281,7 +254,7 @@ function saveFormData() {
     formDataArray.push(formData);
   }
 
-  $('#myForm')[0].reset();
+  $('#webForm')[0].reset();
 }
 
 $('#formDataBody td').addClass('word-wrap');
@@ -371,10 +344,10 @@ $('#salary').on('blur', function () {
   salToDecimal();
 });
 
-$('#myForm').submit(function (event) {
+$('#webForm').submit(function (event) {
   event.preventDefault();
 
-  if ($('#myForm').valid()) {
+  if ($('#webForm').valid()) {
     saveFormData();
     displayData();
     generateEmployeeID();
