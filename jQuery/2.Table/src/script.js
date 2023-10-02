@@ -103,7 +103,7 @@
   }
 
   function generateEmployeeID() {
-    var employeeID = Math.floor(Math.random() * 11) + 1;
+    var employeeID = Math.floor(Math.random() * 10) + 1;
     $('#emp').val(employeeID);
   }
 
