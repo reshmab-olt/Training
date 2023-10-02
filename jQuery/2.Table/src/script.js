@@ -1,6 +1,8 @@
-$(document).ready(function () {
+
+  $('#formDataBody td').addClass('word-wrap');
 
   generateEmployeeID();
+
   $.validator.addMethod("alphabetsAndSpaces", function (value, element) {
     return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
   }, "Alphabets and spaces only.");
@@ -29,6 +31,11 @@ $(document).ready(function () {
     return this.optional(element) || /^\d{4}-\d{2}-\d{2}$/.test(value);
   }, "Please enter a valid date in YYYY-MM-DD format.");
 
+  $.validator.addMethod("validateDepartment", function (value, element) {
+    // Check if the department value is null (empty)
+    return value !== null && value.trim() !== "";
+  }, "Please select a department.");
+  
   $.validator.addMethod("validateAge", function (value, element) {
     const birthdate = value;
     const age = calculateAge(birthdate);
@@ -83,6 +90,43 @@ $(document).ready(function () {
     return true;
   }, "Please enter a valid date");
 
+  function salToDecimal() {
+    const salaryInput = $('#salary');
+    const salaryValue = salaryInput.val().trim();
+    const dotCount = (salaryValue.match(/\./g) || []).length;
+
+    if (salaryValue !== '') {
+
+      const decimalSalary = parseFloat(salaryValue);
+      if (!isNaN(decimalSalary)) {
+        salaryInput.val(decimalSalary.toFixed(2));
+
+      }
+    }
+  }
+
+  function generateEmployeeID() {
+    var employeeID = Math.floor(Math.random() * 11) + 1;
+    $('#emp').val(employeeID);
+  }
+
+  function clearForm() {
+    $('#myForm')[0].reset();
+    $('#myForm').validate().resetForm();
+    $('#myForm .error').removeClass('error');
+    generateEmployeeID();
+  }
+
+  function calculateAge(birthdate) {
+    const today = new Date();
+    const birthDate = new Date(birthdate);
+    const age = today.getFullYear() - birthDate.getFullYear();
+    if (today.getDate() < birthDate.getDate()) {
+      return age - 1;
+    }
+    return age;
+  }
+
   $('#myForm').validate({
     rules: {
       name: {
@@ -124,7 +168,7 @@ $(document).ready(function () {
 
       },
       department: {
-        required: true
+        validateDepartment: true
 
       },
       securitynumber: {
@@ -147,6 +191,8 @@ $(document).ready(function () {
 
       },
       salary: {
+        minlength:6,
+        maxlength:13,
         required: true,
         number: true,
 
@@ -162,60 +208,59 @@ $(document).ready(function () {
 
     messages: {
       name: {
-        required: "This field is required",
         minlength: "Name should be at least 3 characters.",
         maxlength: "This feld cannot exceed 20 characters",
         alphabetsAndSpaces: "Alphabets and spaces only."
       },
       email: {
-        required: "This field is required",
         email: "Please enter a valid email address.",
         pattern: "Should accept gmail.com and yahoo.com only",
-
+        maxlength: "Email cannot exceed 50 characters."
       },
       dob: {
-        required: "This field is required",
         date: "Please enter a valid date of birth (YYYY-MM-DD format)."
       },
       phone: {
-        required: "This field is required",
-        digits: "Please enter only digits.",
+        digits: "Numbers only",
         minlength: "Phone number should be at least 10 digits."
       },
       gender: {
         required: "Please select a gender."
       },
       'communication[]': {
-        required: "Please select at least one communication method."
+        required: "Select at least one method."
       },
       department: {
         required: "Please select a department."
       },
       securitynumber: {
-        required: "This field is required",
+       minlength :"This field should be atleast 7 characters long",
+       maxlength: "This field cannot exceed 9 characters"
       },
       job: {
-        required: "This field is required",
+        minlength: "This field should be 3 characters long",
+        maxlength: "This field cannot exceed 50 characters."
       },
       hobbies: {
-        required: "This field is required",
+        minlength: "This field should be 3 characters long",
+        maxlength: "This field cannot exceed 25 characters."
+      },
+      salary: {
+        minlength: "Salary should be atleat 3 characters long",
+        maxlength: "Salary should not exceed 10 characters"
       }
     },
     errorElement: 'span',
     errorPlacement: function (error, element) {
-      error.insertAfter(element);
+      if (element.attr('name') === 'gender') {
+        error.insertAfter(element.closest('.gender-group'));
+      } else if (element.attr('name') === 'communication[]') {
+        error.insertAfter(element.closest('.communication-group'));
+      } else {
+        error.insertAfter(element);
+      }
     }
-  });
-
-  $('#myForm').submit(function (event) {
-    event.preventDefault();
-
-
-    if ($('#myForm').valid()) {
-      saveFormData();
-      displayData();
-      generateEmployeeID();
-    }
+    
   });
 
   var formDataArray = [];
@@ -259,17 +304,13 @@ $(document).ready(function () {
     $('#myForm')[0].reset();
   }
 
-
-  $('#clear').click(function () {
-    clearForm();
-  });
-
   function deleteFormData(index) {
     formDataArray.splice(index, 1);
     displayData();
   }
 
   function displayData() {
+    
     $('#formDataBody tbody').empty();
     for (var i = 0; i < formDataArray.length; i++) {
       var formData = formDataArray[i];
@@ -291,7 +332,8 @@ $(document).ready(function () {
       var actionCell = $('<td>');
       var editButton = $('<button>').text('Edit');
       var deleteButton = $('<button>').text('Delete');
-
+      var editButton = $('<button>').text('Edit').addClass('edit-button');
+      var deleteButton = $('<button>').text('Delete').addClass('delete-button');
       editButton.on('click', function () {
         var indexToEdit = $(this).closest('tr').index();
         editFormData(indexToEdit);
@@ -303,10 +345,10 @@ $(document).ready(function () {
         var indexToDelete = this.id.split('_')[1];
         deleteFormData(indexToDelete);
       });
-
+      
       actionCell.append(editButton);
       actionCell.append(deleteButton);
-
+    
       newRow.append(actionCell);
       $('#formDataBody tbody').append(newRow);
     }
@@ -335,49 +377,24 @@ $(document).ready(function () {
     $('#salary').val(formData.salary);
     $('#hobbies').val(formData.hobbies);
     $('#notes').val(formData.notes);
-
-
-    
   }
 
-  function generateEmployeeID() {
-    var employeeID = Math.floor(Math.random() * 11) + 1;
-    $('#emp').val(employeeID);
-  }
+  $('#clear').click(function () {
+    clearForm();
+  });
+
   $('#salary').on('blur', function () {
     salToDecimal();
   });
 
-  function salToDecimal() {
-    const salaryInput = $('#salary');
-    const salaryValue = salaryInput.val().trim();
-    const dotCount = (salaryValue.match(/\./g) || []).length;
+  $('#myForm').submit(function (event) {
+    event.preventDefault();
 
-    if (salaryValue !== '') {
-
-      const decimalSalary = parseFloat(salaryValue);
-      if (!isNaN(decimalSalary)) {
-        salaryInput.val(decimalSalary.toFixed(2));
-
-      }
+    if ($('#myForm').valid()) {
+      saveFormData();
+      displayData();
+      generateEmployeeID();
     }
-  }
+  });
 
-  function calculateAge(birthdate) {
-    const today = new Date();
-    const birthDate = new Date(birthdate);
-    const age = today.getFullYear() - birthDate.getFullYear();
-    if (today.getDate() < birthDate.getDate()) {
-      return age - 1;
-    }
-    return age;
-  }
-
-  function clearForm() {
-    $('#myForm')[0].reset();
-    $('#myForm').validate().resetForm();
-    $('#myForm .error').removeClass('error');
-    generateEmployeeID();
-  }
-
-});
+  

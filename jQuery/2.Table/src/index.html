@@ -47,15 +47,15 @@
                     <div class="col-md-5 px-0">
                         <label>Gender<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-3 pr-0 red pt-2 pl-2">
-                        <input type="radio" id="male" name="gender" value="Male">
-                        <label id="maleLabel" for="male">Male</label>
-                    </div>
-                    <div class="col-md-2 red pt-2 pl-2">
-                        <input type="radio" id="female" name="gender" value="Female" class="required">
-                        <label id="femaleLabel" for="female">Female</label>
-                    </div>
-                    <div class="col-md-2 red"></div>
+                    <div class="gender-group">
+                       
+                        <input type="radio" name="gender" id="male" value="male">
+                        <label class="mr-5" for="male">Male</label>
+                        
+                        <input type="radio" name="gender" id="female" value="female">
+                        <label class="mr-5" for="female">Female</label>
+                      </div>
+                      
                 </div>
             </div>
             <div class="form-group">
@@ -144,21 +144,18 @@
                     <div class="col-md-5 px-0">
                         <label>Preferred Method of Communication<span class="text-danger">*</span></label>
                     </div>
-                    <div class="col-md-2 pr-0 danger pt-2 pl-2">
+                    <div class="communication-group">
                         <input class="text-right" type="checkbox" id="emailmethod" name="communication[]" value="Email">
-                        <label id="emailLabel" for="emailmethod">Email</label>
-                    </div>
-                    <div class="col-md-2 pr-0 danger pt-2 pl-2">
+                        <label id="emailLabel" class="mr-3" for="emailmethod">Email</label>
+                    
                         <input type="checkbox" id="post" name="communication[]" value="Post">
-                        <label id="postLabel" for="post">Post</label>
-                    </div>
-                    <div class="col-md-2 pr-0 danger pt-2 pl-2">
+                        <label id="postLabel" class="mr-3" for="post">Post</label>
+                   
                         <input type="checkbox" id="phone" name="communication[]" value="Phone">
-                        <label id="phoneLabel" for="phone">Phone</label>
-                    </div>
-                    <div class="col-md-1 pr-0 danger pt-2 pl-2">
+                        <label id="phoneLabel" class="mr-3" for="phone">Phone</label>
+                    
                         <input type="checkbox" id="fax" name="communication[]" value="Fax">
-                        <label id="faxLabel" for="fax">Fax</label>
+                        <label id="faxLabel" class="mr-5" for="fax">Fax</label>
                     </div>
                 </div>
             </div>
@@ -194,7 +191,7 @@
                         <label for="department">Department<span class="text-danger">*</span></label>
                     </div>
                     <div class="col-md-7 px-0">
-                        <select id="department" name="department">
+                        <select id="department" name="department" required>
                             <option value=" ">Choose an option</option>
                             <option value="Sales">Sales</option>
                             <option value="Marketing">Marketing</option>
