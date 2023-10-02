@@ -338,7 +338,7 @@ function editFormData(index) {
   $('#hobbies').val(formData.hobbies);
   $('#notes').val(formData.notes);
 
-  // Update the data in the existing row
+ 
   var editedRow = $('#formDataBody tbody tr').eq(index);
   editedRow.find('td:eq(0)').text(formData.name);
   editedRow.find('td:eq(1)').text(formData.gender);
