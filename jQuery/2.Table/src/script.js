@@ -107,7 +107,6 @@ $('#webForm').validate({
     },
     number: {
       required: true,
-      digits: true,
       minlength: 7,
       maxlength: 10,
       pattern: /^[0-9]*$/
@@ -168,7 +167,6 @@ $('#webForm').validate({
       pattern: "Alphanumeric caharcters with spaces, commas and hyphens only."
     },
     number: {
-      digits: "Numbers only",
       minlength: "Phone number should be at least 7 digits.",
       maxlength: "Phone number cannot exceed 10 characters",
       pattern: "Numbers only"
