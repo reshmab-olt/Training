@@ -1,5 +1,6 @@
 generateEmployeeID();
 
+//Regex functions
 $.validator.addMethod("alphabetsAndSpaces", function (value, element) {
   return this.optional(element) || /^[a-zA-Z\s]+$/.test(value);
 }, "Alphabets and spaces only.");
@@ -32,6 +33,7 @@ $.validator.addMethod("validateDepartment", function (value, element) {
   return value !== null && value.trim() !== "";
 }, "Please select a department.");
 
+//Check age is between 18-100 or not.
 $.validator.addMethod("validateAge", function (value, element) {
   const birthdate = value;
   const age = calculateAge(birthdate);
@@ -39,6 +41,7 @@ $.validator.addMethod("validateAge", function (value, element) {
   return age >= 18 && age <= 100;
 }, "Age must be between 18 and 100");
 
+//Check date is valid or not.
 $.validator.addMethod("isValidDate", function (value, element) {
   const dateParts = value.split('-');
 
@@ -85,6 +88,7 @@ $.validator.addMethod("isValidDate", function (value, element) {
   return true;
 }, "Please enter a valid date");
 
+//Convert salary to decimal value
 function salToDecimal() {
   const salaryInput = $('#salary');
   const salaryValue = salaryInput.val().trim();
@@ -100,11 +104,13 @@ function salToDecimal() {
   }
 }
 
+//Generate random number between 1-10 on employee id field
 function generateEmployeeID() {
   var employeeID = Math.floor(Math.random() * 10) + 1;
   $('#emp').val(employeeID);
 }
 
+// To clear form 
 function clearForm() {
   $('#myForm')[0].reset();
   $('#myForm').validate().resetForm();
@@ -112,6 +118,7 @@ function clearForm() {
   generateEmployeeID();
 }
 
+ //Calculate age based on date of birth
 function calculateAge(birthdate) {
   const today = new Date();
   const birthDate = new Date(birthdate);
@@ -260,6 +267,7 @@ $('#myForm').validate({
 
 var formDataArray = [];
 
+//To save form data 
 function saveFormData() {
   var formData = {
     name: $('#name').val(),
@@ -306,6 +314,7 @@ function deleteFormData(index) {
   displayData();
 }
 
+//To display the saved data in the table
 function displayData() {
 
   $('#formDataBody tbody').empty();
@@ -351,6 +360,7 @@ function displayData() {
   }
 }
 
+//To edit the data 
 function editFormData(index) {
   var formData = formDataArray[index];
   $('#name').val(formData.name);
