@@ -1,6 +1,4 @@
 
-  $('#formDataBody td').addClass('word-wrap');
-
   generateEmployeeID();
 
   $.validator.addMethod("alphabetsAndSpaces", function (value, element) {
@@ -32,7 +30,6 @@
   }, "Please enter a valid date in YYYY-MM-DD format.");
 
   $.validator.addMethod("validateDepartment", function (value, element) {
-    // Check if the department value is null (empty)
     return value !== null && value.trim() !== "";
   }, "Please select a department.");
   
@@ -303,6 +300,8 @@
 
     $('#myForm')[0].reset();
   }
+ 
+  $('#formDataBody td').addClass('word-wrap');
 
   function deleteFormData(index) {
     formDataArray.splice(index, 1);
