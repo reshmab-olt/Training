@@ -41,52 +41,31 @@ $.validator.addMethod("validateAge", function (value, element) {
   return age >= 18 && age <= 100;
 }, "Age must be between 18 and 100");
 
-//Check date is valid or not.
+//Validate salary length 
+$.validator.addMethod("validateSalary", function(value, element) {
+  var parts = value.split('.');
+  if (parts.length >= 2) {
+    return parts[0].length >= 3 && parts[0].length <= 10;
+  } else {
+    return value.length >= 3 && value.length <= 10;
+  }
+}, "Salary should be between 3 and 10 characters long");
+
+//To check the date is valid or not
 $.validator.addMethod("isValidDate", function (value, element) {
-  const dateParts = value.split('-');
-
-  if (dateParts.length !== 3) {
+ 
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
     return false;
   }
 
-  const [year, month, day] = dateParts;
-  const numericYear = parseInt(year, 10);
-  const numericMonth = parseInt(month, 10);
-  const numericDay = parseInt(day, 10);
-
-  if (
-    isNaN(numericYear) ||
-    isNaN(numericMonth) ||
-    isNaN(numericDay) ||
-    year.length !== 4 ||
-    numericMonth < 1 || numericMonth > 12 ||
-    numericDay < 1 || numericDay > 31
-  ) {
-    return false;
-  }
-
-  if (
-    (numericMonth === 4 || numericMonth === 6 || numericMonth === 9 || numericMonth === 11) &&
-    numericDay > 30
-  ) {
-    return false;
-  }
-
-  if (numericMonth === 2) {
-    if (
-      (numericYear % 4 !== 0) ||
-      (numericYear % 100 === 0 && numericYear % 400 !== 0)
-    ) {
-      if (numericDay > 28) {
-        return false;
-      }
-    } else if (numericDay > 29) {
-      return false;
-    }
-  }
-
-  return true;
-}, "Please enter a valid date");
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(year, month - 1, day); 
+  return (
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day
+  );
+}, "Please enter a valid date in YYYY-MM-DD format.");
 
 //Convert salary to decimal value
 function salToDecimal() {
@@ -136,7 +115,6 @@ $('#myForm').validate({
       minlength: 3,
       maxlength: 20,
       alphabetsAndSpaces: true
-
     },
 
     email: {
@@ -193,8 +171,7 @@ $('#myForm').validate({
 
     },
     salary: {
-      minlength: 6,
-      maxlength: 13,
+      validateSalary: true,
       required: true,
       number: true,
 
