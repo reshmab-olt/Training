@@ -337,21 +337,7 @@ $(document).ready(function () {
     $('#notes').val(formData.notes);
 
 
-    var editedRow = $('#formDataBody tbody tr').eq(index);
-    editedRow.find('td:eq(0)').text(formData.name);
-    editedRow.find('td:eq(1)').text(formData.gender);
-    editedRow.find('td:eq(2)').text(formData.dob);
-    editedRow.find('td:eq(3)').text(formData.securitynumber);
-    editedRow.find('td:eq(4)').text(formData.address);
-    editedRow.find('td:eq(5)').text(formData.phone);
-    editedRow.find('td:eq(6)').text(formData.email);
-    editedRow.find('td:eq(7)').text(formData.communication.join(', '));
-    editedRow.find('td:eq(8)').text(formData.empid);
-    editedRow.find('td:eq(9)').text(formData.job);
-    editedRow.find('td:eq(10)').text(formData.department);
-    editedRow.find('td:eq(11)').text(formData.salary);
-    editedRow.find('td:eq(12)').text(formData.hobbies);
-    editedRow.find('td:eq(13)').text(formData.notes);
+    
   }
 
   function generateEmployeeID() {
