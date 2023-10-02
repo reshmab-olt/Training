@@ -227,7 +227,7 @@ $(document).ready(function () {
       dob: $('#dob').val(),
       securitynumber: $('#ssn').val(),
       address: $('#address').val(),
-      phone: $('#phone').val(),
+      phone: $('#number').val(),
       email: $('#email').val(),
       communication: $('input[name="communication[]"]:checked')
         .map(function () {
@@ -241,38 +241,122 @@ $(document).ready(function () {
       hobbies: $('#hobbies').val(),
       notes: $('#notes').val(),
     };
-
-    formDataArray.push(formData);
-
-    //   $('#myForm')[0].reset();
+  
+    // Check if the form data already exists in the array
+    var index = -1;
+    for (var i = 0; i < formDataArray.length; i++) {
+      if (formDataArray[i].empid === formData.empid) {
+        index = i;
+        break;
+      }
+    }
+  
+    // If the form data exists, update it; otherwise, add it to the array
+    if (index !== -1) {
+      formDataArray[index] = formData; // Update existing data
+    } else {
+      formDataArray.push(formData); // Add new data
+    }
+  
+    $('#myForm')[0].reset();
   }
+  
 
   $('#clear').click(function () {
     clearForm();
   });
 
-  function displayData() {
-    $('#formDataBody tbody').empty();
-    for (var i = 0; i < formDataArray.length; i++) {
-      var formData = formDataArray[i];
-      var newRow = $('<tr>');
-      newRow.append($('<td>').text(formData.name));
-      newRow.append($('<td>').text(formData.gender));
-      newRow.append($('<td>').text(formData.dob));
-      newRow.append($('<td>').text(formData.securitynumber));
-      newRow.append($('<td>').text(formData.address));
-      newRow.append($('<td>').text(formData.phone));
-      newRow.append($('<td>').text(formData.email));
-      newRow.append($('<td>').text(formData.communication.join(', ')));
-      newRow.append($('<td>').text(formData.empid));
-      newRow.append($('<td>').text(formData.job));
-      newRow.append($('<td>').text(formData.department));
-      newRow.append($('<td>').text(formData.salary));
-      newRow.append($('<td>').text(formData.hobbies));
-      newRow.append($('<td>').text(formData.notes));
-      $('#formDataBody tbody').append(newRow);
-    }
+function deleteFormData(index) {
+  formDataArray.splice(index, 1); 
+  displayData(); 
+}
+
+function displayData() {
+  $('#formDataBody tbody').empty();
+  for (var i = 0; i < formDataArray.length; i++) {
+    var formData = formDataArray[i];
+    var newRow = $('<tr>');
+    newRow.append($('<td>').text(formData.name));
+    newRow.append($('<td>').text(formData.gender));
+    newRow.append($('<td>').text(formData.dob));
+    newRow.append($('<td>').text(formData.securitynumber));
+    newRow.append($('<td>').text(formData.address));
+    newRow.append($('<td>').text(formData.phone));
+    newRow.append($('<td>').text(formData.email));
+    newRow.append($('<td>').text(formData.communication.join(', ')));
+    newRow.append($('<td>').text(formData.empid));
+    newRow.append($('<td>').text(formData.job));
+    newRow.append($('<td>').text(formData.department));
+    newRow.append($('<td>').text(formData.salary));
+    newRow.append($('<td>').text(formData.hobbies));
+    newRow.append($('<td>').text(formData.notes));
+    var actionCell = $('<td>');
+    var editButton = $('<button>').text('Edit');
+    var deleteButton = $('<button>').text('Delete');
+
+    editButton.on('click', function () {
+      var indexToEdit = $(this).closest('tr').index(); 
+      editFormData(indexToEdit); 
+    });
+
+    deleteButton.attr('id', 'deleteButton_' + i);
+
+    deleteButton.on('click', function () {
+      var indexToDelete = this.id.split('_')[1];
+      deleteFormData(indexToDelete); 
+    });
+
+    actionCell.append(editButton);
+    actionCell.append(deleteButton);
+
+    newRow.append(actionCell);
+    $('#formDataBody tbody').append(newRow);
   }
+}
+
+function editFormData(index) {
+  var formData = formDataArray[index];
+  $('#name').val(formData.name);
+  $('input[name="gender"]').val([formData.gender]);
+  $('#dob').val(formData.dob);
+  $('#ssn').val(formData.securitynumber);
+  $('#address').val(formData.address);
+  $('#number').val(formData.phone);
+  $('#email').val(formData.email);
+  $('input[name="communication[]"]').each(function () {
+    if (formData.communication.includes($(this).val())) {
+      $(this).prop('checked', true);
+    } else {
+      $(this).prop('checked', false);
+    }
+  });
+
+  $('#emp').val(formData.empid);
+  $('#job').val(formData.job);
+  $('#department').val(formData.department);
+  $('#salary').val(formData.salary);
+  $('#hobbies').val(formData.hobbies);
+  $('#notes').val(formData.notes);
+
+  // Update the data in the existing row
+  var editedRow = $('#formDataBody tbody tr').eq(index);
+  editedRow.find('td:eq(0)').text(formData.name);
+  editedRow.find('td:eq(1)').text(formData.gender);
+  editedRow.find('td:eq(2)').text(formData.dob);
+  editedRow.find('td:eq(3)').text(formData.securitynumber);
+  editedRow.find('td:eq(4)').text(formData.address);
+  editedRow.find('td:eq(5)').text(formData.phone);
+  editedRow.find('td:eq(6)').text(formData.email);
+  editedRow.find('td:eq(7)').text(formData.communication.join(', '));
+  editedRow.find('td:eq(8)').text(formData.empid);
+  editedRow.find('td:eq(9)').text(formData.job);
+  editedRow.find('td:eq(10)').text(formData.department);
+  editedRow.find('td:eq(11)').text(formData.salary);
+  editedRow.find('td:eq(12)').text(formData.hobbies);
+  editedRow.find('td:eq(13)').text(formData.notes);
+}
+
+
 
   function generateEmployeeID() {
     var employeeID = Math.floor(Math.random() * 11) + 1;

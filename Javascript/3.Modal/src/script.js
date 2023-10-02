@@ -417,9 +417,7 @@ submitButton.addEventListener('click', (event) => {
     const gender = document.querySelector('input[name="gender"]:checked').value;
     formData.gender = gender;
     saveData(formData);
-    console.log('saving');
     displayData();
-    console.log('displaying');
     $('#myModal').modal('show');
   }
 });
