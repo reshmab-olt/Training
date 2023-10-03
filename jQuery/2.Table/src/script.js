@@ -159,12 +159,12 @@ $('#webForm').validate({
       date: "Please enter a valid date of birth (YYYY-MM-DD format).",
     },
     securitynumber: {
-      minlength: "This field should be atleast 7 characters long",
+      minlength: "This field should be at least 7 characters long",
       maxlength: "This field cannot exceed 9 characters",
       pattern: "Numbers and hyphens only"
     },
     address: {
-      pattern: "Alphanumeric caharcters with spaces, commas and hyphens only."
+      pattern: "Alphanumeric characters with spaces, commas and hyphens only."
     },
     number: {
       minlength: "Phone number should be at least 7 digits.",
@@ -196,7 +196,7 @@ $('#webForm').validate({
       pattern: "Alphanumeric characters with spaces, commas and dots only"
     },
     salary: {
-      minlength: "Salary should be atleat 3 characters long",
+      minlength: "Salary should be at leat 3 characters long",
       maxlength: "Salary should not exceed 10 characters"
     }
   },
