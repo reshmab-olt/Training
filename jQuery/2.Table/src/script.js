@@ -1,83 +1,5 @@
 generateEmployeeID();
-
-//Department validation
-$.validator.addMethod("validateDepartment", function (value, element) {
-  return value !== null && value.trim() !== "";
-}, "Please select a department.");
-
-//Check age is between 18-100 or not.
-$.validator.addMethod("validateAge", function (value, element) {
-  const birthdate = value;
-  const age = calculateAge(birthdate);
-
-  return age >= 18 && age <= 100;
-}, "Age must be between 18 and 100");
-
-//Validate salary length 
-$.validator.addMethod("validateSalary", function (value, element) {
-  var parts = value.split('.');
-  if (parts.length >= 2) {
-    return parts[0].length >= 3 && parts[0].length <= 10;
-  } else {
-    return value.length >= 3 && value.length <= 10;
-  }
-}, "Salary should be between 3 and 10 characters long");
-
-// To check the date is valid or not
-$.validator.addMethod("isValidDate", function (value, element) {
-
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-    return false;
-  }
-  const [year, month, day] = value.split('-').map(Number);
-  const date = new Date(year, month - 1, day);
-  return (
-    date.getFullYear() === year &&
-    date.getMonth() === month - 1 &&
-    date.getDate() === day
-  );
-}, "Please enter a valid date in YYYY-MM-DD format.");
-
-//Convert salary to decimal value
-function salToDecimal() {
-  const salaryInput = $('#salary');
-  const salaryValue = salaryInput.val().trim();
-  const dotCount = (salaryValue.match(/\./g) || []).length;
-
-  if (salaryValue !== '') {
-
-    const decimalSalary = parseFloat(salaryValue);
-    if (!isNaN(decimalSalary)) {
-      salaryInput.val(decimalSalary.toFixed(2));
-
-    }
-  }
-}
-
-//Generate random number between 1-10 on employee id field
-function generateEmployeeID() {
-  var employeeID = Math.floor(Math.random() * 10) + 1;
-  $('#emp').val(employeeID);
-}
-
-// To clear form 
-function clearForm() {
-  $('#webForm')[0].reset();
-  $('#webForm').validate().resetForm();
-  $('#webForm .error').removeClass('error');
-  generateEmployeeID();
-}
-
-//Calculate age based on date of birth
-function calculateAge(birthdate) {
-  const today = new Date();
-  const birthDate = new Date(birthdate);
-  const age = today.getFullYear() - birthDate.getFullYear();
-  if (today.getDate() < birthDate.getDate()) {
-    return age - 1;
-  }
-  return age;
-}
+const formDataArray = [];
 
 $('#webForm').validate({
   rules: {
@@ -121,7 +43,7 @@ $('#webForm').validate({
       required: true
     },
     department: {
-      validateDepartment: true
+      required: true,
     },
     job: {
       required: true,
@@ -196,7 +118,7 @@ $('#webForm').validate({
       pattern: "Alphanumeric characters with spaces, commas and dots only"
     },
     salary: {
-      minlength: "Salary should be at leat 3 characters long",
+      minlength: "Salary should be at least 3 characters long",
       maxlength: "Salary should not exceed 10 characters"
     }
   },
@@ -213,11 +135,83 @@ $('#webForm').validate({
 
 });
 
-var formDataArray = [];
+//Calculate age based on date of birth
+function calculateAge(birthdate) {
+  const today = new Date();
+  const birthDate = new Date(birthdate);
+  const age = today.getFullYear() - birthDate.getFullYear();
+  if (today.getDate() < birthDate.getDate()) {
+    return age - 1;
+  }
+  return age;
+}
+
+//Check age is between 18-100 or not.
+$.validator.addMethod("validateAge", function (value) {
+  const birthdate = value;
+  const age = calculateAge(birthdate);
+
+  return age >= 18 && age <= 100;
+}, "Age must be between 18 and 100");
+
+// To check the date is valid or not
+$.validator.addMethod("isValidDate", function (value) {
+
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return false;
+  }
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(year, month - 1, day);
+
+  return (
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day
+  );
+}, "Please enter a valid date in YYYY-MM-DD format.");
+
+// Validate salary length by splitting the decimal part
+$.validator.addMethod("validateSalary", function (value) {
+  const parts = value.split('.');
+  
+  if (parts.length >= 2) {
+    return parts[0].length >= 3 && parts[0].length <= 10;
+  } else {
+    return value.length >= 3 && value.length <= 10;
+  }
+}, "Salary should be between 3 and 10 characters long");
+
+//Convert salary to decimal value
+function salToDecimal() {
+  const salaryInput = $('#salary');
+  const salaryValue = salaryInput.val().trim();
+
+  if (salaryValue !== '') {
+    const decimalSalary = parseFloat(salaryValue);
+    if (!isNaN(decimalSalary)) {
+      salaryInput.val(decimalSalary.toFixed(2));
+
+    }
+  }
+}
+
+//Generate random number between 1-10 on employee id field
+function generateEmployeeID() {
+  const employeeID = Math.floor(Math.random() * 10) + 1;
+  $('#emp').val(employeeID);
+}
+
+// To clear form 
+function clearForm() {
+  $('#webForm')[0].reset();
+  $('#webForm').validate().resetForm();
+  $('#webForm .error').removeClass('error');
+  generateEmployeeID();
+}
 
 //To save form data 
 function saveFormData() {
-  var formData = {
+  let formData = {
     name: $('#name').val(),
     gender: $('input[name="gender"]:checked').val(),
     dob: $('#dob').val(),
@@ -238,8 +232,8 @@ function saveFormData() {
     notes: $('#notes').val(),
   };
 
-  var index = -1;
-  for (var i = 0; i < formDataArray.length; i++) {
+  let index = -1;
+  for (let i = 0; i < formDataArray.length; i++) {
     if (formDataArray[i].empid === formData.empid) {
       index = i;
       break;
@@ -255,20 +249,13 @@ function saveFormData() {
   $('#webForm')[0].reset();
 }
 
-$('#formDataBody td').addClass('word-wrap');
-
-function deleteFormData(index) {
-  formDataArray.splice(index, 1);
-  displayData();
-}
-
 //To display the saved data in the table
 function displayData() {
 
-  $('#formDataBody tbody').empty();
-  for (var i = 0; i < formDataArray.length; i++) {
-    var formData = formDataArray[i];
-    var newRow = $('<tr>');
+  $('table tbody').empty();
+  for (let i = 0; i < formDataArray.length; i++) {
+    const formData = formDataArray[i];
+    const newRow = $('<tr>');
     newRow.append($('<td>').text(formData.name));
     newRow.append($('<td>').text(formData.gender));
     newRow.append($('<td>').text(formData.dob));
@@ -283,20 +270,19 @@ function displayData() {
     newRow.append($('<td>').text(formData.salary));
     newRow.append($('<td>').text(formData.hobbies));
     newRow.append($('<td>').text(formData.notes));
-    var actionCell = $('<td>');
-    var editButton = $('<button>').text('Edit');
-    var deleteButton = $('<button>').text('Delete');
-    var editButton = $('<button>').text('Edit').addClass('edit-button');
-    var deleteButton = $('<button>').text('Delete').addClass('delete-button');
+    const actionCell = $('<td>');
+
+    let editButton = $('<button>').text('Edit').addClass('edit-button');
+    let deleteButton = $('<button>').text('Delete').addClass('delete-button');
     editButton.on('click', function () {
-      var indexToEdit = $(this).closest('tr').index();
+      const indexToEdit = $(this).closest('tr').index();
       editFormData(indexToEdit);
     });
 
     deleteButton.attr('id', 'deleteButton_' + i);
 
     deleteButton.on('click', function () {
-      var indexToDelete = this.id.split('_')[1];
+      const indexToDelete = this.id.split('_')[1];
       deleteFormData(indexToDelete);
     });
 
@@ -304,13 +290,13 @@ function displayData() {
     actionCell.append(deleteButton);
 
     newRow.append(actionCell);
-    $('#formDataBody tbody').append(newRow);
+    $('table tbody').append(newRow);
   }
 }
 
 //To edit the data 
 function editFormData(index) {
-  var formData = formDataArray[index];
+  const formData = formDataArray[index];
   $('#name').val(formData.name);
   $('input[name="gender"]').val([formData.gender]);
   $('#dob').val(formData.dob);
@@ -332,6 +318,12 @@ function editFormData(index) {
   $('#salary').val(formData.salary);
   $('#hobbies').val(formData.hobbies);
   $('#notes').val(formData.notes);
+}
+
+//To delete form data
+function deleteFormData(index) {
+  formDataArray.splice(index, 1);
+  displayData();
 }
 
 $('#clear').click(function () {

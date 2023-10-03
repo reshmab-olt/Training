@@ -25,11 +25,11 @@ $(document).ready(function() {
             display.val("Error");
         }
     });
-
     $("#dot").click(function() {
         var currentVal = display.val();
         if (currentVal.indexOf(".") === -1) {
             display.val(currentVal + ".");
         }
     });
+    
 });
