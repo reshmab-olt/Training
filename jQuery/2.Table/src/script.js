@@ -1,5 +1,7 @@
-generateEmployeeID();
+
 const formDataArray = [];
+$('#emp').val(generateEmployeeID());
+const tableBody = $('table tbody');
 
 $('#webForm').validate({
   rules: {
@@ -55,7 +57,8 @@ $('#webForm').validate({
       required: true,
       number: true,
       pattern: /^[0-9.]*$/,
-      validateSalary: true
+      minlength: 3,
+      maxlength: 10
     },
     hobbies: {
       required: true,
@@ -170,17 +173,6 @@ $.validator.addMethod("isValidDate", function (value) {
   );
 }, "Please enter a valid date in YYYY-MM-DD format.");
 
-// Validate salary length by splitting the decimal part
-$.validator.addMethod("validateSalary", function (value) {
-  const parts = value.split('.');
-  
-  if (parts.length >= 2) {
-    return parts[0].length >= 3 && parts[0].length <= 10;
-  } else {
-    return value.length >= 3 && value.length <= 10;
-  }
-}, "Salary should be between 3 and 10 characters long");
-
 //Convert salary to decimal value
 function salToDecimal() {
   const salaryInput = $('#salary');
@@ -197,8 +189,7 @@ function salToDecimal() {
 
 //Generate random number between 1-10 on employee id field
 function generateEmployeeID() {
-  const employeeID = Math.floor(Math.random() * 10) + 1;
-  $('#emp').val(employeeID);
+  return Math.floor(Math.random() * 10) + 1;
 }
 
 // To clear form 
@@ -206,124 +197,86 @@ function clearForm() {
   $('#webForm')[0].reset();
   $('#webForm').validate().resetForm();
   $('#webForm .error').removeClass('error');
-  generateEmployeeID();
+  $('#emp').val(generateEmployeeID());
 }
 
-//To save form data 
-function saveFormData() {
-  let formData = {
-    name: $('#name').val(),
-    gender: $('input[name="gender"]:checked').val(),
-    dob: $('#dob').val(),
-    securitynumber: $('#ssn').val(),
-    address: $('#address').val(),
-    phone: $('#number').val(),
-    email: $('#email').val(),
-    communication: $('input[name="communication[]"]:checked')
-      .map(function () {
-        return this.value;
-      })
-      .get(),
-    empid: $('#emp').val(),
-    job: $('#job').val(),
-    department: $('#department').val(),
-    salary: $('#salary').val(),
-    hobbies: $('#hobbies').val(),
-    notes: $('#notes').val(),
-  };
-
-  let index = -1;
-  for (let i = 0; i < formDataArray.length; i++) {
-    if (formDataArray[i].empid === formData.empid) {
-      index = i;
-      break;
-    }
+//To display data in table
+function displayData(formData) {
+  const newRow = $('<tr></tr>'); 
+  for (const key in formData) {
+      if (formData.hasOwnProperty(key)) {
+          const cell = $('<td></td>');
+              cell.text(formData[key]);
+          newRow.append(cell);
+      }
   }
-
-  if (index !== -1) {
-    formDataArray[index] = formData;
-  } else {
-    formDataArray.push(formData);
-  }
-
-  $('#webForm')[0].reset();
-}
-
-//To display the saved data in the table
-function displayData() {
-
-  $('table tbody').empty();
-  for (let i = 0; i < formDataArray.length; i++) {
-    const formData = formDataArray[i];
-    const newRow = $('<tr>');
-    newRow.append($('<td>').text(formData.name));
-    newRow.append($('<td>').text(formData.gender));
-    newRow.append($('<td>').text(formData.dob));
-    newRow.append($('<td>').text(formData.securitynumber));
-    newRow.append($('<td>').text(formData.address));
-    newRow.append($('<td>').text(formData.phone));
-    newRow.append($('<td>').text(formData.email));
-    newRow.append($('<td>').text(formData.communication.join(', ')));
-    newRow.append($('<td>').text(formData.empid));
-    newRow.append($('<td>').text(formData.job));
-    newRow.append($('<td>').text(formData.department));
-    newRow.append($('<td>').text(formData.salary));
-    newRow.append($('<td>').text(formData.hobbies));
-    newRow.append($('<td>').text(formData.notes));
-    const actionCell = $('<td>');
-
-    let editButton = $('<button>').text('Edit').addClass('edit-button');
-    let deleteButton = $('<button>').text('Delete').addClass('delete-button');
-    editButton.on('click', function () {
-      const indexToEdit = $(this).closest('tr').index();
-      editFormData(indexToEdit);
-    });
-
-    deleteButton.attr('id', 'deleteButton_' + i);
-
-    deleteButton.on('click', function () {
-      const indexToDelete = this.id.split('_')[1];
-      deleteFormData(indexToDelete);
-    });
-
-    actionCell.append(editButton);
-    actionCell.append(deleteButton);
-
-    newRow.append(actionCell);
-    $('table tbody').append(newRow);
-  }
-}
-
-//To edit the data 
-function editFormData(index) {
-  const formData = formDataArray[index];
-  $('#name').val(formData.name);
-  $('input[name="gender"]').val([formData.gender]);
-  $('#dob').val(formData.dob);
-  $('#ssn').val(formData.securitynumber);
-  $('#address').val(formData.address);
-  $('#number').val(formData.phone);
-  $('#email').val(formData.email);
-  $('input[name="communication[]"]').each(function () {
-    if (formData.communication.includes($(this).val())) {
-      $(this).prop('checked', true);
-    } else {
-      $(this).prop('checked', false);
-    }
+  const actionCell = $('<td></td>');
+  newRow.append(actionCell);
+  let editButton = $('<button>').text('Edit').addClass('edit-button');
+  let deleteButton = $('<button>').text('Delete').addClass('delete-button');
+  actionCell.append(editButton);
+  actionCell.append(deleteButton);
+  deleteButton.on('click', function () {
+      deleteRow(newRow);
   });
 
-  $('#emp').val(formData.empid);
-  $('#job').val(formData.job);
-  $('#department').val(formData.department);
-  $('#salary').val(formData.salary);
-  $('#hobbies').val(formData.hobbies);
-  $('#notes').val(formData.notes);
+  editButton.on('click', function () {
+      updateData(newRow);
+  });
+  tableBody.append(newRow);
 }
 
-//To delete form data
-function deleteFormData(index) {
+//To update data in table
+function updateData(row) {
+  const index = tableBody.children().index(row);
+  const formData = formDataArray[index];
+
+    $('#name').val(formData.name);
+    $('input[name="gender"]').prop('checked', false); 
+    $(`input[name="gender"][value="${formData.gender}"]`).prop('checked', true);
+    $('#dob').val(formData.dob);
+    $('#ssn').val(formData.securitynumber);
+    $('#address').val(formData.address);
+    $('#number').val(formData.phone);
+    $('#email').val(formData.email);
+    $('input[name="communication[]"]').prop('checked', false); 
+    formData.communication.forEach((communicationMethod) => {
+      $(`input[name="communication[]"][value="${communicationMethod}"]`).prop('checked', true);
+    });
+    $('#emp').val(formData.empid);
+    $('#job').val(formData.job);
+    $('#department').val(formData.department);
+    $('#salary').val(formData.salary);
+    $('#hobbies').val(formData.hobbies);
+    $('#notes').val(formData.notes);
+  
+  formData.name = $('#name').val();
+  formData.gender = $('input[name="gender"]:checked').val();
+  formData.dob = $('#dob').val();
+  formData.securitynumber = $('#ssn').val();
+  formData.address = $('#address').val();
+  formData.phone = $('#number').val();
+  formData.email = $('#email').val();
+  formData.communication = $('input[name="communication[]"]:checked')
+    .map(function () {
+      return this.value;
+    })
+    .get();
+  formData.empid = $('#emp').val();
+  formData.job = $('#job').val();
+  formData.department = $('#department').val();
+  formData.salary = $('#salary').val();
+  formData.hobbies = $('#hobbies').val();
+  formData.notes = $('#notes').val();
+
+  deleteRow(row);
+}
+
+//To delete table row
+function deleteRow(row) {
+  const index = tableBody.children().index(row);
   formDataArray.splice(index, 1);
-  displayData();
+  row.remove();
 }
 
 $('#clear').click(function () {
@@ -338,8 +291,29 @@ $('#webForm').submit(function (event) {
   event.preventDefault();
 
   if ($('#webForm').valid()) {
-    saveFormData();
-    displayData();
-    generateEmployeeID();
+    let formData = {
+      name: $('#name').val(),
+      gender: $('input[name="gender"]:checked').val(),
+      dob: $('#dob').val(),
+      securitynumber: $('#ssn').val(),
+      address: $('#address').val(),
+      phone: $('#number').val(),
+      email: $('#email').val(),
+      communication: $('input[name="communication[]"]:checked')
+        .map(function () {
+          return this.value;
+        })
+        .get(),
+      empid: $('#emp').val(),
+      job: $('#job').val(),
+      department: $('#department').val(),
+      salary: $('#salary').val(),
+      hobbies: $('#hobbies').val(),
+      notes: $('#notes').val(),
+    };
+    formDataArray.push(formData);
+    displayData(formData);
+    $('#webForm')[0].reset();
+    $('#emp').val(generateEmployeeID());
   }
 });
