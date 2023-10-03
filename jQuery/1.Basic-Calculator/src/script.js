@@ -1,15 +1,15 @@
 $(document).ready(function() {
-    var display = $("#display");
-    var clearButton = $("#clear");
-    var equalButton = $("#equal");
+    let display = $("#display");
+    const clearButton = $("#clear");
+    const equalButton = $("#equal");
 
     clearButton.click(function() {
         display.val("");
     });
 
     $(".btn-secondary").not(equalButton).not(clearButton).click(function() {
-        var currentVal = display.val();
-        var buttonVal = $(this).text();
+        let currentVal = display.val();
+        let buttonVal = $(this).text();
 
         if (/[-+*/]$/.test(currentVal) && /[-+*/]/.test(buttonVal)) {
             return; 
@@ -19,14 +19,14 @@ $(document).ready(function() {
 
     equalButton.click(function() {
         try {
-            var result = math.evaluate(display.val());
+            let result = math.evaluate(display.val());
             display.val(result.toString());
         } catch (error) {
             display.val("Error");
         }
     });
     $("#dot").click(function() {
-        var currentVal = display.val();
+        var currentVal = display.val();                           
         if (currentVal.indexOf(".") === -1) {
             display.val(currentVal + ".");
         }
