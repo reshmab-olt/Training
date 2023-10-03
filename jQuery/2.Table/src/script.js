@@ -62,9 +62,9 @@ function generateEmployeeID() {
 
 // To clear form 
 function clearForm() {
-  $('#myForm')[0].reset();
-  $('#myForm').validate().resetForm();
-  $('#myForm .error').removeClass('error');
+  $('#webForm')[0].reset();
+  $('#webForm').validate().resetForm();
+  $('#webForm .error').removeClass('error');
   generateEmployeeID();
 }
 
