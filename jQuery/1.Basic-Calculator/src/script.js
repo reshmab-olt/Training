@@ -1,35 +1,38 @@
-$(document).ready(function() {
+
     let display = $("#display");
     const clearButton = $("#clear");
     const equalButton = $("#equal");
 
-    clearButton.click(function() {
-        display.val("");
-    });
+    function calculateResult(){
 
-    $(".btn-secondary").not(equalButton).not(clearButton).click(function() {
-        let currentVal = display.val();
-        let buttonVal = $(this).text();
-
-        if (/[-+*/]$/.test(currentVal) && /[-+*/]/.test(buttonVal)) {
-            return; 
-        }
-        display.val(currentVal + buttonVal);
-    });
-
-    equalButton.click(function() {
         try {
             let result = math.evaluate(display.val());
+            if (!isNaN(result) && result % 1 !== 0) {
+                result = result.toFixed(14);
+                result = result.replace(/(\.[0-9]*[1-9])0+$/, "$1");
+            }
             display.val(result.toString());
         } catch (error) {
             display.val("Error");
         }
-    });
-    $("#dot").click(function() {
-        var currentVal = display.val();                           
-        if (currentVal.indexOf(".") === -1) {
-            display.val(currentVal + ".");
+    }
+
+    $(".input").click(function() {
+
+        let currentVal = display.val();
+        let buttonVal = $(this).text();
+
+        if (buttonVal === "." && currentVal.endsWith(".")) {
+            return;
+        } else {
+            display.val(currentVal + buttonVal);
         }
     });
-    
-});
+
+    equalButton.click(function() {
+        calculateResult();
+     });
+     
+     clearButton.click(function() {
+        display.val("");
+    });
