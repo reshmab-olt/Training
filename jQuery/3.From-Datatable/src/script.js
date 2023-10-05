@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var dataTable = $('table').DataTable({
+    let dataTable = $('table').DataTable({
         columns: [
             { data: 'place_of_publication' },
             { data: 'start_year' },
@@ -28,9 +28,10 @@ $(document).ready(function () {
     });
 
     $('#searchButton').on('click', function () {
-        var searchId = $('#searchId').val();
-
-        dataTable.clear().draw();
+        let searchInputValue = $('#searchInput').val();
+        if (searchInputValue === '') {
+            return;
+        }
 
         $.ajax({
             url: "https://chroniclingamerica.loc.gov/search/titles/results/?terms=oakland&format=json&page=5",
@@ -38,8 +39,7 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 var filteredData = data.items.filter(function (item) {
-                    return (searchId === "" || item.id.includes(searchId) || item.type.includes(searchId));
-                       
+                    return (item.id.includes(searchInputValue) || item.end_year.toString().includes(searchInputValue));      
                 });
 
                 dataTable.rows.add(filteredData).draw();
