@@ -9,12 +9,14 @@
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="m-3">
 <div>
-    <label for="searchId">Search ID:</label>
-    <input type="text" id="searchId" placeholder="Enter ID">
-    <button id="searchButton">Search</button>
+    <label for="searchId">Search</label>
+    <input type="text" id="searchId">
+    <button class="btn btn-primary p-1" id="searchButton">Submit</button>
 </div>
 
     <table class=" table display table-bordered table-striped table-hover">
@@ -49,6 +51,7 @@
                   
         </tbody>
     </table>
+    </div>
    <script src="script.js"></script>
 </body>
 </html>
