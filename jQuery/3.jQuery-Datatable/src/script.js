@@ -27,22 +27,23 @@ $(document).ready(function () {
         ]
     });
 
-    $('#searchButton').on('click', function () {
+    $('#submitButton').on('click', function () {
         let searchInputValue = $('#searchInput').val();
         if (searchInputValue === '') {
             return;
         }
-
+      
         $.ajax({
             url: "https://chroniclingamerica.loc.gov/search/titles/results/?terms=oakland&format=json&page=5",
             type: "GET",
             dataType: "json",
             success: function (data) {
                 var filteredData = data.items.filter(function (item) {
-                    return (item.id.includes(searchInputValue) || item.end_year.toString().includes(searchInputValue));      
+                    return (item.id.includes(searchInputValue) || item.start_year.toString().includes(searchInputValue));      
                 });
 
                 dataTable.rows.add(filteredData).draw();
+                
             },
             error: function (error) {
                 console.log('Error:', error);
