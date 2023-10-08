@@ -93,7 +93,6 @@ $('#searchForm').submit(function (e) {
                     item.start_year,
                     item.publisher,
                     item.frequency,
-                    item.url,
                     item.id,
                     item.subject,
                     item.city,
@@ -102,12 +101,13 @@ $('#searchForm').submit(function (e) {
                     item.lccn,
                     item.state,
                     item.country,
-                    item.oclc
                 ]);
             });
 
             dataTable.draw();
             updateSerialNumbers();
+            $('#searchInputLccn').val('');
+            $('#searchInputFrequency').val('');
         },
         error: function () {
             console.error('Error fetching data.');
