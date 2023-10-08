@@ -1,37 +1,37 @@
 
-    var dataTable = $('#dataTable').DataTable({
+    let dataTable = $('#dataTable').DataTable({
         "paging": true, 
         "pageLength": 10,
         "dom": 'lrtip',
         "pagingType": "full_numbers" 
     });
 
-    var currentPage = 1;
-    var itemsPerPage = 10;
-    var totalItems = 0;
+    let currentPage = 1;
+    let itemsPerPage = 10;
+    let totalItems = 0;
 
     
     function updateTable(page) {
-        var startIndex = (page - 1) * itemsPerPage;
-        var endIndex = startIndex + itemsPerPage;
+        let startIndex = (page - 1) * itemsPerPage;
+        let endIndex = startIndex + itemsPerPage;
         dataTable.page(startIndex / itemsPerPage).draw(false);
         $('#currentPage').text(page);
         currentPage = page;
 
-        var totalPage = Math.ceil(dataTable.rows().count() / itemsPerPage);
+        let totalPage = Math.ceil(dataTable.rows().count() / itemsPerPage);
         $('#prevPage').prop('disabled', currentPage === 1);
         $('#nextPage').prop('disabled', currentPage === totalPage);
     }
 
     $('#nextPage').click(function () {
-        var totalPage = Math.ceil(dataTable.rows().count() / itemsPerPage);
+        let totalPage = Math.ceil(dataTable.rows().count() / itemsPerPage);
         if (currentPage < totalPage) {
             currentPage++;
             updateTable(currentPage);
         }
     });
     $('.page-button').click(function () {
-        var page = parseInt($(this).text());
+        let page = parseInt($(this).text());
         updateTable(page);
     });
 
@@ -43,12 +43,12 @@
     });
 
     $('.page-button').click(function () {
-        var page = parseInt($(this).text());
+        let page = parseInt($(this).text());
         updateTable(page);
     });
     $('#searchForm').submit(function (e) {
         e.preventDefault();
-        var searchValue = $('#searchInput').val();
+        let searchValue = $('#searchInput').val();
         $('#paginationContainer').show();
         $.ajax({
             url: 'https://chroniclingamerica.loc.gov/search/titles/results/?terms=oakland&format=json&lccn=' + searchValue,
