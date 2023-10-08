@@ -9,3 +9,4 @@
 ### jQuery
 * [Basic-Calculator](https://reshmab-olt.github.io/Training/jQuery/1.Basic-Calculator/src/index.html)
 * [Form-Table](https://reshmab-olt.github.io/Training/jQuery/2.Table/src/index.html)
+* [Datatable](https://reshmab-olt.github.io/Training/jQuery/3.jQuery-Datatable/src/index.html)
