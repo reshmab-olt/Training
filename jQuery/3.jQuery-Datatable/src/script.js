@@ -26,6 +26,15 @@ function updateTable(page) {
     updateSerialNumbers();
 }
 
+function updateSerialNumbers() {
+    dataTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
+        let data = this.data();
+
+        data[0] = rowIdx + 1;
+        this.data(data);
+    });
+}
+
 $('#nextPage').click(function () {
     let totalPage = Math.ceil(dataTable.rows().count() / itemsPerPage);
 
@@ -46,15 +55,6 @@ $('#prevPage').click(function () {
         updateTable(currentPage);
     }
 });
-
-function updateSerialNumbers() {
-    dataTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
-        let data = this.data();
-
-        data[0] = rowIdx + 1;
-        this.data(data);
-    });
-}
 
 $('#searchForm').submit(function (e) {
     e.preventDefault();
