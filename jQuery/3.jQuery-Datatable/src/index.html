@@ -19,18 +19,18 @@
 </head>
 <div class="m-3">
     <form id="searchForm">
-        <input type="text" id="searchInput" placeholder="Search lccn">
+        <input type="text" id="searchInputLccn" placeholder="Search LCCN" class="mb-2 pt-1">
+        <input type="text" id="searchInputFrequency" placeholder="Search Frequency" class="mb-2 pt-1">
         <button type="submit" class="btn btn-primary p-1 mb-2" id="submitButton">Submit</button>
     </form>
     <div class="table-responsive">
         <table class="table display table-bordered table-striped table-hover" id="dataTable">
             <thead class="thead-dark">
                 <tr>
+                    <th>Sl No</th>
                     <th>Place Of Publication</th>
                     <th>Start Year</th>
                     <th>Publisher</th>
-                    <th>Country</th>
-                    <th>Edition</th>
                     <th>Frequency</th>
                     <th>URL</th>
                     <th>ID</th>
@@ -38,16 +38,9 @@
                     <th>City</th>
                     <th>Language</th>
                     <th>Title</th>
-                    <th>Holding Type</th>
-                    <th>End Year</th>
-                    <th>Alt Title</th>
-                    <th>Note</th>
                     <th>Lccn</th>
                     <th>State</th>
-                    <th>Place</th>
                     <th>Country</th>
-                    <th>Type</th>
-                    <th>Title Normal</th>
                     <th>OCLS</th>
                 </tr>
             </thead>
