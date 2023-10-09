@@ -63,12 +63,6 @@ $('#searchForm').submit(function (e) {
     let searchValueFrequency = $('#searchInputFrequency').val();
     let searchUrl = 'https://chroniclingamerica.loc.gov/search/titles/results/?format=json';
 
-    if (!searchValueLccn && !searchValueFrequency) {
-        $('#paginationContainer').hide();
-        dataTable.clear().draw();
-        return;
-    }
-
     if (searchValueLccn) {
         searchUrl += '&lccn=' + encodeURIComponent(searchValueLccn);
     }
