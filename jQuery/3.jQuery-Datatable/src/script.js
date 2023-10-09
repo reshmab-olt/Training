@@ -1,45 +1,18 @@
 $(document).ready(function () {
-    let dataTable = $('table').DataTable({
-        columns: [
-            { data: 'place_of_publication' },
-            { data: 'start_year' },
-            { data: 'publisher' },
-            { data: 'county' },
-            { data: 'edition' },
-            { data: 'frequency' },
-            { data: 'url' },
-            { data: 'id' },
-            { data: 'subject' },
-            { data: 'city' },
-            { data: 'language' },
-            { data: 'title' },
-            { data: 'holding_type' },
-            { data: 'end_year' },
-            { data: 'alt_title' },
-            { data: 'note' },
-            { data: 'lccn' },
-            { data: 'state' },
-            { data: 'place' },
-            { data: 'country' },
-            { data: 'type' },
-            { data: 'title_normal' },
-            { data: 'oclc' },
-        ]
-    });
-
-    $('#submitButton').on('click', function () {
-        let searchInputValue = $('#searchInput').val();
-        if (searchInputValue === '') {
-            return;
-        }
-      
+    var table = $("table").DataTable();
+  
+    $("#submitButton").click(function (e) {
+        e.preventDefault();
+        var searchTerm = $("#searchInput").val();
+  
         $.ajax({
             url: "https://chroniclingamerica.loc.gov/search/titles/results/?terms=oakland&format=json&page=5",
             type: "GET",
             dataType: "json",
+            data: { lccn: searchTerm },
             success: function (data) {
                 var filteredData = data.items.filter(function (item) {
-                    return (item.id.includes(searchInputValue) || item.start_year.toString().includes(searchInputValue));      
+                    return (item.lccn.includes(searchTerm) );      
                 });
 
                 dataTable.rows.add(filteredData).draw();
@@ -50,4 +23,5 @@ $(document).ready(function () {
             }
         });
     });
-});
+  });
+  
