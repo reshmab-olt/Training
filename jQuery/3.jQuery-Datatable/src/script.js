@@ -92,14 +92,11 @@ $('#searchForm').submit((e) => {
           item.start_year,
           item.publisher,
           item.frequency,
-          item.id,
-          item.subject,
           item.city,
           item.language,
           item.title,
           item.lccn,
           item.state,
-          item.country,
         ]);
       });
 
