@@ -17,48 +17,54 @@
 
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-<div class="m-3">
-    <form id="searchForm">
-        <input type="text" id="searchInputLccn" placeholder="Search LCCN" class="mb-2 pt-1">
-        <input type="text" id="searchInputFrequency" placeholder="Search Frequency" class="mb-2 pt-1">
-        <button type="submit" class="btn btn-primary p-1 mb-2" id="submitButton">Submit</button>
-    </form>
-    <div class="table-responsive">
-        <table class="table display table-bordered table-striped table-hover" id="dataTable">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Sl No</th>
-                    <th>Place Of Publication</th>
-                    <th>Start Year</th>
-                    <th>Publisher</th>
-                    <th>Frequency</th>
-                    <th>ID</th>
-                    <th>Subject</th>
-                    <th>City</th>
-                    <th>Language</th>
-                    <th>Title</th>
-                    <th>Lccn</th>
-                    <th>State</th>
-                    <th>Country</th>
-                </tr>
-            </thead>
-            <tbody>
 
-            </tbody>
-        </table>
+<body>
+    <div class="m-3">
+        <form class="form-inline" id="searchForm">
+            <input type="text" id="searchInputLccn" placeholder="Search LCCN" class="form-control mb-2 pt-1 mr-2">
+            <input type="text" id="searchInputFrequency" placeholder="Search Frequency"
+                class="form-control mb-2 mr-2 pt-1">
+            <select name="terms" id="terms" class="p-1 mb-2 form-control mr-2">
+                <option value="">Search Terms</option>
+                <option value="daily">Daily</option>
+                <option value="oakland">Oakland</option>
+                <option value="concord">Concord</option>
+                <option value="constitution">Constitution</option>
+            </select>
+            <button type="submit" class="btn btn-primary p-1 mb-2" id="submitButton">Submit</button>
+        </form>
+        <div class="table-responsive">
+            <table class="table display table-bordered table-striped table-hover" id="dataTable">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Sl No</th>
+                        <th>Place Of Publication</th>
+                        <th>Start Year</th>
+                        <th>Publisher</th>
+                        <th>Frequency</th>
+                        <th>City</th>
+                        <th>Language</th>
+                        <th>Title</th>
+                        <th>Lccn</th>
+                        <th>State</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <div id="paginationContainer" class="mt-3">
+            <button id="prevPage" class="btn btn-secondary p-1">Previous</button>
+            <button class="btn btn-primary page-button px-2 py-0">1</button>
+            <button class="btn btn-primary page-button px-2 py-0">2</button>
+            <button class="btn btn-primary page-button px-2 py-0">3</button>
+            <button class="btn btn-primary page-button px-2 py-0">4</button>
+            <button class="btn btn-primary page-button px-2 py-0">5</button>
+            <button id="nextPage" class="btn btn-secondary p-1">Next</button>
+        </div>
     </div>
-    <div id="paginationContainer" class="mt-3">
-        <button id="prevPage" class="btn btn-secondary p-1">Previous</button>
-        <button class="btn btn-primary page-button px-2 py-0">1</button>
-        <button class="btn btn-primary page-button px-2 py-0">2</button>
-        <button class="btn btn-primary page-button px-2 py-0">3</button>
-        <button class="btn btn-primary page-button px-2 py-0">4</button>
-        <button class="btn btn-primary page-button px-2 py-0">5</button>
-        <button id="nextPage" class="btn btn-secondary p-1">Next</button>
-    </div>
-</div>
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

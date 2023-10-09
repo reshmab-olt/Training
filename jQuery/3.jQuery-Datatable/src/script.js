@@ -1,116 +1,117 @@
-let dataTable;
-
-dataTable = $('#dataTable').DataTable({
-    "paging": true,
-    "pageLength": 10,
-    "dom": 'lrtip',
-    "pagingType": "full_numbers"
-});
+const dataTable = $('#dataTable').DataTable();
 
 let currentPage = 1;
 let itemsPerPage = 10;
-let totalItems = 0;
-
-function updateTable(page) {
-    let startIndex = (page - 1) * itemsPerPage;
-    let endIndex = startIndex + itemsPerPage;
-
-    dataTable.page(startIndex / itemsPerPage).draw(false);
-    $('#currentPage').text(page);
-    currentPage = page;
-
-    let totalPage = Math.ceil(dataTable.rows().count() / itemsPerPage);
-
-    $('#prevPage').prop('disabled', currentPage === 1);
-    $('#nextPage').prop('disabled', currentPage === totalPage);
-    updateSerialNumbers();
-}
 
 function updateSerialNumbers() {
-    dataTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
-        let data = this.data();
+  dataTable.rows().every(function serialNumber(rowIdx) {
+    const data = this.data();
 
-        data[0] = rowIdx + 1;
-        this.data(data);
-    });
+    data[0] = rowIdx + 1;
+    this.data(data);
+    return 0;
+  });
 }
 
-$('#nextPage').click(function () {
-    let totalPage = Math.ceil(dataTable.rows().count() / itemsPerPage);
+function updateTable(page) {
+  const startIndex = (page - 1) * itemsPerPage;
 
-    if (currentPage < totalPage) {
-        currentPage++;
-        updateTable(currentPage);
-    }
+  dataTable.page(startIndex / itemsPerPage).draw(false);
+  $('#currentPage').text(page);
+  currentPage = page;
+
+  const totalPage = Math.ceil(dataTable.rows().count() / itemsPerPage);
+
+  if (totalPage <= 1 || dataTable.rows().count() <= itemsPerPage) {
+    $('#paginationContainer').hide();
+  } else {
+    $('#paginationContainer').show();
+  }
+
+  $('#prevPage').prop('disabled', currentPage === 1);
+  $('#nextPage').prop('disabled', currentPage === totalPage);
+  updateSerialNumbers();
+}
+
+$('#nextPage').click(() => {
+  const totalPage = Math.ceil(dataTable.rows().count() / itemsPerPage);
+
+  if (currentPage < totalPage) {
+    currentPage++;
+    updateTable(currentPage);
+  }
 });
 $('.page-button').click(function () {
-    let page = parseInt($(this).text());
+  const page = parseInt($(this).text());
 
-    updateTable(page);
+  updateTable(page);
 });
 
-$('#prevPage').click(function () {
-    if (currentPage > 1) {
-        currentPage--;
-        updateTable(currentPage);
-    }
+$('#prevPage').click(() => {
+  if (currentPage > 1) {
+    currentPage--;
+    updateTable(currentPage);
+  }
 });
 
-$('#searchForm').submit(function (e) {
-    e.preventDefault();
+$('#searchForm').submit((e) => {
+  e.preventDefault();
 
-    let searchValueLccn = $('#searchInputLccn').val();
-    let searchValueFrequency = $('#searchInputFrequency').val();
-    let searchUrl = 'https://chroniclingamerica.loc.gov/search/titles/results/?format=json';
+  const searchValueLccn = $('#searchInputLccn').val();
+  const searchValueFrequency = $('#searchInputFrequency').val();
+  const searchValueTerm = $('#terms').val();
+  let searchUrl = 'https://chroniclingamerica.loc.gov/search/titles/results/?format=json';
 
-    if (!searchValueLccn && !searchValueFrequency) {
+  if (searchValueLccn) {
+    searchUrl += `&lccn=${encodeURIComponent(searchValueLccn)}`;
+  }
+
+  if (searchValueFrequency) {
+    searchUrl += `&frequency=${encodeURIComponent(searchValueFrequency)}`;
+  }
+
+  if (searchValueTerm) {
+    searchUrl += `&terms=${encodeURIComponent(searchValueTerm)}`;
+  }
+
+  itemsPerPage = 10;
+
+  $('#paginationContainer').show();
+
+  $.ajax({
+    url: searchUrl,
+    type: 'GET',
+    dataType: 'json',
+    success(data) {
+      dataTable.clear().draw();
+
+      $.each(data.items, (index, item) => {
+        dataTable.row.add([
+          index + 1,
+          item.place_of_publication,
+          item.start_year,
+          item.publisher,
+          item.frequency,
+          item.city,
+          item.language,
+          item.title,
+          item.lccn,
+          item.state,
+        ]);
+      });
+
+      dataTable.draw();
+      updateSerialNumbers();
+      $('#searchInputLccn').val('');
+      $('#searchInputFrequency').val('');
+      $('#terms').val('');
+
+      if (dataTable.rows().count() <= itemsPerPage) {
         $('#paginationContainer').hide();
-        dataTable.clear().draw();
-        return;
-    }
-
-    if (searchValueLccn) {
-        searchUrl += '&lccn=' + encodeURIComponent(searchValueLccn);
-    }
-
-    if (searchValueFrequency) {
-        searchUrl += '&frequency=' + encodeURIComponent(searchValueFrequency);
-    }
-
-    $('#paginationContainer').show();
-
-    $.ajax({
-        url: searchUrl,
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            dataTable.clear().draw();
-
-            $.each(data.items, function (index, item) {
-                dataTable.row.add([
-                    index + 1,
-                    item.place_of_publication,
-                    item.start_year,
-                    item.publisher,
-                    item.frequency,
-                    item.id,
-                    item.subject,
-                    item.city,
-                    item.language,
-                    item.title,
-                    item.lccn,
-                    item.state,
-                    item.country,
-                ]);
-            });
-
-            dataTable.draw();
-            updateSerialNumbers();
-            $('#searchInputLccn').val('');
-            $('#searchInputFrequency').val('');
-        },
-        error: function () {
-            console.error('Error fetching data.');
-        }
-    });
+      }
+    },
+    error() {
+      console.error('Error fetching data.');
+    },
+  });
 });
