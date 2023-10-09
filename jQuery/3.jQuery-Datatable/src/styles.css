@@ -5,7 +5,25 @@ body{
 input{
     border-radius: 4px;
 }
-#DataTables_Table_0_filter{
+
+#dataTable_filter{
     display: none;
 }
+<<<<<<< HEAD
  
+=======
+
+#dataTable_length{
+    display: none;
+} 
+
+#dataTable_paginate{
+    display: none;
+}
+
+#paginationContainer{
+    display: none;
+}
+
+
+>>>>>>> 81ee59a281e9014f8f793ac498afedf588934026
