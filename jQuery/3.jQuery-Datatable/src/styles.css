@@ -1,9 +1,15 @@
 body{
-    background-color: rgb(224, 236, 243);
+    background-color: #e0ecf3;
 }
 
 input{
     border-radius: 4px;
+}
+
+select{
+    border-radius: 4px;
+    border-color: rgb(199, 196, 196);
+    width:200px;
 }
 
 #dataTable_filter{
@@ -12,7 +18,7 @@ input{
 
 #dataTable_length{
     display: none;
-} 
+}
 
 #dataTable_paginate{
     display: none;
@@ -21,5 +27,3 @@ input{
 #paginationContainer{
     display: none;
 }
-
-
