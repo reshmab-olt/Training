@@ -27,3 +27,14 @@ select{
 #paginationContainer{
     display: none;
 }
+
+.page-button.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.disabled-button {
+    background-color: #4f0909;
+    color: #999; 
+    cursor: not-allowed; 
+}
