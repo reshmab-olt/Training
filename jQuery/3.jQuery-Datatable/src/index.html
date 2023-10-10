@@ -14,6 +14,11 @@
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js">
     </script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
 
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -21,16 +26,17 @@
 <body>
     <div class="m-3">
         <form class="form-inline" id="searchForm">
-            <input type="text" id="searchInputLccn" placeholder="Search LCCN" class="form-control mb-2 pt-1 mr-2">
-            <input type="text" id="searchInputFrequency" placeholder="Search Frequency"
-                class="form-control mb-2 mr-2 pt-1">
             <select name="terms" id="terms" class="p-1 mb-2 form-control mr-2">
                 <option value="">Search Terms</option>
                 <option value="daily">Daily</option>
-                <option value="oakland">Oakland</option>
+                <option value="oakland" selected>Oakland</option>
                 <option value="concord">Concord</option>
                 <option value="constitution">Constitution</option>
             </select>
+            <input type="text" id="searchInputLccn" placeholder="Search LCCN" class="form-control mb-2 pt-1 mr-2">
+            <input type="text" id="searchInputFrequency" placeholder="Search Frequency"
+                class="form-control mb-2 mr-2 pt-1">
+            
             <button type="submit" class="btn btn-primary p-1 mb-2" id="submitButton">Submit</button>
         </form>
         <div class="table-responsive">
@@ -54,16 +60,19 @@
                 </tbody>
             </table>
         </div>
-        <div id="paginationContainer" class="mt-3">
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" href="#" id="prevPage">Previous</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="#" id="nextPage">Next</a>
-              </li>
-            </ul>
-          </div>
+        <div id="customPagination" class="mt-4">
+            <button id="previousPage">Previous</button>
+            <button id="oneButton" class="page-button">1</button>
+            <button id="twoButton" class="page-button">2</button>
+            <button id="threeButton" class="page-button">3</button>
+            <button id="fourButton" class="page-button">4</button>
+            <button id="fiveButton" class="page-button">5</button>
+            <button id="sixButton" class="page-button">6</button>
+            <button id="sevenButton" class="page-button">7</button>
+            <button id="eightButton" class="page-button">8</button>
+            <button id="nextPage">Next</button>
+        </div>
+        
           
     </div>
     <script src="script.js"></script>

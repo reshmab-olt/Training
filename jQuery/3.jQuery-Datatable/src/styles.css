@@ -24,17 +24,34 @@ select{
     display: none;
 }
 
-#paginationContainer{
+#customPagination{
     display: none;
 }
 
-.page-button.active {
-    background-color: #007bff;
-    color: #fff;
+#dataTable_info{
+    display: none;
+}
+
+.page-button {
+    border-radius: 4px;
+}
+
+.page-button:focus {
+   background-color: rgb(10, 106, 216);
 }
 
 .disabled-button {
     background-color: #4f0909;
     color: #999; 
     cursor: not-allowed; 
+}
+
+.dt-buttons{
+    width:fit-content;
+   margin-left: 1175px;
+   margin-bottom: 10px;
+}
+.dt-button{
+    background-color: rgb(241, 250, 253);
+   border-radius: 4px;
 }

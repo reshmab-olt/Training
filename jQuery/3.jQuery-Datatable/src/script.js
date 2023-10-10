@@ -1,127 +1,51 @@
-const itemsPerPage = 7;
+
 let currentPage = 1;
-
+const rowsPerPage = 50; 
 const dataTable = $('#dataTable').DataTable({
-    paging: true,
-    pageLength: itemsPerPage,
+    paging: false,
+    dom: 'Bfrtip', // Include the 'B' for Buttons
+    buttons: [
+        'excelHtml5',
+        'csvHtml5',
+        'pdfHtml5'
+    ]
 });
-
-function updateDataTable() {
-    dataTable.page(currentPage - 1).draw(false);
-}
-
-function getTotalPages() {
-    return Math.ceil(dataTable.rows().count() / itemsPerPage);
-}
 
 function updateSerialNumbers() {
     dataTable.rows().every(function serialNumber(rowIdx) {
         const data = this.data();
-
-        data[0] = rowIdx + 1;
+        data[0] = rowIdx + 1 + (currentPage - 1) * rowsPerPage;
         this.data(data);
         return 0;
     });
 }
 
-function updatePaginationControls() {
-    const totalPages = getTotalPages();
-
-    const paginationContainer = $('#paginationContainer');
-
-    paginationContainer.empty();
-
-    const prevButton = $('<button>')
-        .addClass('page-button')
-        .text('Previous')
-        .click(function () {
-            if (currentPage > 1) {
-                currentPage--;
-                updateDataTable();
-                updatePaginationControls();
-            }
-        });
-
-        if (currentPage === 1) {
-            prevButton.prop('disabled', true);
-        }  
-
-    paginationContainer.append(prevButton);
-
-    for (let i = 1; i <= totalPages; i++) {
-        const pageButton = $('<button>')
-            .addClass('page-button')
-            .text(i)
-            .click(function () {
-                currentPage = i;
-                updateDataTable();
-                updatePaginationControls();
-            });
-
-        if (i === currentPage) {
-            pageButton.addClass('active');
-        }
-
-        paginationContainer.append(pageButton);
-    }
-
-    const nextButton = $('<button>')
-        .addClass('page-button')
-        .text('Next')
-        .click(function () {
-            if (currentPage < totalPages) {
-                currentPage++;
-                updateDataTable();
-                updatePaginationControls();
-            }
-        });
-        if (currentPage === totalPages) {
-            nextButton.prop('disabled', true);
-        }
-
-    paginationContainer.append(nextButton);
-}
-
-$('#prevPage').click(function (e) {
-    e.preventDefault();
-    if (currentPage > 1) {
-        currentPage--;
-        updateDataTable();
-        updatePaginationControls();
-    }
-});
-
-$('#nextPage').click(function (e) {
-    e.preventDefault();
-    if (currentPage < getTotalPages()) {
-        currentPage++;
-        updateDataTable();
-        updatePaginationControls();
-    }
-});
-
-$('#searchForm').submit((e) => {
-    e.preventDefault();
-
+function fetchAndDisplayData() {
     const searchValueLccn = $('#searchInputLccn').val();
     const searchValueFrequency = $('#searchInputFrequency').val();
     const searchValueTerm = $('#terms').val();
     let searchUrl = 'https://chroniclingamerica.loc.gov/search/titles/results/?format=json';
-
+  
     if (searchValueLccn) {
-        searchUrl += `&lccn=${encodeURIComponent(searchValueLccn)}`;
+      searchUrl += `&lccn=${encodeURIComponent(searchValueLccn)}`;
     }
-
+  
     if (searchValueFrequency) {
-        searchUrl += `&frequency=${encodeURIComponent(searchValueFrequency)}`;
+      searchUrl += `&frequency=${encodeURIComponent(searchValueFrequency)}`;
     }
-
+  
     if (searchValueTerm) {
-        searchUrl += `&terms=${encodeURIComponent(searchValueTerm)}`;
+      searchUrl += `&terms=${encodeURIComponent(searchValueTerm)}`;
     }
+  
+    searchUrl += `&page=${currentPage}`;
 
-    $('#paginationContainer').show();
-
+    if (!searchValueLccn && !searchValueFrequency) {
+        $('#customPagination').show();
+    } else {
+        $('#customPagination').hide();
+    }
+  
     $.ajax({
         url: searchUrl,
         type: 'GET',
@@ -147,13 +71,11 @@ $('#searchForm').submit((e) => {
             dataTable.draw();
             updateSerialNumbers();
 
-            const totalPages = getTotalPages();
-
             if (totalPages <= 1) {
-                $('#paginationContainer').hide();
+                $('#customPagination').hide();
             } else {
-                $('#paginationContainer').show();
-                updatePaginationControls();
+                $('#customPagination').show();
+                
             }
 
             $('#searchInputLccn').val('');
@@ -164,4 +86,33 @@ $('#searchForm').submit((e) => {
             console.error('Error fetching data.');
         },
     });
+  } 
+
+$('#searchForm').submit((e) => {
+    e.preventDefault();
+    fetchAndDisplayData();  
 });
+
+function updateURL(pageNumber) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('page', pageNumber);
+    window.history.pushState({}, '', url.toString());
+  }
+
+function handlePageButtonClick(pageNumber) {
+    currentPage = pageNumber;
+    updateURL(currentPage);
+    fetchAndDisplayData();
+  }
+
+  $('#oneButton').click(() => handlePageButtonClick(1));
+  $('#twoButton').click(() => handlePageButtonClick(2));
+  $('#threeButton').click(() => handlePageButtonClick(3));
+  $('#fourButton').click(() => handlePageButtonClick(4));
+  $('#fiveButton').click(() => handlePageButtonClick(5));
+  $('#sixButton').click(() => handlePageButtonClick(6));
+  $('#sevenButton').click(() => handlePageButtonClick(7));
+  $('#eightButton').click(() => handlePageButtonClick(8));
+
+
+    

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Include necessary CSS and JavaScript libraries, including jQuery and DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+</head>
+<body>
+    <table id="dataTable" class="display">
+        <!-- Your table headers here -->
+        <thead>
+            <tr>
+                <th>Serial Number</th>
+                <th>Place of Publication</th>
+                <th>Start Year</th>
+                <th>Publisher</th>
+                <th>Frequency</th>
+                <th>City</th>
+                <th>Language</th>
+                <th>Title</th>
+                <th>LCCN</th>
+                <th>State</th>
+            </tr>
+        </thead>
+        <!-- Your table body here -->
+        <tbody>
+            <!-- Table rows will be populated dynamically -->
+        </tbody>
+    </table>
+
+    <!-- Custom pagination container -->
+    <div id="customPagination">
+        <!-- Custom pagination controls will be added dynamically here -->
+    </div>
+
+    <form id="searchForm">
+        <!-- Your search form inputs here -->
+        <input type="text" id="searchInputLccn" placeholder="LCCN">
+        <input type="text" id="searchInputFrequency" placeholder="Frequency">
+        <input type="text" id="terms" placeholder="Terms">
+        <button type="submit">Search</button>
+    </form>
+
+    <script>
+        let currentPage = 1;
+        const entriesPerPage = 50; // Number of entries per page
+        const totalEntries = 384; // Total number of entries
+
+        const dataTable = $('#dataTable').DataTable({
+            paging: false,
+        });
+
+        function updateSerialNumbers() {
+            dataTable.rows().every(function serialNumber(rowIdx) {
+                const data = this.data();
+                data[0] = (currentPage - 1) * entriesPerPage + rowIdx + 1;
+                this.data(data);
+                return 0;
+            });
+        }
+
+        function updateCustomPaginationControls() {
+            const totalPages = Math.ceil(totalEntries / entriesPerPage);
+
+            // Clear existing custom pagination controls
+            $('#customPagination').empty();
+
+            // Create and append custom pagination elements
+            for (let i = 1; i <= totalPages; i++) {
+                const $pageLink = $('<a>', {
+                    text: i,
+                    href: '#',
+                    click: function () {
+                        currentPage = i;
+                        dataTable.page(currentPage - 1).draw(false);
+                        updateSerialNumbers();
+                        updateCustomPaginationControls();
+                    }
+                });
+
+                if (i === currentPage) {
+                    $pageLink.addClass('active');
+                }
+
+                $('#customPagination').append($pageLink);
+            }
+        }
+
+        $('#searchForm').submit((e) => {
+            e.preventDefault();
+
+            const searchValueLccn = $('#searchInputLccn').val();
+            const searchValueFrequency = $('#searchInputFrequency').val();
+            const searchValueTerm = $('#terms').val();
+            let searchUrl = 'https://chroniclingamerica.loc.gov/search/titles/results/?format=json';
+
+            if (searchValueLccn) {
+                searchUrl += `&lccn=${encodeURIComponent(searchValueLccn)}`;
+            }
+
+            if (searchValueFrequency) {
+                searchUrl += `&frequency=${encodeURIComponent(searchValueFrequency)}`;
+            }
+
+            if (searchValueTerm) {
+                searchUrl += `&terms=${encodeURIComponent(searchValueTerm)}`;
+            }
+
+            $('#paginationContainer').show();
+
+            $.ajax({
+                url: searchUrl,
+                type: 'GET',
+                dataType: 'json',
+                success(data) {
+                    dataTable.clear().draw();
+
+                    $.each(data.items, (index, item) => {
+                        dataTable.row.add([
+                            index + 1,
+                            item.place_of_publication,
+                            item.start_year,
+                            item.publisher,
+                            item.frequency,
+                            item.city,
+                            item.language,
+                            item.title,
+                            item.lccn,
+                            item.state,
+                        ]);
+                    });
+
+                    dataTable.draw();
+                    updateSerialNumbers();
+
+                    const totalPages = Math.ceil(totalEntries / entriesPerPage);
+
+                    if (totalPages <= 1) {
+                        $('#customPagination').hide();
+                    } else {
+                        $('#customPagination').show();
+                        updateCustomPaginationControls();
+                    }
+
+                    $('#searchInputLccn').val('');
+                    $('#searchInputFrequency').val('');
+                    $('#terms').val('');
+                },
+                error() {
+                    console.error('Error fetching data.');
+                },
+            });
+        });
+    </script>
+</body>
+</html>
