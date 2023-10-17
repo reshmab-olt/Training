@@ -1,15 +1,16 @@
-
 let currentPage = 1;
-const rowsPerPage = 50; 
+const rowsPerPage = 50;
+let totalPages = 0;
 const dataTable = $('#dataTable').DataTable({
     paging: false,
-    dom: 'Bfrtip', // Include the 'B' for Buttons
+    dom: 'Bfrtip',
     buttons: [
         'excelHtml5',
         'csvHtml5',
         'pdfHtml5'
     ]
 });
+let currentActivePage = 1;
 
 function updateSerialNumbers() {
     dataTable.rows().every(function serialNumber(rowIdx) {
@@ -25,19 +26,23 @@ function fetchAndDisplayData() {
     const searchValueFrequency = $('#searchInputFrequency').val();
     const searchValueTerm = $('#terms').val();
     let searchUrl = 'https://chroniclingamerica.loc.gov/search/titles/results/?format=json';
-  
+
     if (searchValueLccn) {
-      searchUrl += `&lccn=${encodeURIComponent(searchValueLccn)}`;
+        searchUrl += `&lccn=${encodeURIComponent(searchValueLccn)}`;
+        $('#customPagination').hide;
     }
-  
+
     if (searchValueFrequency) {
-      searchUrl += `&frequency=${encodeURIComponent(searchValueFrequency)}`;
+        searchUrl += `&frequency=${encodeURIComponent(searchValueFrequency)}`;
+        $('#customPagination').hide;
     }
-  
+
     if (searchValueTerm) {
-      searchUrl += `&terms=${encodeURIComponent(searchValueTerm)}`;
+        searchUrl += `&terms=${encodeURIComponent(searchValueTerm)}`;
+        $('#customPagination').show;
+        appendPageButtons();
     }
-  
+
     searchUrl += `&page=${currentPage}`;
 
     if (!searchValueLccn && !searchValueFrequency) {
@@ -45,14 +50,13 @@ function fetchAndDisplayData() {
     } else {
         $('#customPagination').hide();
     }
-  
+
     $.ajax({
         url: searchUrl,
         type: 'GET',
         dataType: 'json',
         success(data) {
             dataTable.clear().draw();
-
             $.each(data.items, (index, item) => {
                 dataTable.row.add([
                     index + 1,
@@ -70,49 +74,80 @@ function fetchAndDisplayData() {
 
             dataTable.draw();
             updateSerialNumbers();
-
-            if (totalPages <= 1) {
-                $('#customPagination').hide();
-            } else {
-                $('#customPagination').show();
-                
-            }
-
+            const totalDataLength = data.items.length;
+            totalPages = Math.ceil(totalDataLength / rowsPerPage) * 8;
             $('#searchInputLccn').val('');
             $('#searchInputFrequency').val('');
-            $('#terms').val('');
+            appendPageButtons();
         },
         error() {
             console.error('Error fetching data.');
         },
     });
-  } 
+}
 
 $('#searchForm').submit((e) => {
     e.preventDefault();
-    fetchAndDisplayData();  
+    fetchAndDisplayData();
 });
 
 function updateURL(pageNumber) {
     const url = new URL(window.location.href);
     url.searchParams.set('page', pageNumber);
     window.history.pushState({}, '', url.toString());
-  }
+}
 
-function handlePageButtonClick(pageNumber) {
-    currentPage = pageNumber;
-    updateURL(currentPage);
-    fetchAndDisplayData();
-  }
+function appendPageButtons() {
+    $('#customPagination').empty();
 
-  $('#oneButton').click(() => handlePageButtonClick(1));
-  $('#twoButton').click(() => handlePageButtonClick(2));
-  $('#threeButton').click(() => handlePageButtonClick(3));
-  $('#fourButton').click(() => handlePageButtonClick(4));
-  $('#fiveButton').click(() => handlePageButtonClick(5));
-  $('#sixButton').click(() => handlePageButtonClick(6));
-  $('#sevenButton').click(() => handlePageButtonClick(7));
-  $('#eightButton').click(() => handlePageButtonClick(8));
+    const prevVal = currentActivePage - 1;
+    const prevButton = $('<button id="nextPageButton" class="page-button">Previous</button>').attr('value', prevVal);
 
+    $('#customPagination').append(prevButton);
 
-    
+    for (let i = 1; i <= totalPages; i++) {
+        const button = $(`<button id="pageButton${i}" class="page-button" value=${i}>${i}</button>`);
+        $('#customPagination').append(button);
+        if (currentActivePage == $(`#pageButton${i}`).text()) {
+            $(`#pageButton${i}`).addClass('active-page')
+        }
+    }
+
+    const nextVal = currentActivePage + 1;
+    const nextButton = $('<button id="nextPageButton" class="page-button">Next</button>').attr('value', nextVal);
+
+    $('#customPagination').append(nextButton);
+    handlePageButtonClick();
+
+    if (currentPage === 1) {
+        prevButton.attr('disabled', true);
+    }
+    if (currentPage === totalPages) {
+        nextButton.attr('disabled', true);
+    }
+}
+
+function handlePageButtonClick() {
+    $('.page-button').on('click', function () {
+        pageNumber = parseInt($(this).val())
+        currentActivePage = pageNumber;
+        const prevButton = $('#prevPageButton');
+        const nextButton = $('#nextPageButton');
+
+        currentPage = pageNumber;
+        updateURL(currentPage);
+        fetchAndDisplayData();
+        appendPageButtons();
+
+        if (currentPage === 1) {
+            prevButton.attr('disabled', true);
+        } else {
+            prevButton.removeAttr('disabled');
+        }
+        if (currentPage === totalPages) {
+            nextButton.attr('disabled', true);
+        } else {
+            nextButton.removeAttr('disabled');
+        }
+    });
+}
