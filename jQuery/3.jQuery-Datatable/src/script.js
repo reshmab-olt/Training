@@ -10,6 +10,7 @@ const dataTable = $('#dataTable').DataTable({
         'pdfHtml5'
     ]
 });
+dataTable.buttons().container().hide(); 
 let currentActivePage = 1;
 
 function updateSerialNumbers() {
@@ -79,13 +80,19 @@ function fetchAndDisplayData() {
             $('#searchInputLccn').val('');
             $('#searchInputFrequency').val('');
             appendPageButtons();
+            
+            // Show/hide export buttons based on data length
+            if (totalDataLength > 0) {
+                dataTable.buttons().container().show();
+            } else {
+                dataTable.buttons().container().hide();
+            }
         },
         error() {
             console.error('Error fetching data.');
         },
     });
 }
-
 $('#searchForm').submit((e) => {
     e.preventDefault();
     fetchAndDisplayData();
